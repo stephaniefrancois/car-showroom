@@ -1,5 +1,6 @@
 package core.stock;
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import core.domain.car.*;
 import core.domain.car.conditions.NewCar;
 import core.domain.validation.ValidationException;
@@ -9,6 +10,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 // TODO: allows to add/remove car pictures
 
@@ -201,5 +203,41 @@ public final class CarFactory implements CarProperties {
         return carValidator.validate(this);
     }
 
-    // TODO: allows to add/remove features
+    public void addCarFeature(CarFeature feature) throws InvalidArgumentException {
+        if (feature == null) {
+            throw new InvalidArgumentException(new String[]{"'feature' must be supplied"});
+        }
+
+        if (duplicateFeature(feature)) {
+            return;
+        }
+
+        features.add(feature);
+    }
+
+    private boolean duplicateFeature(CarFeature feature) {
+        return features
+                .stream()
+                .filter(f -> f.getDescription()
+                        .equals(feature.getDescription()))
+                .count() > 0;
+    }
+
+    public void removeCarFeature(CarFeature feature) throws InvalidArgumentException {
+        if (feature == null) {
+            throw new InvalidArgumentException(new String[]{"'feature' must be supplied"});
+        }
+
+        List<CarFeature> featuresToRemove = features
+                .stream()
+                .filter(f -> f.getDescription()
+                        .equals(feature.getDescription())).collect(Collectors.toList());
+        if (featuresToRemove.isEmpty()) {
+            return;
+        }
+
+        for (CarFeature featureToRemove : featuresToRemove) {
+            features.remove(featureToRemove);
+        }
+    }
 }
