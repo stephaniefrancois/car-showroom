@@ -5,6 +5,7 @@ import core.domain.car.*;
 import core.domain.validation.ValidationError;
 import core.domain.validation.ValidationException;
 import core.domain.validation.ValidationSummary;
+import core.validation.CarValidator;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 

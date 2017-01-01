@@ -1,4 +1,4 @@
-package core.stock;
+package core.validation;
 
 import core.domain.car.CarProperties;
 import core.domain.validation.ValidationSummary;

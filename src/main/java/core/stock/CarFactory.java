@@ -5,6 +5,7 @@ import core.domain.car.*;
 import core.domain.car.conditions.NewCar;
 import core.domain.validation.ValidationException;
 import core.domain.validation.ValidationSummary;
+import core.validation.CarValidator;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
