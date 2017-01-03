@@ -8,7 +8,8 @@ import java.util.List;
 public interface CarRepository {
     List<Car> getCars();
 
-    CarProperties getCar();
-
+    CarProperties getCar(int carId);
     void saveCar(CarProperties car);
+
+    void removeCar(CarProperties car);
 }
