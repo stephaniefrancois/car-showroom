@@ -1,8 +1,7 @@
 package core.validation;
 
-import core.domain.car.CarProperties;
 import core.domain.validation.ValidationSummary;
 
-public interface ValidationRule {
-    ValidationSummary validate(CarProperties car);
+public interface ValidationRule<TModelToValidate> {
+    ValidationSummary validate(TModelToValidate modelToValidate);
 }

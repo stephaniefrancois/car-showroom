@@ -1,11 +1,11 @@
 package core.validation;
 
-import core.TestData.Cars;
-import core.domain.car.CarProperties;
 import core.domain.validation.ValidationError;
 import core.domain.validation.ValidationSummary;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import testing.helpers.FakeModel;
+import testing.helpers.FakeRuleBasedModelValidator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,16 +16,15 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.mockito.Mockito.when;
 
-public final class RuleBasedCarValidatorTest {
+public final class RuleBasedValidatorTest {
 
     @Test
     public void GivenCarWhenNoValidationRulesExistsShouldReturnPositiveValidationResult() {
         // Given
-        CarProperties car = Cars.createCar();
-        CarValidator sut = new RuleBasedCarValidator(new ArrayList<>());
+        Validator sut = new FakeRuleBasedModelValidator(new ArrayList<>());
 
         // When
-        ValidationSummary result = sut.validate(car);
+        ValidationSummary result = sut.validate(new FakeModel());
 
         // Then
         assertThat(result.getIsValid(), equalTo(true));
@@ -34,21 +33,22 @@ public final class RuleBasedCarValidatorTest {
     @Test
     public void GivenCarWhenAllValidationRulesPassShouldReturnPositiveValidationResult() {
         // Given
-        CarProperties car = Cars.createCar();
-        ValidationRule passingRule1 = Mockito.mock(ValidationRule.class);
-        ValidationRule passingRule2 = Mockito.mock(ValidationRule.class);
+        FakeModel modelToValidate = new FakeModel();
 
-        List<ValidationRule> rules = new ArrayList<>();
+        ValidationRule<FakeModel> passingRule1 = Mockito.mock(ValidationRule.class);
+        ValidationRule<FakeModel> passingRule2 = Mockito.mock(ValidationRule.class);
+
+        List<ValidationRule<FakeModel>> rules = new ArrayList<>();
         rules.add(passingRule1);
         rules.add(passingRule2);
 
-        CarValidator sut = new RuleBasedCarValidator(rules);
+        Validator sut = new FakeRuleBasedModelValidator(rules);
 
-        when(passingRule1.validate(car)).thenReturn(new ValidationSummary());
-        when(passingRule2.validate(car)).thenReturn(new ValidationSummary());
+        when(passingRule1.validate(modelToValidate)).thenReturn(new ValidationSummary());
+        when(passingRule2.validate(modelToValidate)).thenReturn(new ValidationSummary());
 
         // When
-        ValidationSummary result = sut.validate(car);
+        ValidationSummary result = sut.validate(modelToValidate);
 
         // Then
         assertThat(result.getIsValid(), equalTo(true));
@@ -57,25 +57,25 @@ public final class RuleBasedCarValidatorTest {
     @Test
     public void GivenCarWhenOneValidationRuleFailedThenValidationResultShouldContainErrorMessage() {
         // Given
-        CarProperties car = Cars.createCar();
+        FakeModel modelToValidate = new FakeModel();
 
-        ValidationRule passingRule = Mockito.mock(ValidationRule.class);
-        ValidationRule failingRule = Mockito.mock(ValidationRule.class);
+        ValidationRule<FakeModel> passingRule = Mockito.mock(ValidationRule.class);
+        ValidationRule<FakeModel> failingRule = Mockito.mock(ValidationRule.class);
 
-        List<ValidationRule> rules = new ArrayList<>();
+        List<ValidationRule<FakeModel>> rules = new ArrayList<>();
         rules.add(passingRule);
         rules.add(failingRule);
 
         List<ValidationError> errors = new ArrayList<>();
         errors.add(new ValidationError("field1", "error1"));
 
-        when(passingRule.validate(car)).thenReturn(new ValidationSummary());
-        when(failingRule.validate(car)).thenReturn(new ValidationSummary(errors));
+        when(passingRule.validate(modelToValidate)).thenReturn(new ValidationSummary());
+        when(failingRule.validate(modelToValidate)).thenReturn(new ValidationSummary(errors));
 
-        CarValidator sut = new RuleBasedCarValidator(rules);
+        Validator sut = new FakeRuleBasedModelValidator(rules);
 
         // When
-        ValidationSummary result = sut.validate(car);
+        ValidationSummary result = sut.validate(modelToValidate);
 
         // Then
         assertThat(result.getIsValid(), equalTo(false));
@@ -87,13 +87,13 @@ public final class RuleBasedCarValidatorTest {
     @Test
     public void GivenCarWhenMultipleValidationRuleFailedThenValidationResultShouldContainAggregatedErrorMessages() {
         // Given
-        CarProperties car = Cars.createCar();
+        FakeModel modelToValidate = new FakeModel();
 
-        ValidationRule passingRule = Mockito.mock(ValidationRule.class);
-        ValidationRule failingRule1 = Mockito.mock(ValidationRule.class);
-        ValidationRule failingRule2 = Mockito.mock(ValidationRule.class);
+        ValidationRule<FakeModel> passingRule = Mockito.mock(ValidationRule.class);
+        ValidationRule<FakeModel> failingRule1 = Mockito.mock(ValidationRule.class);
+        ValidationRule<FakeModel> failingRule2 = Mockito.mock(ValidationRule.class);
 
-        List<ValidationRule> rules = new ArrayList<>();
+        List<ValidationRule<FakeModel>> rules = new ArrayList<>();
         rules.add(passingRule);
         rules.add(failingRule1);
         rules.add(failingRule2);
@@ -105,14 +105,14 @@ public final class RuleBasedCarValidatorTest {
         errorsForRule2.add(new ValidationError("field2", "error2"));
         errorsForRule2.add(new ValidationError("field2", "error3"));
 
-        when(passingRule.validate(car)).thenReturn(new ValidationSummary());
-        when(failingRule1.validate(car)).thenReturn(new ValidationSummary(errorsForRule1));
-        when(failingRule2.validate(car)).thenReturn(new ValidationSummary(errorsForRule2));
+        when(passingRule.validate(modelToValidate)).thenReturn(new ValidationSummary());
+        when(failingRule1.validate(modelToValidate)).thenReturn(new ValidationSummary(errorsForRule1));
+        when(failingRule2.validate(modelToValidate)).thenReturn(new ValidationSummary(errorsForRule2));
 
-        CarValidator sut = new RuleBasedCarValidator(rules);
+        Validator sut = new FakeRuleBasedModelValidator(rules);
 
         // When
-        ValidationSummary result = sut.validate(car);
+        ValidationSummary result = sut.validate(modelToValidate);
 
         // Then
         assertThat(result.getIsValid(), equalTo(false));

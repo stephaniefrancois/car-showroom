@@ -1,4 +1,4 @@
-package core;
+package testing.helpers;
 
 import core.domain.car.*;
 

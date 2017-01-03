@@ -1,21 +1,20 @@
 package core.validation;
 
-import core.domain.car.CarProperties;
 import core.domain.validation.ValidationError;
 import core.domain.validation.ValidationSummary;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RuleBasedCarValidator implements CarValidator {
-    private final List<ValidationRule> rules;
+public abstract class RuleBasedValidator<TModelToValidate> implements Validator<TModelToValidate> {
+    private final List<ValidationRule<TModelToValidate>> rules;
 
-    public RuleBasedCarValidator(List<ValidationRule> rules) {
+    public RuleBasedValidator(List<ValidationRule<TModelToValidate>> rules) {
         this.rules = rules;
     }
 
     @Override
-    public ValidationSummary validate(CarProperties car) {
+    public ValidationSummary validate(TModelToValidate car) {
         List<ValidationSummary> failedRuleSummaries =
                 rules.stream()
                         .map(rule -> rule.validate(car))

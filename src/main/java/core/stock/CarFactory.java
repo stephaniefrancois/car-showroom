@@ -5,7 +5,7 @@ import core.domain.car.*;
 import core.domain.car.conditions.NewCar;
 import core.domain.validation.ValidationException;
 import core.domain.validation.ValidationSummary;
-import core.validation.CarValidator;
+import core.validation.Validator;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 // TODO: allows to add/remove car pictures
 
 public final class CarFactory implements CarProperties {
-    private final CarValidator carValidator;
+    private final Validator<CarProperties> validator;
     private int carId;
     private String make;
     private String model;
@@ -31,8 +31,8 @@ public final class CarFactory implements CarProperties {
     private int numberOfSeats;
     private BigDecimal price;
 
-    public CarFactory(CarValidator carValidator) {
-        this.carValidator = carValidator;
+    public CarFactory(Validator<CarProperties> validator) {
+        this.validator = validator;
         carId = 0;
         make = "Mercedes Benz";
         model = "S600";
@@ -48,8 +48,8 @@ public final class CarFactory implements CarProperties {
         price = new BigDecimal(500000);
     }
 
-    public CarFactory(CarDetails car, CarValidator carValidator) {
-        this.carValidator = carValidator;
+    public CarFactory(CarDetails car, Validator<CarProperties> validator) {
+        this.validator = validator;
         carId = car.getCarId();
         make = car.getMake();
         model = car.getModel();
@@ -201,7 +201,7 @@ public final class CarFactory implements CarProperties {
     }
 
     public ValidationSummary validate() {
-        return carValidator.validate(this);
+        return validator.validate(this);
     }
 
     public void addCarFeature(CarFeature feature) throws InvalidArgumentException {
