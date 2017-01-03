@@ -1,12 +1,12 @@
 package core.validation;
 
-import core.domain.car.*;
+import core.TestData.Cars;
+import core.domain.car.CarProperties;
 import core.domain.validation.ValidationError;
 import core.domain.validation.ValidationSummary;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,19 +21,7 @@ public final class RuleBasedCarValidatorTest {
     @Test
     public void GivenCarWhenNoValidationRulesExistsShouldReturnPositiveValidationResult() {
         // Given
-        CarProperties car = new CarDetails(10,
-                "MB",
-                "S600",
-                2017,
-                "Black",
-                new FuelType("Petrol"),
-                new BodyStyle("Sedan"),
-                new Transmission("Automatic"),
-                4,
-                new BigDecimal(500000),
-                100,
-                new ArrayList<>());
-
+        CarProperties car = Cars.createCar();
         CarValidator sut = new RuleBasedCarValidator(new ArrayList<>());
 
         // When
@@ -46,18 +34,7 @@ public final class RuleBasedCarValidatorTest {
     @Test
     public void GivenCarWhenAllValidationRulesPassShouldReturnPositiveValidationResult() {
         // Given
-        CarProperties car = new CarDetails(10,
-                "MB",
-                "S600",
-                2017,
-                "Black",
-                new FuelType("Petrol"),
-                new BodyStyle("Sedan"),
-                new Transmission("Automatic"),
-                4,
-                new BigDecimal(500000),
-                100,
-                new ArrayList<>());
+        CarProperties car = Cars.createCar();
         ValidationRule passingRule1 = Mockito.mock(ValidationRule.class);
         ValidationRule passingRule2 = Mockito.mock(ValidationRule.class);
 
@@ -80,18 +57,7 @@ public final class RuleBasedCarValidatorTest {
     @Test
     public void GivenCarWhenOneValidationRuleFailedThenValidationResultShouldContainErrorMessage() {
         // Given
-        CarProperties car = new CarDetails(10,
-                "MB",
-                "S600",
-                2017,
-                "Black",
-                new FuelType("Petrol"),
-                new BodyStyle("Sedan"),
-                new Transmission("Automatic"),
-                4,
-                new BigDecimal(500000),
-                100,
-                new ArrayList<>());
+        CarProperties car = Cars.createCar();
 
         ValidationRule passingRule = Mockito.mock(ValidationRule.class);
         ValidationRule failingRule = Mockito.mock(ValidationRule.class);
@@ -121,18 +87,7 @@ public final class RuleBasedCarValidatorTest {
     @Test
     public void GivenCarWhenMultipleValidationRuleFailedThenValidationResultShouldContainAggregatedErrorMessages() {
         // Given
-        CarProperties car = new CarDetails(10,
-                "MB",
-                "S600",
-                2017,
-                "Black",
-                new FuelType("Petrol"),
-                new BodyStyle("Sedan"),
-                new Transmission("Automatic"),
-                4,
-                new BigDecimal(500000),
-                100,
-                new ArrayList<>());
+        CarProperties car = Cars.createCar();
 
         ValidationRule passingRule = Mockito.mock(ValidationRule.class);
         ValidationRule failingRule1 = Mockito.mock(ValidationRule.class);

@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import static core.TestData.Cars;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -35,18 +36,7 @@ public final class CarFactoryTest {
         Transmission transmission = new Transmission("Automatic");
         BigDecimal price = new BigDecimal(500000);
 
-        CarDetails car = new CarDetails(10,
-                "MB",
-                "S600",
-                2017,
-                "Black",
-                fuelType,
-                bodyStyle,
-                transmission,
-                4,
-                price,
-                100,
-                features);
+        CarDetails car = Cars.createCar(features, fuelType, bodyStyle, transmission, price);
 
         CarValidator carValidatorMock = Mockito.mock(CarValidator.class);
 
@@ -69,6 +59,7 @@ public final class CarFactoryTest {
         assertThat(sut.getFeatures(), equalTo(features));
     }
 
+
     @Test
     public void GivenCorrectlySetPropertiesWhenWeBuildCarWeShouldHaveCarPropertiesSet() throws ValidationException {
         // Given
@@ -80,18 +71,7 @@ public final class CarFactoryTest {
         Transmission transmission = new Transmission("Automatic");
         BigDecimal price = new BigDecimal(500000);
 
-        CarDetails carToUpdate = new CarDetails(10,
-                "MB",
-                "S600",
-                2017,
-                "Black",
-                fuelType,
-                bodyStyle,
-                transmission,
-                4,
-                price,
-                100,
-                features);
+        CarDetails carToUpdate = Cars.createCar(features, fuelType, bodyStyle, transmission, price);
 
         CarValidator carValidatorMock = Mockito.mock(CarValidator.class);
         CarFactory sut = new CarFactory(carToUpdate, carValidatorMock);
@@ -213,18 +193,7 @@ public final class CarFactoryTest {
         features.add(luxurySeatsFeature);
         features.add(cooledChampagne);
 
-        CarDetails car = new CarDetails(10,
-                "MB",
-                "S600",
-                2017,
-                "Black",
-                new FuelType("Petrol"),
-                new BodyStyle("Sedan"),
-                new Transmission("Automatic"),
-                4,
-                new BigDecimal(500000),
-                100,
-                features);
+        CarDetails car = Cars.createCar(features);
 
         CarValidator carValidatorMock = Mockito.mock(CarValidator.class);
         CarFactory sut = new CarFactory(car, carValidatorMock);
@@ -247,18 +216,7 @@ public final class CarFactoryTest {
         features.add(luxurySeatsFeature);
         features.add(cooledChampagne);
 
-        CarDetails car = new CarDetails(10,
-                "MB",
-                "S600",
-                2017,
-                "Black",
-                new FuelType("Petrol"),
-                new BodyStyle("Sedan"),
-                new Transmission("Automatic"),
-                4,
-                new BigDecimal(500000),
-                100,
-                features);
+        CarDetails car = Cars.createCar(features);
 
         CarValidator carValidatorMock = Mockito.mock(CarValidator.class);
         CarFactory sut = new CarFactory(car, carValidatorMock);
@@ -279,18 +237,7 @@ public final class CarFactoryTest {
         features.add(luxurySeatsFeature);
         features.add(cooledChampagne);
 
-        CarDetails car = new CarDetails(10,
-                "MB",
-                "S600",
-                2017,
-                "Black",
-                new FuelType("Petrol"),
-                new BodyStyle("Sedan"),
-                new Transmission("Automatic"),
-                4,
-                new BigDecimal(500000),
-                100,
-                features);
+        CarDetails car = Cars.createCar(features);
 
         CarValidator carValidatorMock = Mockito.mock(CarValidator.class);
         CarFactory sut = new CarFactory(car, carValidatorMock);
