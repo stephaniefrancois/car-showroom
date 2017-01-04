@@ -102,7 +102,7 @@ public final class ShowroomTest {
 
         // When
         // Then
-        assertThrows(InvalidArgumentException.class, () -> sut.addCar(null));
+        assertThrows(NullPointerException.class, () -> sut.addCar(null));
     }
 
     @Test
@@ -128,7 +128,7 @@ public final class ShowroomTest {
 
         // When
         // Then
-        assertThrows(InvalidArgumentException.class, () -> sut.updateCar(null));
+        assertThrows(NullPointerException.class, () -> sut.updateCar(null));
     }
 
     @Test

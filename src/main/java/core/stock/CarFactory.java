@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 // TODO: allows to add/remove car pictures
@@ -32,6 +33,10 @@ public final class CarFactory implements CarProperties {
     private BigDecimal price;
 
     public CarFactory(Validator<CarProperties> validator) {
+
+        Objects.requireNonNull(validator,
+                "'validator' must be supplied!");
+
         this.validator = validator;
         carId = 0;
         make = "Mercedes Benz";
@@ -49,7 +54,11 @@ public final class CarFactory implements CarProperties {
     }
 
     public CarFactory(CarDetails car, Validator<CarProperties> validator) {
-        this.validator = validator;
+        this(validator);
+
+        Objects.requireNonNull(car,
+                "'car' must be supplied!");
+
         carId = car.getCarId();
         make = car.getMake();
         model = car.getModel();

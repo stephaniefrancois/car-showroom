@@ -3,6 +3,8 @@ package core.authentication;
 import core.deal.SalesRepresentativeProvider;
 import core.domain.deal.SalesRepresentative;
 
+import java.util.Objects;
+
 public class AuthenticationContextBasedSalesRepresentativeProvider
         implements SalesRepresentativeProvider {
 
@@ -10,6 +12,9 @@ public class AuthenticationContextBasedSalesRepresentativeProvider
 
     public AuthenticationContextBasedSalesRepresentativeProvider(
             AuthenticationContext authenticationContext) {
+        Objects.requireNonNull(authenticationContext,
+                "'authenticationContext' must be supplied!");
+
         this.authenticationContext = authenticationContext;
     }
 

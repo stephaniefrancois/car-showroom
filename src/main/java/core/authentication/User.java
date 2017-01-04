@@ -2,12 +2,19 @@ package core.authentication;
 
 import core.domain.UserProfile;
 
+import java.util.Objects;
+
 public final class User {
     private final int userId;
     private final String userName;
     private final UserProfile profile;
 
-    public User(int userId, String userName, UserProfile profile) {
+    public User(int userId,
+                String userName,
+                UserProfile profile) {
+
+        Objects.requireNonNull(profile,
+                "'profile' must be supplied!");
 
         this.userId = userId;
         this.userName = userName;

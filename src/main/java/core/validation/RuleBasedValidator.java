@@ -4,12 +4,17 @@ import core.domain.validation.ValidationError;
 import core.domain.validation.ValidationSummary;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
-public abstract class RuleBasedValidator<TModelToValidate> implements Validator<TModelToValidate> {
+public abstract class RuleBasedValidator<TModelToValidate>
+        implements Validator<TModelToValidate> {
     private final List<ValidationRule<TModelToValidate>> rules;
 
     public RuleBasedValidator(List<ValidationRule<TModelToValidate>> rules) {
+        Objects.requireNonNull(rules,
+                "'rules' must be supplied!");
+
         this.rules = rules;
     }
 
@@ -18,7 +23,7 @@ public abstract class RuleBasedValidator<TModelToValidate> implements Validator<
         List<ValidationSummary> failedRuleSummaries =
                 rules.stream()
                         .map(rule -> rule.validate(car))
-                        .filter(validationSummary -> hasFailedValidation(validationSummary))
+                        .filter(this::hasFailedValidation)
                         .collect(Collectors.toList());
 
         if (validationPassed(failedRuleSummaries)) {
@@ -39,7 +44,7 @@ public abstract class RuleBasedValidator<TModelToValidate> implements Validator<
 
     private List<ValidationError> collectAllValidationErrors(List<ValidationSummary> failedRuleSummaries) {
         return failedRuleSummaries.stream()
-                .map(vs -> vs.getValidationErrors())
+                .map(ValidationSummary::getValidationErrors)
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
     }

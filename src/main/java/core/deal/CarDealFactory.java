@@ -7,6 +7,7 @@ import core.domain.validation.ValidationSummary;
 import core.validation.Validator;
 
 import java.util.Date;
+import java.util.Objects;
 
 public final class CarDealFactory implements CarDealProperties {
 
@@ -21,9 +22,11 @@ public final class CarDealFactory implements CarDealProperties {
     public CarDealFactory(CarDealProperties deal,
                           Validator<CarDealProperties> validator,
                           PaymentScheduleCalculator paymentScheduleCalculator) {
+        this(validator, paymentScheduleCalculator);
 
-        this.validator = validator;
-        this.paymentScheduleCalculator = paymentScheduleCalculator;
+        Objects.requireNonNull(deal,
+                "'deal' must be supplied!");
+
         paymentOptions = deal.getPaymentOptions();
         salesRepresentative = deal.getSalesRepresentative();
         dealDate = deal.getDealDate();
@@ -33,6 +36,11 @@ public final class CarDealFactory implements CarDealProperties {
 
     public CarDealFactory(Validator<CarDealProperties> validator,
                           PaymentScheduleCalculator paymentScheduleCalculator) {
+
+        Objects.requireNonNull(validator,
+                "'validator' must be supplied!");
+        Objects.requireNonNull(paymentScheduleCalculator,
+                "'paymentScheduleCalculator' must be supplied!");
 
         this.validator = validator;
         this.paymentScheduleCalculator = paymentScheduleCalculator;

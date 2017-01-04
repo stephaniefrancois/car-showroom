@@ -2,6 +2,8 @@ package core.authentication;
 
 import core.domain.UserProfile;
 
+import java.util.Objects;
+
 public final class SimpleAuthenticationContext
         implements AuthenticationContext {
 
@@ -33,6 +35,9 @@ public final class SimpleAuthenticationContext
 
     @Override
     public void authenticate(User authenticatedUser) {
+        Objects.requireNonNull(authenticatedUser,
+                "'authenticatedUser' must be supplied!");
+
         this.authenticated = true;
         this.profile = authenticatedUser.getProfile();
         this.userId = authenticatedUser.getUserId();
