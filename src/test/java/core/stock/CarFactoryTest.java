@@ -31,12 +31,7 @@ public final class CarFactoryTest {
         List<CarFeature> features = new ArrayList<>();
         features.add(new CarFeature("Luxury Massage Seats"));
 
-        FuelType fuelType = new FuelType("Petrol");
-        BodyStyle bodyStyle = new BodyStyle("Sedan");
-        Transmission transmission = new Transmission("Automatic");
-        BigDecimal price = new BigDecimal(500000);
-
-        CarDetails car = Cars.createCar(features, fuelType, bodyStyle, transmission, price);
+        CarDetails car = Cars.createCar(features);
 
         Validator<CarProperties> validatorMock = Mockito.mock(Validator.class);
 
@@ -44,44 +39,52 @@ public final class CarFactoryTest {
         CarFactory sut = new CarFactory(car, validatorMock);
 
         // Then
-        assertThat(sut.getCarId(), equalTo(10));
-        assertThat(sut.getMake(), equalTo("MB"));
-        assertThat(sut.getModel(), equalTo("S600"));
-        assertThat(sut.getYear(), equalTo(2017));
-        assertThat(sut.getColor(), equalTo("Black"));
-        assertThat(sut.getFuelType(), equalTo(fuelType));
-        assertThat(sut.getBodyStyle(), equalTo(bodyStyle));
-        assertThat(sut.getTransmission(), equalTo(transmission));
-        assertThat(sut.getNumberOfSeats(), equalTo(4));
-        assertThat(sut.getPrice(), equalTo(price));
-        assertThat(sut.getMileage(), equalTo(100));
+        assertThat(sut.getCarId(), equalTo(car.getCarId()));
+        assertThat(sut.getMake(), equalTo(car.getMake()));
+        assertThat(sut.getModel(), equalTo(car.getModel()));
+        assertThat(sut.getYear(), equalTo(car.getYear()));
+        assertThat(sut.getColor(), equalTo(car.getColor()));
+        assertThat(sut.getFuelType(), equalTo(car.getFuelType()));
+        assertThat(sut.getBodyStyle(), equalTo(car.getBodyStyle()));
+        assertThat(sut.getTransmission(), equalTo(car.getTransmission()));
+        assertThat(sut.getNumberOfSeats(), equalTo(car.getNumberOfSeats()));
+        assertThat(sut.getPrice(), equalTo(car.getPrice()));
+        assertThat(sut.getMileage(), equalTo(car.getMileage()));
         assertThat(sut.getCondition().getDescription(), equalTo("USED"));
         assertThat(sut.getFeatures(), equalTo(features));
     }
 
-
     @Test
-    public void GivenCorrectlySetPropertiesWhenWeBuildCarWeShouldHaveCarPropertiesSet() throws ValidationException {
+    public void GivenCorrectlySetPropertiesWhenWeBuildCarWeShouldHaveCarPropertiesSet() throws ValidationException, InvalidArgumentException {
         // Given
-        List<CarFeature> features = new ArrayList<>();
-        features.add(new CarFeature("Luxury Massage Seats"));
-
+        CarFeature luxurySeats = new CarFeature("Luxury Massage Seats");
         FuelType fuelType = new FuelType("Petrol");
         BodyStyle bodyStyle = new BodyStyle("Sedan");
         Transmission transmission = new Transmission("Automatic");
         BigDecimal price = new BigDecimal(500000);
 
-        CarDetails carToUpdate = Cars.createCar(features, fuelType, bodyStyle, transmission, price);
-
         Validator<CarProperties> validatorMock = Mockito.mock(Validator.class);
-        CarFactory sut = new CarFactory(carToUpdate, validatorMock);
+        CarFactory sut = new CarFactory(validatorMock);
         when(validatorMock.validate(any())).thenReturn(new ValidationSummary());
 
         // When
+        sut.setMake("MB");
+        sut.setModel("S600");
+        sut.setYear(2017);
+        sut.setColor("Black");
+        sut.setFuelType(fuelType);
+        sut.setBodyStyle(bodyStyle);
+        sut.setTransmission(transmission);
+        sut.setNumberOfSeats(4);
+        sut.setPrice(price);
+        sut.setMileage(100);
+        sut.addCarFeature(luxurySeats);
+
+
         CarProperties car = sut.build();
 
         // Then
-        assertThat(car.getCarId(), equalTo(10));
+        assertThat(car.getCarId(), equalTo(0));
         assertThat(car.getMake(), equalTo("MB"));
         assertThat(car.getModel(), equalTo("S600"));
         assertThat(car.getYear(), equalTo(2017));
@@ -93,7 +96,7 @@ public final class CarFactoryTest {
         assertThat(car.getPrice(), equalTo(price));
         assertThat(car.getMileage(), equalTo(100));
         assertThat(car.getCondition().getDescription(), equalTo("USED"));
-        assertThat(car.getFeatures(), equalTo(features));
+        assertThat(car.getFeatures(), hasItem(luxurySeats));
     }
 
     @Test
@@ -131,7 +134,7 @@ public final class CarFactoryTest {
         when(validatorMock.validate(any())).thenReturn(summary);
 
         // When
-        Exception thrown = assertThrows(ValidationException.class, () -> sut.build());
+        Exception thrown = assertThrows(ValidationException.class, sut::build);
 
         // Then
         assertThat(thrown.getMessage(), containsString("make"));

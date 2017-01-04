@@ -4,7 +4,7 @@ import core.domain.car.CarProperties;
 
 import java.util.Date;
 
-public final class CarDeal {
+public final class CarDeal implements CarDealProperties {
     private final CarProperties car;
     private final Customer customer;
     private final Date dealDate;
@@ -35,7 +35,7 @@ public final class CarDeal {
         return paymentOptions;
     }
 
-    public SalesRepresentative getSalesMan() {
+    public SalesRepresentative getSalesRepresentative() {
         return salesMan;
     }
 

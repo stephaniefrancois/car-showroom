@@ -8,7 +8,10 @@ public final class Customer {
     private final Date dateOfBirth;
     private final Date customerSince;
 
-    public Customer(String firstName, String lastName, Date dateOfBirth, Date customerSince) {
+    public Customer(String firstName,
+                    String lastName,
+                    Date dateOfBirth,
+                    Date customerSince) {
 
         this.firstName = firstName;
         this.lastName = lastName;
