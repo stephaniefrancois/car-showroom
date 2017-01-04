@@ -9,7 +9,7 @@ public interface CarProperties extends Car {
 
     BodyStyle getBodyStyle();
 
-    int getMileage();
+    Integer getMileage();
 
-    int getNumberOfSeats();
+    Integer getNumberOfSeats();
 }

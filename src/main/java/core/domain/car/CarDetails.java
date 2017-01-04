@@ -11,20 +11,20 @@ public final class CarDetails implements CarProperties {
     private final int carId;
     private final String make;
     private final String model;
-    private final int year;
+    private final Integer year;
     private final String color;
     private final FuelType fuelType;
     private final BodyStyle bodyStyle;
     private final Transmission transmission;
     private final List<CarFeature> features;
-    private final int mileage;
+    private final Integer mileage;
     private final Condition condition;
-    private final int numberOfSeats;
+    private final Integer numberOfSeats;
     private final BigDecimal price;
 
     public CarDetails(String make,
                       String model,
-                      int year,
+                      Integer year,
                       String color,
                       FuelType fuelType,
                       BodyStyle bodyStyle,
@@ -50,7 +50,7 @@ public final class CarDetails implements CarProperties {
 
     public CarDetails(String make,
                       String model,
-                      int year,
+                      Integer year,
                       String color,
                       FuelType fuelType,
                       BodyStyle bodyStyle,
@@ -78,7 +78,7 @@ public final class CarDetails implements CarProperties {
     public CarDetails(int carId,
                       String make,
                       String model,
-                      int year,
+                      Integer year,
                       String color,
                       FuelType fuelType,
                       BodyStyle bodyStyle,
@@ -104,7 +104,7 @@ public final class CarDetails implements CarProperties {
     public CarDetails(int carId,
                       String make,
                       String model,
-                      int year,
+                      Integer year,
                       String color,
                       FuelType fuelType,
                       BodyStyle bodyStyle,
@@ -143,7 +143,7 @@ public final class CarDetails implements CarProperties {
     }
 
     @Override
-    public int getYear() {
+    public Integer getYear() {
         return year;
     }
 
@@ -165,7 +165,7 @@ public final class CarDetails implements CarProperties {
         return transmission;
     }
 
-    public int getMileage() {
+    public Integer getMileage() {
         return mileage;
     }
 
@@ -174,7 +174,7 @@ public final class CarDetails implements CarProperties {
         return condition;
     }
 
-    public int getNumberOfSeats() {
+    public Integer getNumberOfSeats() {
         return numberOfSeats;
     }
 

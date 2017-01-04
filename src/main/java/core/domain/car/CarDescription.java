@@ -48,7 +48,7 @@ public class CarDescription implements Car {
     }
 
     @Override
-    public int getYear() {
+    public Integer getYear() {
         return year;
     }
 

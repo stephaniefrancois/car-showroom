@@ -20,15 +20,15 @@ public final class CarFactory implements CarProperties {
     private int carId;
     private String make;
     private String model;
-    private int year;
+    private Integer year;
     private String color;
     private FuelType fuelType;
     private BodyStyle bodyStyle;
     private Transmission transmission;
     private List<CarFeature> features;
-    private int mileage;
+    private Integer mileage;
     private Condition condition;
-    private int numberOfSeats;
+    private Integer numberOfSeats;
     private BigDecimal price;
 
     public CarFactory(Validator<CarProperties> validator) {
@@ -93,7 +93,7 @@ public final class CarFactory implements CarProperties {
     }
 
     @Override
-    public int getYear() {
+    public Integer getYear() {
         return year;
     }
 
@@ -161,7 +161,7 @@ public final class CarFactory implements CarProperties {
     }
 
     @Override
-    public int getMileage() {
+    public Integer getMileage() {
         return mileage;
     }
 
@@ -170,7 +170,7 @@ public final class CarFactory implements CarProperties {
     }
 
     @Override
-    public int getNumberOfSeats() {
+    public Integer getNumberOfSeats() {
         return numberOfSeats;
     }
 
@@ -184,7 +184,7 @@ public final class CarFactory implements CarProperties {
             throw new ValidationException(summary.getValidationErrors());
         }
 
-        CarProperties car = new CarDetails(carId,
+        return new CarDetails(carId,
                 make,
                 model,
                 year,
@@ -196,8 +196,6 @@ public final class CarFactory implements CarProperties {
                 price,
                 mileage,
                 features);
-
-        return car;
     }
 
     public ValidationSummary validate() {

@@ -9,7 +9,7 @@ public interface Car {
 
     String getModel();
 
-    int getYear();
+    Integer getYear();
 
     FuelType getFuelType();
 
