@@ -1,20 +1,24 @@
 package core.validation.rules;
 
 import core.domain.validation.ValidationSummary;
+import core.validation.RuleFor;
+import core.validation.ValidationRule;
 import org.junit.jupiter.api.Test;
 import testing.helpers.FakeModel;
-import testing.helpers.MaxAllowedFakeModelValueRule;
 
 import java.math.BigDecimal;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public final class MaxAllowedValueRuleTest {
+public final class MaxAllowedNumericValueRuleTest {
     @Test
     public void GivenValueFieldHasThatMeetsMaxAllowedRequirementWhenValidatingThenRuleShouldPass() {
         // Given
-        MaxAllowedFakeModelValueRule sut = new MaxAllowedFakeModelValueRule(new BigDecimal(10));
+        ValidationRule<FakeModel> sut = RuleFor.maxValue(new BigDecimal(10),
+                "value",
+                FakeModel::getValue);
+
         FakeModel data = new FakeModel(new BigDecimal(10));
         // When
         ValidationSummary result = sut.validate(data);
@@ -26,9 +30,11 @@ public final class MaxAllowedValueRuleTest {
     @Test
     public void GivenValueFieldHasNullValueWhenValidatingThenRuleShouldPass() {
         // Given
-        MaxAllowedFakeModelValueRule sut = new MaxAllowedFakeModelValueRule(new BigDecimal(10));
-        BigDecimal value = null;
-        FakeModel data = new FakeModel(value);
+        ValidationRule<FakeModel> sut = RuleFor.maxValue(new BigDecimal(10),
+                "value",
+                FakeModel::getValue);
+
+        FakeModel data = new FakeModel((BigDecimal) null);
         // When
         ValidationSummary result = sut.validate(data);
 
@@ -37,9 +43,12 @@ public final class MaxAllowedValueRuleTest {
     }
 
     @Test
-    public void GivenValueFieldHasValueThatsMoreThanAllowedWhenValidatingThenRuleShouldFail() {
+    public void GivenValueFieldHasValueThatIsMoreThanAllowedWhenValidatingThenRuleShouldFail() {
         // Given
-        MaxAllowedFakeModelValueRule sut = new MaxAllowedFakeModelValueRule(new BigDecimal(10));
+        ValidationRule<FakeModel> sut = RuleFor.maxValue(new BigDecimal(10),
+                "value",
+                FakeModel::getValue);
+
         FakeModel data = new FakeModel(new BigDecimal(11));
         // When
         ValidationSummary result = sut.validate(data);

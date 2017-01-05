@@ -59,7 +59,7 @@ public final class ShowroomTest {
     }
 
     @Test
-    public void GivenWeDecideToRemoveCarWhenCarDoesntExistThenWeShouldNotDoAnything() {
+    public void GivenWeDecideToRemoveCarWhenCarDoesNotExistThenWeShouldNotDoAnything() {
         // Given
         int carId = 10;
         int carToRemoveId = 20;

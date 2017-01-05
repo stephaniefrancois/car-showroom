@@ -1,20 +1,20 @@
 package core.domain.deal;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public final class PaymentOptions {
     private final int durationInMonths;
-    private final Date firstPaymentDay;
+    private final LocalDate firstPaymentDay;
     private final int deposit;
 
-    public PaymentOptions(int durationInMonths, Date firstPaymentDay, int deposit) {
+    public PaymentOptions(int durationInMonths, LocalDate firstPaymentDay, int deposit) {
 
         this.durationInMonths = durationInMonths;
         this.firstPaymentDay = firstPaymentDay;
         this.deposit = deposit;
     }
 
-    public PaymentOptions(int durationInMonths, Date firstPaymentDay) {
+    public PaymentOptions(int durationInMonths, LocalDate firstPaymentDay) {
 
         this.durationInMonths = durationInMonths;
         this.firstPaymentDay = firstPaymentDay;
@@ -25,7 +25,7 @@ public final class PaymentOptions {
         return deposit;
     }
 
-    public Date getFirstPaymentDay() {
+    public LocalDate getFirstPaymentDay() {
         return firstPaymentDay;
     }
 

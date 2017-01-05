@@ -5,8 +5,8 @@ import core.domain.car.*;
 import core.domain.deal.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public final class TestData {
@@ -65,8 +65,8 @@ public final class TestData {
             return new Customer(
                     "Stephanie",
                     "Francois",
-                    new Date(1995, 12, 29),
-                    new Date(2010, 1, 1));
+                    LocalDate.of(1995, 12, 29),
+                    LocalDate.of(2010, 1, 1));
         }
     }
 
@@ -74,7 +74,7 @@ public final class TestData {
         public static PaymentOptions getPaymentOptions() {
             return new PaymentOptions(
                     24,
-                    new Date(2017, 1, 1));
+                    LocalDate.of(2017, 1, 1));
         }
     }
 
@@ -100,7 +100,7 @@ public final class TestData {
             Customer customer = Customers.getCustomer();
             SalesRepresentative salesMan = SalesPeople.getSalesMan();
 
-            Date dealDate = new Date(2017, 1, 1);
+            LocalDate dealDate = LocalDate.of(2017, 1, 1);
             PaymentOptions paymentOptions = PaymentOptionsData.getPaymentOptions();
             PaymentSchedule schedule = PaymentSchedules.getSchedule();
 

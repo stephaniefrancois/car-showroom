@@ -7,8 +7,8 @@ import org.mockito.Mockito;
 import testing.helpers.FakeModel;
 import testing.helpers.FakeRuleBasedModelValidator;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
+import java.util.Collections;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -21,7 +21,12 @@ public final class RuleBasedValidatorTest {
     @Test
     public void GivenCarWhenNoValidationRulesExistsShouldReturnPositiveValidationResult() {
         // Given
-        Validator sut = new FakeRuleBasedModelValidator(new ArrayList<>());
+        ValidationRulesProvider<FakeModel> rulesProvider =
+                Mockito.mock(ValidationRulesProvider.class);
+
+        Validator sut = new FakeRuleBasedModelValidator(rulesProvider);
+
+        when(rulesProvider.getValidationRules()).thenReturn(Collections.emptyList());
 
         // When
         ValidationSummary result = sut.validate(new FakeModel());
@@ -38,12 +43,12 @@ public final class RuleBasedValidatorTest {
         ValidationRule<FakeModel> passingRule1 = Mockito.mock(ValidationRule.class);
         ValidationRule<FakeModel> passingRule2 = Mockito.mock(ValidationRule.class);
 
-        List<ValidationRule<FakeModel>> rules = new ArrayList<>();
-        rules.add(passingRule1);
-        rules.add(passingRule2);
+        ValidationRulesProvider<FakeModel> rulesProvider =
+                Mockito.mock(ValidationRulesProvider.class);
 
-        Validator sut = new FakeRuleBasedModelValidator(rules);
+        Validator sut = new FakeRuleBasedModelValidator(rulesProvider);
 
+        when(rulesProvider.getValidationRules()).thenReturn(Arrays.asList(passingRule1, passingRule2));
         when(passingRule1.validate(modelToValidate)).thenReturn(new ValidationSummary());
         when(passingRule2.validate(modelToValidate)).thenReturn(new ValidationSummary());
 
@@ -62,17 +67,17 @@ public final class RuleBasedValidatorTest {
         ValidationRule<FakeModel> passingRule = Mockito.mock(ValidationRule.class);
         ValidationRule<FakeModel> failingRule = Mockito.mock(ValidationRule.class);
 
-        List<ValidationRule<FakeModel>> rules = new ArrayList<>();
-        rules.add(passingRule);
-        rules.add(failingRule);
-
-        List<ValidationError> errors = new ArrayList<>();
-        errors.add(new ValidationError("field1", "error1"));
-
         when(passingRule.validate(modelToValidate)).thenReturn(new ValidationSummary());
-        when(failingRule.validate(modelToValidate)).thenReturn(new ValidationSummary(errors));
+        when(failingRule.validate(modelToValidate)).thenReturn(new ValidationSummary(
+                Collections.singletonList(new ValidationError("field1", "error1"))
+        ));
 
-        Validator sut = new FakeRuleBasedModelValidator(rules);
+        ValidationRulesProvider<FakeModel> rulesProvider =
+                Mockito.mock(ValidationRulesProvider.class);
+
+        Validator sut = new FakeRuleBasedModelValidator(rulesProvider);
+
+        when(rulesProvider.getValidationRules()).thenReturn(Arrays.asList(passingRule, failingRule));
 
         // When
         ValidationSummary result = sut.validate(modelToValidate);
@@ -93,23 +98,24 @@ public final class RuleBasedValidatorTest {
         ValidationRule<FakeModel> failingRule1 = Mockito.mock(ValidationRule.class);
         ValidationRule<FakeModel> failingRule2 = Mockito.mock(ValidationRule.class);
 
-        List<ValidationRule<FakeModel>> rules = new ArrayList<>();
-        rules.add(passingRule);
-        rules.add(failingRule1);
-        rules.add(failingRule2);
-
-        List<ValidationError> errorsForRule1 = new ArrayList<>();
-        errorsForRule1.add(new ValidationError("field1", "error1"));
-
-        List<ValidationError> errorsForRule2 = new ArrayList<>();
-        errorsForRule2.add(new ValidationError("field2", "error2"));
-        errorsForRule2.add(new ValidationError("field2", "error3"));
-
         when(passingRule.validate(modelToValidate)).thenReturn(new ValidationSummary());
-        when(failingRule1.validate(modelToValidate)).thenReturn(new ValidationSummary(errorsForRule1));
-        when(failingRule2.validate(modelToValidate)).thenReturn(new ValidationSummary(errorsForRule2));
+        when(failingRule1.validate(modelToValidate)).thenReturn(
+                new ValidationSummary(Collections.singletonList(
+                        new ValidationError("field1", "error1")
+                )));
+        when(failingRule2.validate(modelToValidate)).thenReturn(
+                new ValidationSummary(Arrays.asList(
+                        new ValidationError("field2", "error2"),
+                        new ValidationError("field2", "error3")
+                )));
 
-        Validator sut = new FakeRuleBasedModelValidator(rules);
+        ValidationRulesProvider<FakeModel> rulesProvider =
+                Mockito.mock(ValidationRulesProvider.class);
+
+        Validator sut = new FakeRuleBasedModelValidator(rulesProvider);
+
+        when(rulesProvider.getValidationRules()).thenReturn(Arrays.asList(passingRule,
+                failingRule1, failingRule2));
 
         // When
         ValidationSummary result = sut.validate(modelToValidate);

@@ -1,37 +1,22 @@
 package core.validation.rules;
 
-import core.domain.validation.ValidationError;
-import core.domain.validation.ValidationSummary;
-import core.validation.ValidationRule;
+import java.util.function.Function;
 
-import java.util.ArrayList;
-import java.util.List;
+public final class MandatoryFieldRule<TModelToValidate, TValueToValidate>
+        extends ValidationRuleBase<TModelToValidate, TValueToValidate> {
 
-public abstract class MandatoryFieldRule<TModelToValidate, TValueToValidate>
-        implements ValidationRule<TModelToValidate> {
-    private final String fieldName;
-
-    protected MandatoryFieldRule(String fieldName) {
-        this.fieldName = fieldName;
+    public MandatoryFieldRule(String fieldName,
+                              Function<TModelToValidate, TValueToValidate> valueSelector) {
+        super(fieldName, valueSelector);
     }
 
-    protected abstract TValueToValidate getValueToValidate(TModelToValidate modelToValidate);
+    @Override
+    protected String getDefaultErrorMessage(TValueToValidate value, String fieldName) {
+        return String.format("Value for '%s' must be supplied!", fieldName);
+    }
 
     @Override
-    public ValidationSummary validate(TModelToValidate modelToValidate) {
-        if (modelToValidate == null) {
-            return new ValidationSummary();
-        }
-
-        List<ValidationError> errors = new ArrayList<>();
-        TValueToValidate valueToValidate = getValueToValidate(modelToValidate);
-
-        if (valueToValidate == null) {
-            errors.add(new ValidationError(fieldName, fieldName + " is a mandatory field!"));
-
-            return new ValidationSummary(errors);
-        }
-
-        return new ValidationSummary();
+    protected boolean isValueValid(TValueToValidate valueToValidate) {
+        return valueToValidate != null;
     }
 }

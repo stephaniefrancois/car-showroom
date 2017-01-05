@@ -6,7 +6,6 @@ import core.domain.car.conditions.UsedCar;
 import java.math.BigDecimal;
 import java.util.List;
 
-// TODO: use super constructors instead of initializing same members 4 times :)
 public final class CarDetails implements CarProperties {
     private final int carId;
     private final String make;
@@ -32,20 +31,9 @@ public final class CarDetails implements CarProperties {
                       int numberOfSeats,
                       BigDecimal price,
                       List<CarFeature> features) {
-
-        this.carId = 0;
-        this.make = make;
-        this.model = model;
-        this.year = year;
-        this.color = color;
-        this.fuelType = fuelType;
-        this.bodyStyle = bodyStyle;
-        this.transmission = transmission;
-        this.features = features;
-        this.condition = new NewCar();
-        this.numberOfSeats = numberOfSeats;
-        this.price = price;
-        this.mileage = 0;
+        this(0, make, model, year, color,
+                fuelType, bodyStyle, transmission,
+                numberOfSeats, price, 0, features);
     }
 
     public CarDetails(String make,
@@ -59,20 +47,9 @@ public final class CarDetails implements CarProperties {
                       BigDecimal price,
                       int mileage,
                       List<CarFeature> features) {
-
-        this.carId = 0;
-        this.make = make;
-        this.model = model;
-        this.year = year;
-        this.color = color;
-        this.fuelType = fuelType;
-        this.bodyStyle = bodyStyle;
-        this.transmission = transmission;
-        this.mileage = mileage;
-        this.condition = new UsedCar();
-        this.numberOfSeats = numberOfSeats;
-        this.price = price;
-        this.features = features;
+        this(0, make, model, year, color,
+                fuelType, bodyStyle, transmission,
+                numberOfSeats, price, mileage, features);
     }
 
     public CarDetails(int carId,
@@ -86,19 +63,9 @@ public final class CarDetails implements CarProperties {
                       int numberOfSeats,
                       BigDecimal price,
                       List<CarFeature> features) {
-        this.carId = carId;
-        this.make = make;
-        this.model = model;
-        this.year = year;
-        this.color = color;
-        this.fuelType = fuelType;
-        this.bodyStyle = bodyStyle;
-        this.transmission = transmission;
-        this.features = features;
-        this.condition = new NewCar();
-        this.numberOfSeats = numberOfSeats;
-        this.price = price;
-        this.mileage = 0;
+        this(carId, make, model, year, color,
+                fuelType, bodyStyle, transmission,
+                numberOfSeats, price, 0, features);
     }
 
     public CarDetails(int carId,
@@ -122,10 +89,15 @@ public final class CarDetails implements CarProperties {
         this.bodyStyle = bodyStyle;
         this.transmission = transmission;
         this.mileage = mileage;
-        this.condition = new UsedCar();
         this.numberOfSeats = numberOfSeats;
         this.price = price;
         this.features = features;
+
+        if (mileage == 0) {
+            this.condition = new NewCar();
+        } else {
+            this.condition = new UsedCar();
+        }
     }
 
     public List<CarFeature> getFeatures() {

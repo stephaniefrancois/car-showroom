@@ -11,6 +11,7 @@ public final class UnableToUpdateCarException extends CarShowroomApplicationExce
         if (carId <= 0) {
             return "In order to UPDATE an existing car it must have a valid id specified!";
         }
-        return String.format("Car with ID: '%s' was not found! Car must exist in order to be updated.");
+        return String.format("Car with ID: '%s' was not found! Car must exist in order to be updated.",
+                carId);
     }
 }

@@ -5,8 +5,8 @@ import core.domain.deal.PaymentSchedule;
 import core.domain.deal.ScheduledPayment;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,7 +24,7 @@ public final class SimplePaymentScheduleCalculator
         List<ScheduledPayment> payments = new ArrayList<>();
         int paymentsCount = paymentOptions.getDurationInMonths();
 
-        Date firstPaymentDate = paymentOptions
+        LocalDate firstPaymentDate = paymentOptions
                 .getFirstPaymentDay();
 
         BigDecimal amountToPayAfterDeposit =
@@ -33,13 +33,7 @@ public final class SimplePaymentScheduleCalculator
         BigDecimal paymentAmount = amountToPayAfterDeposit.divide(new BigDecimal(paymentsCount));
 
         for (int paymentNumber = 0; paymentNumber < paymentsCount; paymentNumber++) {
-
-            // TODO: revisit DATE usage and its API, since most methods marked as DEPRECATED
-
-            Date currentPaymentDate = new Date(firstPaymentDate.getYear(),
-                    firstPaymentDate.getMonth() + paymentNumber,
-                    firstPaymentDate.getDate());
-
+            LocalDate currentPaymentDate = firstPaymentDate.plusMonths(paymentNumber);
             payments.add(new ScheduledPayment(paymentAmount, currentPaymentDate));
         }
 

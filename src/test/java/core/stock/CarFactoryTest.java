@@ -121,7 +121,7 @@ public final class CarFactoryTest {
     }
 
     @Test
-    public void GivenInvalidCarSetupWhenWeBuildCarThenExeptionShouldBeThrown() {
+    public void GivenInvalidCarSetupWhenWeBuildCarThenExceptionShouldBeThrown() {
         // Given
         Validator<CarProperties> validatorMock = Mockito.mock(Validator.class);
         CarFactory sut = new CarFactory(validatorMock);

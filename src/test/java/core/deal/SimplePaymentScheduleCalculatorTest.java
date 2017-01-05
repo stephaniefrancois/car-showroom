@@ -6,7 +6,8 @@ import core.domain.deal.ScheduledPayment;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.Month;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -18,7 +19,7 @@ public final class SimplePaymentScheduleCalculatorTest {
     public void GivenPaymentOptionsWhenScheduleRequestedFor3MonthsThenCalculateSimplePaymentSchedule() {
         // Given
         int durationInMonths = 3;
-        Date firstPaymentDate = new Date(2017, 1, 15);
+        LocalDate firstPaymentDate = LocalDate.of(2017, Month.JANUARY, 15);
         BigDecimal totalAmountToPay = new BigDecimal(3000);
         PaymentOptions options = new PaymentOptions(durationInMonths, firstPaymentDate);
         PaymentScheduleCalculator sut = new SimplePaymentScheduleCalculator();
@@ -34,20 +35,20 @@ public final class SimplePaymentScheduleCalculatorTest {
         ScheduledPayment thirdPayment = schedule.getScheduledPayments().get(2);
 
         assertThat(firstPayment.getAmount(), equalTo(new BigDecimal(1000)));
-        assertThat(firstPayment.getPaymentDate(), equalTo(new Date(2017, 1, 15)));
+        assertThat(firstPayment.getPaymentDate(), equalTo(LocalDate.of(2017, Month.JANUARY, 15)));
 
         assertThat(secondPayment.getAmount(), equalTo(new BigDecimal(1000)));
-        assertThat(secondPayment.getPaymentDate(), equalTo(new Date(2017, 2, 15)));
+        assertThat(secondPayment.getPaymentDate(), equalTo(LocalDate.of(2017, Month.FEBRUARY, 15)));
 
         assertThat(thirdPayment.getAmount(), equalTo(new BigDecimal(1000)));
-        assertThat(thirdPayment.getPaymentDate(), equalTo(new Date(2017, 3, 15)));
+        assertThat(thirdPayment.getPaymentDate(), equalTo(LocalDate.of(2017, Month.MARCH, 15)));
     }
 
     @Test
     public void GivenPaymentOptionsWhenScheduleRequestedFor6MonthsThenCalculateSimplePaymentSchedule() {
         // Given
         int durationInMonths = 6;
-        Date firstPaymentDate = new Date(2017, 1, 15);
+        LocalDate firstPaymentDate = LocalDate.of(2017, 1, 15);
         BigDecimal totalAmountToPay = new BigDecimal(3000);
         PaymentOptions options = new PaymentOptions(durationInMonths, firstPaymentDate);
         PaymentScheduleCalculator sut = new SimplePaymentScheduleCalculator();
@@ -62,17 +63,17 @@ public final class SimplePaymentScheduleCalculatorTest {
         ScheduledPayment lastPayment = schedule.getScheduledPayments().get(5);
 
         assertThat(firstPayment.getAmount(), equalTo(new BigDecimal(500)));
-        assertThat(firstPayment.getPaymentDate(), equalTo(new Date(2017, 1, 15)));
+        assertThat(firstPayment.getPaymentDate(), equalTo(LocalDate.of(2017, Month.JANUARY, 15)));
 
         assertThat(lastPayment.getAmount(), equalTo(new BigDecimal(500)));
-        assertThat(lastPayment.getPaymentDate(), equalTo(new Date(2017, 6, 15)));
+        assertThat(lastPayment.getPaymentDate(), equalTo(LocalDate.of(2017, Month.JUNE, 15)));
     }
 
     @Test
     public void GivenPaymentOptionsWhenScheduleRequestedFor3MonthsWith600DepositThenCalculateSimplePaymentSchedule() {
         // Given
         int durationInMonths = 3;
-        Date firstPaymentDate = new Date(2017, 1, 15);
+        LocalDate firstPaymentDate = LocalDate.of(2017, 1, 15);
         BigDecimal totalAmountToPay = new BigDecimal(3000);
         int deposit = 600;
         PaymentOptions options = new PaymentOptions(durationInMonths, firstPaymentDate, deposit);
@@ -91,12 +92,12 @@ public final class SimplePaymentScheduleCalculatorTest {
         ScheduledPayment thirdPayment = schedule.getScheduledPayments().get(2);
 
         assertThat(firstPayment.getAmount(), equalTo(new BigDecimal(800)));
-        assertThat(firstPayment.getPaymentDate(), equalTo(new Date(2017, 1, 15)));
+        assertThat(firstPayment.getPaymentDate(), equalTo(LocalDate.of(2017, Month.JANUARY, 15)));
 
         assertThat(secondPayment.getAmount(), equalTo(new BigDecimal(800)));
-        assertThat(secondPayment.getPaymentDate(), equalTo(new Date(2017, 2, 15)));
+        assertThat(secondPayment.getPaymentDate(), equalTo(LocalDate.of(2017, Month.FEBRUARY, 15)));
 
         assertThat(thirdPayment.getAmount(), equalTo(new BigDecimal(800)));
-        assertThat(thirdPayment.getPaymentDate(), equalTo(new Date(2017, 3, 15)));
+        assertThat(thirdPayment.getPaymentDate(), equalTo(LocalDate.of(2017, Month.MARCH, 15)));
     }
 }

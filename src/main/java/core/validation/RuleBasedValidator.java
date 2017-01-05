@@ -9,17 +9,24 @@ import java.util.stream.Collectors;
 
 public abstract class RuleBasedValidator<TModelToValidate>
         implements Validator<TModelToValidate> {
-    private final List<ValidationRule<TModelToValidate>> rules;
+    private final ValidationRulesProvider<TModelToValidate> rulesProvider;
 
-    public RuleBasedValidator(List<ValidationRule<TModelToValidate>> rules) {
-        Objects.requireNonNull(rules,
-                "'rules' must be supplied!");
+    public RuleBasedValidator(ValidationRulesProvider<TModelToValidate> rulesProvider) {
+        Objects.requireNonNull(rulesProvider,
+                "'rulesProvider' must be supplied!");
 
-        this.rules = rules;
+        this.rulesProvider = rulesProvider;
     }
 
     @Override
     public ValidationSummary validate(TModelToValidate car) {
+        List<ValidationRule<TModelToValidate>> rules = rulesProvider.getValidationRules();
+
+        if (rules.isEmpty()) {
+            // TODO: log that we have no validation rules and this is most likely an ERROR!
+            return new ValidationSummary();
+        }
+
         List<ValidationSummary> failedRuleSummaries =
                 rules.stream()
                         .map(rule -> rule.validate(car))

@@ -1,17 +1,17 @@
 package core.domain.deal;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public final class Customer {
     private final String firstName;
     private final String lastName;
-    private final Date dateOfBirth;
-    private final Date customerSince;
+    private final LocalDate dateOfBirth;
+    private final LocalDate customerSince;
 
     public Customer(String firstName,
                     String lastName,
-                    Date dateOfBirth,
-                    Date customerSince) {
+                    LocalDate dateOfBirth,
+                    LocalDate customerSince) {
 
         this.firstName = firstName;
         this.lastName = lastName;
@@ -19,11 +19,11 @@ public final class Customer {
         this.customerSince = customerSince;
     }
 
-    public Date getCustomerSince() {
+    public LocalDate getCustomerSince() {
         return customerSince;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 

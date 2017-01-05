@@ -2,19 +2,19 @@ package core.domain.deal;
 
 import core.domain.car.CarProperties;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public final class CarDeal implements CarDealProperties {
     private final CarProperties car;
     private final Customer customer;
-    private final Date dealDate;
+    private final LocalDate dealDate;
     private final SalesRepresentative salesMan;
     private final PaymentOptions paymentOptions;
     private final PaymentSchedule paymentSchedule;
 
     public CarDeal(CarProperties car,
                    Customer customer,
-                   Date dealDate,
+                   LocalDate dealDate,
                    SalesRepresentative salesMan,
                    PaymentOptions paymentOptions,
                    PaymentSchedule paymentSchedule) {
@@ -39,7 +39,7 @@ public final class CarDeal implements CarDealProperties {
         return salesMan;
     }
 
-    public Date getDealDate() {
+    public LocalDate getDealDate() {
         return dealDate;
     }
 

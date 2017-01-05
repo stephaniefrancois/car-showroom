@@ -38,6 +38,6 @@ public final class AuthenticationContextBasedSalesRepresentativeProviderTest {
                 new AuthenticationContextBasedSalesRepresentativeProvider(context);
         // When
         // Then
-        assertThrows(NotAuthenticatedException.class, () -> sut.getActiveSalesRepresentative());
+        assertThrows(NotAuthenticatedException.class, sut::getActiveSalesRepresentative);
     }
 }

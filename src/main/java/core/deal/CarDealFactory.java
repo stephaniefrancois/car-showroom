@@ -7,7 +7,7 @@ import core.domain.validation.ValidationSummary;
 import core.validation.Validator;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public final class CarDealFactory implements CarDealProperties {
@@ -16,7 +16,7 @@ public final class CarDealFactory implements CarDealProperties {
     private Validator<CarDealProperties> validator;
     private PaymentOptions paymentOptions;
     private SalesRepresentative salesRepresentative;
-    private Date dealDate;
+    private LocalDate dealDate;
     private Customer customer;
     private CarProperties car;
 
@@ -71,11 +71,11 @@ public final class CarDealFactory implements CarDealProperties {
     }
 
     @Override
-    public Date getDealDate() {
+    public LocalDate getDealDate() {
         return dealDate;
     }
 
-    public void setDealDate(Date dealDate) {
+    public void setDealDate(LocalDate dealDate) {
         this.dealDate = dealDate;
     }
 

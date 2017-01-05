@@ -11,8 +11,8 @@ import org.mockito.Mockito;
 import testing.helpers.TestData.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -50,7 +50,7 @@ public final class CarDealFactoryTest {
         CarProperties car = Cars.getCar();
         PaymentOptions paymentOptions = PaymentOptionsData.getPaymentOptions();
         SalesRepresentative salesMan = SalesPeople.getSalesMan();
-        Date dealDate = new Date(2017, 1, 1);
+        LocalDate dealDate = LocalDate.of(2017, 1, 1);
         Customer customer = Customers.getCustomer();
 
         Validator<CarDealProperties> validatorMock = Mockito.mock(Validator.class);
@@ -98,7 +98,7 @@ public final class CarDealFactoryTest {
     }
 
     @Test
-    public void GivenInvalidDealSetupWhenWeBuildDealThenExeptionShouldBeThrown() {
+    public void GivenInvalidDealSetupWhenWeBuildDealThenExceptionShouldBeThrown() {
         // Given
         Validator<CarDealProperties> validatorMock = Mockito.mock(Validator.class);
         PaymentScheduleCalculator calculatorMock = Mockito.mock(PaymentScheduleCalculator.class);

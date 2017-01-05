@@ -2,14 +2,14 @@ package core.domain.deal;
 
 import core.domain.car.CarProperties;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public interface CarDealProperties {
     PaymentOptions getPaymentOptions();
 
     SalesRepresentative getSalesRepresentative();
 
-    Date getDealDate();
+    LocalDate getDealDate();
 
     Customer getCustomer();
 

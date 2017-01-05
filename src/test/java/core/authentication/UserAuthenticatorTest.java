@@ -81,7 +81,7 @@ public final class UserAuthenticatorTest {
     }
 
     @Test
-    public void GivenUserHasFailedToReauthenticateThenAuthenticatedUserProfileShouldBeRemoved() {
+    public void GivenUserHasFailedToReAuthenticateThenAuthenticatedUserProfileShouldBeRemoved() {
         // Given
         List<User> users = new ArrayList<>();
         users.add(new User(1, "user1", new UserProfile("Stephanie", "Francois")));

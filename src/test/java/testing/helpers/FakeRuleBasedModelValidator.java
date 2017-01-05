@@ -1,12 +1,10 @@
 package testing.helpers;
 
 import core.validation.RuleBasedValidator;
-import core.validation.ValidationRule;
-
-import java.util.List;
+import core.validation.ValidationRulesProvider;
 
 public class FakeRuleBasedModelValidator extends RuleBasedValidator<FakeModel> {
-    public FakeRuleBasedModelValidator(List<ValidationRule<FakeModel>> validationRules) {
-        super(validationRules);
+    public FakeRuleBasedModelValidator(ValidationRulesProvider<FakeModel> rulesProvider) {
+        super(rulesProvider);
     }
 }

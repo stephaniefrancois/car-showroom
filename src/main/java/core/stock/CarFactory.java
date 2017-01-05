@@ -189,7 +189,7 @@ public final class CarFactory implements CarProperties {
 
     public CarProperties build() throws ValidationException {
         ValidationSummary summary = validate();
-        if (summary.getIsValid() == false) {
+        if (!summary.getIsValid()) {
             throw new ValidationException(summary.getValidationErrors());
         }
 

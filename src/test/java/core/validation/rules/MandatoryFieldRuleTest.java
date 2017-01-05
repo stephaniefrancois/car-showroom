@@ -1,19 +1,22 @@
 package core.validation.rules;
 
 import core.domain.validation.ValidationSummary;
+import core.validation.RuleFor;
+import core.validation.ValidationRule;
 import org.junit.jupiter.api.Test;
-import testing.helpers.DataIsMandatoryRule;
 import testing.helpers.FakeModel;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public final class DataIsMandatoryRuleTest {
+public final class MandatoryFieldRuleTest {
 
     @Test
     public void GivenDataFieldHasValueWhenValidatingThenRuleShouldPass() {
         // Given
-        DataIsMandatoryRule sut = new DataIsMandatoryRule();
+        ValidationRule<FakeModel> sut =
+                RuleFor.mandatory("data", FakeModel::getData);
+
         FakeModel data = new FakeModel("data");
         // When
         ValidationSummary result = sut.validate(data);
@@ -25,9 +28,10 @@ public final class DataIsMandatoryRuleTest {
     @Test
     public void GivenDataFieldIsNullWhenValidatingThenRuleShouldFail() {
         // Given
-        DataIsMandatoryRule sut = new DataIsMandatoryRule();
-        String value = null;
-        FakeModel data = new FakeModel(value);
+        ValidationRule<FakeModel> sut =
+                RuleFor.mandatory("data", FakeModel::getData);
+
+        FakeModel data = new FakeModel((String) null);
         // When
         ValidationSummary result = sut.validate(data);
 

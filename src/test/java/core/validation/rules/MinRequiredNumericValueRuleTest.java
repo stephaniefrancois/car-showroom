@@ -1,20 +1,24 @@
 package core.validation.rules;
 
 import core.domain.validation.ValidationSummary;
+import core.validation.RuleFor;
+import core.validation.ValidationRule;
 import org.junit.jupiter.api.Test;
 import testing.helpers.FakeModel;
-import testing.helpers.MinRequiredFakeModelValueRule;
 
 import java.math.BigDecimal;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public final class MinRequiredValueRuleTest {
+public final class MinRequiredNumericValueRuleTest {
     @Test
     public void GivenValueFieldHasThatMeetsMinimumRequirementWhenValidatingThenRuleShouldPass() {
         // Given
-        MinRequiredFakeModelValueRule sut = new MinRequiredFakeModelValueRule(new BigDecimal(0));
+        ValidationRule<FakeModel> sut = RuleFor.minValue(new BigDecimal(0),
+                "value",
+                FakeModel::getValue);
+
         FakeModel data = new FakeModel(new BigDecimal(1));
         // When
         ValidationSummary result = sut.validate(data);
@@ -26,9 +30,11 @@ public final class MinRequiredValueRuleTest {
     @Test
     public void GivenValueFieldHasNullValueWhenValidatingThenRuleShouldPass() {
         // Given
-        MinRequiredFakeModelValueRule sut = new MinRequiredFakeModelValueRule(new BigDecimal(0));
-        BigDecimal value = null;
-        FakeModel data = new FakeModel(value);
+        ValidationRule<FakeModel> sut = RuleFor.minValue(new BigDecimal(0),
+                "value",
+                FakeModel::getValue);
+
+        FakeModel data = new FakeModel((BigDecimal) null);
         // When
         ValidationSummary result = sut.validate(data);
 
@@ -37,9 +43,12 @@ public final class MinRequiredValueRuleTest {
     }
 
     @Test
-    public void GivenValueFieldHasValueThatsLessThanRequiredWhenValidatingThenRuleShouldFail() {
+    public void GivenValueFieldHasValueThatIsLessThanRequiredWhenValidatingThenRuleShouldFail() {
         // Given
-        MinRequiredFakeModelValueRule sut = new MinRequiredFakeModelValueRule(new BigDecimal(0));
+        ValidationRule<FakeModel> sut = RuleFor.minValue(new BigDecimal(0),
+                "value",
+                FakeModel::getValue);
+
         FakeModel data = new FakeModel(new BigDecimal(-1));
         // When
         ValidationSummary result = sut.validate(data);
