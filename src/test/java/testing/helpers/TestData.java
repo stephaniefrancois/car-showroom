@@ -11,7 +11,7 @@ import java.util.List;
 
 public final class TestData {
     public static class Cars {
-        public static CarDetails createCar() {
+        public static CarDetails getCar() {
             return new CarDetails(
                     "MB",
                     "S600",
@@ -26,7 +26,7 @@ public final class TestData {
                     new ArrayList<>());
         }
 
-        public static CarDetails createCar(int carId) {
+        public static CarDetails getCar(int carId) {
             return new CarDetails(
                     carId,
                     "MB",
@@ -42,7 +42,7 @@ public final class TestData {
                     new ArrayList<>());
         }
 
-        public static CarDetails createCar(List<CarFeature> features) {
+        public static CarDetails getCar(List<CarFeature> features) {
 
             return new CarDetails(
                     10,
@@ -55,26 +55,6 @@ public final class TestData {
                     new Transmission("Automatic"),
                     4,
                     new BigDecimal(500000),
-                    100,
-                    features);
-        }
-
-        public static CarDetails createCar(List<CarFeature> features,
-                                           FuelType fuelType,
-                                           BodyStyle bodyStyle,
-                                           Transmission transmission,
-                                           BigDecimal price) {
-
-            return new CarDetails(10,
-                    "MB",
-                    "S600",
-                    2017,
-                    "Black",
-                    fuelType,
-                    bodyStyle,
-                    transmission,
-                    4,
-                    price,
                     100,
                     features);
         }
@@ -116,7 +96,7 @@ public final class TestData {
 
     public static class Deals {
         public static CarDealProperties getDeal() {
-            CarProperties car = Cars.createCar();
+            CarProperties car = Cars.getCar();
             Customer customer = Customers.getCustomer();
             SalesRepresentative salesMan = SalesPeople.getSalesMan();
 

@@ -24,7 +24,7 @@ public final class ShowroomTest {
         // Given
         int carId = 10;
         List<Car> cars = new ArrayList<>();
-        Car car = Cars.createCar(carId);
+        Car car = Cars.getCar(carId);
         cars.add(car);
 
         CarRepository carRepositoryMock = Mockito.mock(CarRepository.class);
@@ -44,7 +44,7 @@ public final class ShowroomTest {
     public void GivenWeDecideToRemoveCarWhenWeGiveCarIdThenCarShouldBeRemoved() {
         // Given
         int carId = 10;
-        CarDetails car = Cars.createCar(carId);
+        CarDetails car = Cars.getCar(carId);
 
         CarRepository carRepositoryMock = Mockito.mock(CarRepository.class);
         Showroom sut = new Showroom(carRepositoryMock);
@@ -63,7 +63,7 @@ public final class ShowroomTest {
         // Given
         int carId = 10;
         int carToRemoveId = 20;
-        Car car = Cars.createCar(10);
+        Car car = Cars.getCar(10);
         List<Car> cars = new ArrayList<>();
         cars.add(car);
 
@@ -82,7 +82,7 @@ public final class ShowroomTest {
     @Test
     public void GivenNewCarWhenItsAddedThenItShouldBePersisted() throws InvalidArgumentException {
         // Given
-        CarDetails car = Cars.createCar();
+        CarDetails car = Cars.getCar();
 
         CarRepository carRepositoryMock = Mockito.mock(CarRepository.class);
         Showroom sut = new Showroom(carRepositoryMock);
@@ -108,7 +108,7 @@ public final class ShowroomTest {
     @Test
     public void GivenCarToUpdateWhenItsUpdatedThenItShouldBePersisted() throws InvalidArgumentException, UnableToUpdateCarException {
         // Given
-        CarDetails car = Cars.createCar(10);
+        CarDetails car = Cars.getCar(10);
 
         CarRepository carRepositoryMock = Mockito.mock(CarRepository.class);
         Showroom sut = new Showroom(carRepositoryMock);
@@ -134,7 +134,7 @@ public final class ShowroomTest {
     @Test
     public void GivenCarObjectWithoutIdWhenItsUpdatedThenWeShouldThrow() {
         // Given
-        CarDetails car = Cars.createCar();
+        CarDetails car = Cars.getCar();
 
         CarRepository carRepositoryMock = Mockito.mock(CarRepository.class);
         Showroom sut = new Showroom(carRepositoryMock);

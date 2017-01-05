@@ -6,6 +6,7 @@ import core.domain.validation.ValidationException;
 import core.domain.validation.ValidationSummary;
 import core.validation.Validator;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
 
@@ -102,8 +103,12 @@ public final class CarDealFactory implements CarDealProperties {
             throw new ValidationException(summary.getValidationErrors());
         }
 
+        BigDecimal totalAmountToPay = car.getPrice();
+
         PaymentSchedule paymentSchedule =
-                paymentScheduleCalculator.calculatePaymentSchedule(paymentOptions);
+                paymentScheduleCalculator.calculatePaymentSchedule(
+                        totalAmountToPay,
+                        paymentOptions);
 
         return new CarDeal(car,
                 customer,

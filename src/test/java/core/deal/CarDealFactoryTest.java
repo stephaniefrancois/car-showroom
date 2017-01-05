@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import testing.helpers.TestData.*;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -46,7 +47,7 @@ public final class CarDealFactoryTest {
     @Test
     public void GivenCorrectlySetPropertiesWhenWeBuildDealWeShouldHaveDealPropertiesSet() throws ValidationException {
         // Given
-        CarProperties car = Cars.createCar();
+        CarProperties car = Cars.getCar();
         PaymentOptions paymentOptions = PaymentOptionsData.getPaymentOptions();
         SalesRepresentative salesMan = SalesPeople.getSalesMan();
         Date dealDate = new Date(2017, 1, 1);
@@ -125,13 +126,17 @@ public final class CarDealFactoryTest {
         PaymentScheduleCalculator calculatorMock = Mockito.mock(PaymentScheduleCalculator.class);
         PaymentSchedule schedule = PaymentSchedules.getSchedule();
         PaymentOptions paymentOptions = PaymentOptionsData.getPaymentOptions();
+        CarProperties car = Cars.getCar();
+        BigDecimal totalAmountToPay = car.getPrice();
 
         CarDealFactory sut = new CarDealFactory(validatorMock, calculatorMock);
 
         sut.setPaymentOptions(paymentOptions);
+        sut.setCar(car);
 
         when(validatorMock.validate(any())).thenReturn(new ValidationSummary());
-        when(calculatorMock.calculatePaymentSchedule(paymentOptions)).thenReturn(schedule);
+        when(calculatorMock.calculatePaymentSchedule(totalAmountToPay,
+                paymentOptions)).thenReturn(schedule);
 
         // When
         CarDeal deal = sut.build();

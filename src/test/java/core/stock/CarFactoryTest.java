@@ -31,7 +31,7 @@ public final class CarFactoryTest {
         List<CarFeature> features = new ArrayList<>();
         features.add(new CarFeature("Luxury Massage Seats"));
 
-        CarDetails car = Cars.createCar(features);
+        CarDetails car = Cars.getCar(features);
 
         Validator<CarProperties> validatorMock = Mockito.mock(Validator.class);
 
@@ -196,7 +196,7 @@ public final class CarFactoryTest {
         features.add(luxurySeatsFeature);
         features.add(cooledChampagne);
 
-        CarDetails car = Cars.createCar(features);
+        CarDetails car = Cars.getCar(features);
 
         Validator<CarProperties> validatorMock = Mockito.mock(Validator.class);
         CarFactory sut = new CarFactory(car, validatorMock);
@@ -219,7 +219,7 @@ public final class CarFactoryTest {
         features.add(luxurySeatsFeature);
         features.add(cooledChampagne);
 
-        CarDetails car = Cars.createCar(features);
+        CarDetails car = Cars.getCar(features);
 
         Validator<CarProperties> validatorMock = Mockito.mock(Validator.class);
         CarFactory sut = new CarFactory(car, validatorMock);
@@ -240,7 +240,7 @@ public final class CarFactoryTest {
         features.add(luxurySeatsFeature);
         features.add(cooledChampagne);
 
-        CarDetails car = Cars.createCar(features);
+        CarDetails car = Cars.getCar(features);
 
         Validator<CarProperties> validatorMock = Mockito.mock(Validator.class);
         CarFactory sut = new CarFactory(car, validatorMock);
