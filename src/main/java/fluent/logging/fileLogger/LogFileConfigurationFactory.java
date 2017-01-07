@@ -8,7 +8,7 @@ public final class LogFileConfigurationFactory implements
         LogFileDestination,
         FileCreationOptions,
         TargetFileOptions,
-        LogExtension,
+        LogFileExtension,
         RollOverFileName,
         LogFileSizeLimit {
 
@@ -55,7 +55,7 @@ public final class LogFileConfigurationFactory implements
     }
 
     @Override
-    public LogExtension file(String logFileName) {
+    public LogFileExtension file(String logFileName) {
         Objects.requireNonNull(logFileName);
         this.logFileName = logFileName;
         return this;
@@ -76,7 +76,7 @@ public final class LogFileConfigurationFactory implements
     }
 
     @Override
-    public LogExtension rollOverWhenFileSizeReachesKb(int fileSizeInKilobytes) {
+    public LogFileExtension rollOverWhenFileSizeReachesKb(int fileSizeInKilobytes) {
         validateMinFileSizeInKB(fileSizeInKilobytes);
         this.fileSizeInKilobytes = fileSizeInKilobytes;
         return this;
