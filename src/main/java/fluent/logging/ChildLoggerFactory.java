@@ -1,4 +1,4 @@
-package logging;
+package fluent.logging;
 
 import java.util.logging.Logger;
 
