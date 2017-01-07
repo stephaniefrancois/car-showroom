@@ -89,7 +89,7 @@ public final class LogFileConfigurationFactory implements
             if (rollLogsToMultipleFiles()) {
                 String filePattern = buildRollingFilesPattern(extension);
                 return new FileHandler(filePattern,
-                        fileSizeInKilobytes,
+                        fileSizeInKilobytes * 1024,
                         rollingLogFilesCount,
                         append);
             }
