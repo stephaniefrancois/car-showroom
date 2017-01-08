@@ -16,7 +16,7 @@ public class Main {
         log.info("Car-Showroom app starting ...");
 
         SwingUtilities.invokeLater(() -> {
-            JFrame main = new CarShowroomFrame();
+            JFrame main = new AppFrame();
             main.setSize(600, 600);
             main.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             main.setVisible(true);
