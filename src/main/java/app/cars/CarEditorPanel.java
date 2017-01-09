@@ -1,4 +1,4 @@
-package app;
+package app.cars;
 
 import javax.swing.*;
 import java.awt.*;
