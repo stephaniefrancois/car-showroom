@@ -1,5 +1,6 @@
 package app.toolbar;
 
+import app.styles.ButtonStyles;
 import common.IRaiseEvents;
 import resources.ResourceProvider;
 
@@ -18,6 +19,7 @@ public final class ToolbarPanel extends JPanel
 
     private List<ToolbarItem> toolbarItems;
     private List<ToolbarListener> listeners;
+    private ToolbarItem activeToolbarItem;
 
     public ToolbarPanel() {
         setBorder(BorderFactory.createEmptyBorder());
@@ -25,11 +27,30 @@ public final class ToolbarPanel extends JPanel
 
         listeners = new ArrayList<>();
         toolbarItems = getToolbarItems();
+        activeToolbarItem = null;
         toolbarItems.forEach((toolbarItem) -> {
             JButton button = toolbarItem.getButton();
             add(button);
             button.addActionListener(this);
         });
+    }
+
+    public void setActiveToolbarItem(String key) {
+        List<ToolbarItem> matchingItems = this.toolbarItems
+                .stream()
+                .filter(t -> t.getKey().equals(key))
+                .collect(Collectors.toList());
+
+        if (matchingItems.size() > 0) {
+            ToolbarItem toolbarItemToSelect = matchingItems.get(0);
+            selectToolBarItem(toolbarItemToSelect.getButton(),
+                    toolbarItemToSelect);
+
+            // TODO: replace this with logging statements
+            System.out.println("ToolbarItem with key '" + key + "' have been activated.");
+        } else {
+            System.out.println("ToolbarItem with key '" + key + "' has not been found!");
+        }
     }
 
     private List<ToolbarItem> getToolbarItems() {
@@ -51,18 +72,42 @@ public final class ToolbarPanel extends JPanel
                 .stream()
                 .filter(ti -> ti.getButton().equals(e.getSource()))
                 .collect(Collectors.toList());
-        ToolbarItem sourceToolbarItem = items.get(0);
+
+        selectToolBarItem(e.getSource(), items.get(0));
+    }
+
+    private void selectToolBarItem(Object source, ToolbarItem selectedToolbarItem) {
+        deselectCurrentlyActiveItem();
+        this.activeToolbarItem = selectCurrentToolbarItem(selectedToolbarItem);
 
         if (listeners.size() > 0) {
-            ToolbarItemClickedEvent event = new ToolbarItemClickedEvent(e.getSource(),
-                    sourceToolbarItem.getKey());
+            ToolbarItemClickedEvent event = new ToolbarItemClickedEvent(source,
+                    selectedToolbarItem.getKey());
             listeners.forEach(l -> l.toolbarItemClicked(event));
         }
     }
 
+    private void deselectCurrentlyActiveItem() {
+        if (activeToolbarItem != null) {
+            activeToolbarItem
+                    .getButton()
+                    .setBorder(ButtonStyles.getDefaultButtonBorder());
+        }
+    }
+
+    private ToolbarItem selectCurrentToolbarItem(ToolbarItem newlySelectedToolbarItem) {
+        if (newlySelectedToolbarItem != null) {
+            newlySelectedToolbarItem
+                    .getButton()
+                    .setBorder(ButtonStyles.getSelectedButtonBorder());
+        }
+
+        return newlySelectedToolbarItem;
+    }
+
     @Override
     public void addListener(ToolbarListener listenerToAdd) {
-        if (listeners.contains(listenerToAdd) == false) {
+        if (!listeners.contains(listenerToAdd)) {
             listeners.add(listenerToAdd);
         }
     }

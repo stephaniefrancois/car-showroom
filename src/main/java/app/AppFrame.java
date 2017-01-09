@@ -1,7 +1,5 @@
 package app;
 
-import app.toolbar.ToolbarItemClickedEvent;
-import app.toolbar.ToolbarListener;
 import app.toolbar.ToolbarPanel;
 
 import javax.swing.*;
@@ -11,6 +9,7 @@ public final class AppFrame extends JFrame {
 
     private final ToolbarPanel toolbar;
     private final ContentPanel content;
+    private final String toolbarItemToSelectKey = "ViewCars";
 
     public AppFrame() throws HeadlessException {
         super("Car Showroom");
@@ -21,34 +20,31 @@ public final class AppFrame extends JFrame {
         this.add(toolbar, BorderLayout.NORTH);
         this.add(content, BorderLayout.CENTER);
 
-        toolbar.addListener(new ToolbarListener() {
-            @Override
-            public void toolbarItemClicked(ToolbarItemClickedEvent e) {
-                switch (e.getMenuItemKey()) {
-                    case "ViewCars": {
-                        content.navigateToCars();
-                        break;
-                    }
-                    case "ViewSales": {
-                        content.navigateToSales();
-                        break;
-                    }
-                    case "ViewReports": {
-                        content.navigateToReports();
-                        break;
-                    }
-                    case "ViewSettings": {
-                        content.navigateToSettings();
-                        break;
-                    }
-                    default: {
-                        System.out.println("Don't know how to navigate to '" + e.getMenuItemKey() + "'");
-                    }
+        toolbar.addListener(e -> {
+            switch (e.getMenuItemKey()) {
+                case "ViewCars": {
+                    content.navigateToCars();
+                    break;
+                }
+                case "ViewSales": {
+                    content.navigateToSales();
+                    break;
+                }
+                case "ViewReports": {
+                    content.navigateToReports();
+                    break;
+                }
+                case "ViewSettings": {
+                    content.navigateToSettings();
+                    break;
+                }
+                default: {
+                    System.out.println("Don't know how to navigate to '" + e.getMenuItemKey() + "'");
                 }
             }
         });
 
-        content.navigateToCars();
+        toolbar.setActiveToolbarItem(toolbarItemToSelectKey);
     }
 
     private void configureSelf() {
