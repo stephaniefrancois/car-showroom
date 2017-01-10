@@ -55,7 +55,7 @@ public final class ShowroomTest {
         sut.removeCar(carId);
 
         // Then
-        verify(carRepositoryMock, times(1)).removeCar(car);
+        verify(carRepositoryMock, times(1)).removeCar(car.getCarId());
     }
 
     @Test
@@ -63,7 +63,7 @@ public final class ShowroomTest {
         // Given
         int carId = 10;
         int carToRemoveId = 20;
-        Car car = Cars.getCar(10);
+        Car car = Cars.getCar(carId);
         List<Car> cars = new ArrayList<>();
         cars.add(car);
 
@@ -76,7 +76,7 @@ public final class ShowroomTest {
         sut.removeCar(carToRemoveId);
 
         // Then
-        verify(carRepositoryMock, never()).removeCar(any());
+        verify(carRepositoryMock, never()).removeCar(anyInt());
     }
 
     @Test

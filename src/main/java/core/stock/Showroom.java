@@ -8,7 +8,7 @@ import dataAccessLayer.CarRepository;
 import java.util.List;
 import java.util.Objects;
 
-public final class Showroom {
+public final class Showroom implements CarStock {
 
     private final CarRepository carRepository;
 
@@ -19,25 +19,34 @@ public final class Showroom {
         this.carRepository = carRepository;
     }
 
+    @Override
     public List<Car> getAvailableCars() {
         return carRepository.getCars();
     }
 
+    @Override
+    public CarProperties getCarDetails(int carId) {
+        return carRepository.getCar(carId);
+    }
+
+    @Override
     public void removeCar(int carId) {
         CarProperties car = carRepository.getCar(carId);
         if (car != null) {
-            carRepository.removeCar(car);
+            carRepository.removeCar(car.getCarId());
         } else {
             // TODO: log car not found
         }
     }
 
-    public void addCar(CarProperties car) {
+    @Override
+    public CarProperties addCar(CarProperties car) {
         Objects.requireNonNull(car,
                 "'car' must be supplied!");
-        carRepository.saveCar(car);
+        return carRepository.saveCar(car);
     }
 
+    @Override
     public void updateCar(CarProperties car) throws UnableToUpdateCarException {
         Objects.requireNonNull(car,
                 "'car' must be supplied!");

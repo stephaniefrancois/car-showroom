@@ -4,6 +4,7 @@ import app.cars.CarsPanel;
 import app.reports.ReportsPanel;
 import app.sales.SalesPanel;
 import app.settings.SettingsPanel;
+import app.styles.ComponentSizes;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,6 +18,8 @@ public final class ContentPanel extends JPanel {
     private Map<String, JPanel> cards;
 
     public ContentPanel() {
+        setMinimumSize(ComponentSizes.MINIMUM_CONTENT_PANEL_SIZE);
+        setSize(getMinimumSize());
         contentPresenter = new CardLayout();
         setLayout(contentPresenter);
         cards = configureContentPages();

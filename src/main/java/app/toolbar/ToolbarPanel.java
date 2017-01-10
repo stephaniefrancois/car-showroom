@@ -1,6 +1,7 @@
 package app.toolbar;
 
 import app.styles.ButtonStyles;
+import app.styles.ComponentSizes;
 import common.IRaiseEvents;
 import resources.ResourceProvider;
 
@@ -17,11 +18,14 @@ public final class ToolbarPanel extends JPanel
         implements ActionListener,
         IRaiseEvents<ToolbarListener> {
 
-    private List<ToolbarItem> toolbarItems;
-    private List<ToolbarListener> listeners;
+    private final List<ToolbarItem> toolbarItems;
+    private final List<ToolbarListener> listeners;
     private ToolbarItem activeToolbarItem;
 
     public ToolbarPanel() {
+        setMinimumSize(ComponentSizes.MINIMUM_TOOLBAR_SIZE);
+        setSize(getMinimumSize());
+
         setBorder(BorderFactory.createEmptyBorder());
         setLayout(new FlowLayout(FlowLayout.CENTER));
 

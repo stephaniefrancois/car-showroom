@@ -9,7 +9,8 @@ public interface CarRepository {
     List<Car> getCars();
 
     CarProperties getCar(int carId);
-    void saveCar(CarProperties car);
 
-    void removeCar(CarProperties car);
+    CarProperties saveCar(CarProperties car);
+
+    void removeCar(int carId);
 }

@@ -1,5 +1,6 @@
 package app;
 
+import app.styles.ComponentSizes;
 import app.toolbar.ToolbarPanel;
 
 import javax.swing.*;
@@ -48,7 +49,7 @@ public final class AppFrame extends JFrame {
     }
 
     private void configureSelf() {
-        setMinimumSize(new Dimension(1024, 768));
+        setMinimumSize(ComponentSizes.APP_SIZE);
         setSize(getMinimumSize());
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());

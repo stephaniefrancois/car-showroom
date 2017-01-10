@@ -53,7 +53,7 @@ public final class CarFactory implements CarProperties {
         price = new BigDecimal(500000);
     }
 
-    public CarFactory(CarDetails car, Validator<CarProperties> validator) {
+    public CarFactory(CarProperties car, Validator<CarProperties> validator) {
         this(validator);
 
         Objects.requireNonNull(car,
