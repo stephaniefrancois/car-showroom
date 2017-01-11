@@ -7,7 +7,7 @@ public interface CarProperties extends Car {
 
     String getColor();
 
-    String getBodyStyle();
+    CarMetadata getBodyStyle();
 
     Integer getMileage();
 

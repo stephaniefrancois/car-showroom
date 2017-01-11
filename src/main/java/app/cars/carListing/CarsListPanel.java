@@ -36,10 +36,14 @@ public final class CarsListPanel extends JPanel implements IRaiseEvents<CarListe
         add(new JScrollPane(carsTable), BorderLayout.CENTER);
         popup = new JPopupMenu();
 
-        configurePopupMenu();
+        this.configurePopupMenu();
+        this.refresh();
+    }
 
+    public void refresh() {
         // TODO: load this using multi-threading
-        tableModel.setData(carStock.getAvailableCars());
+        this.tableModel.setData(carStock.getAvailableCars());
+        // TODO: refresh the GRIDVIEW, for some reason it doesnt work!?
     }
 
     private void configurePopupMenu() {

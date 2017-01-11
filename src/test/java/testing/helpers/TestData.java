@@ -3,6 +3,7 @@ package testing.helpers;
 import core.domain.UserProfile;
 import core.domain.car.CarDetails;
 import core.domain.car.CarFeature;
+import core.domain.car.CarMetadata;
 import core.domain.car.CarProperties;
 import core.domain.deal.*;
 
@@ -19,9 +20,9 @@ public final class TestData {
                     "S600",
                     2017,
                     "Black",
-                    "Petrol",
-                    "Sedan",
-                    "Automatic",
+                    new CarMetadata(1, "Petrol"),
+                    new CarMetadata(1, "Sedan"),
+                    new CarMetadata(1, "Automatic"),
                     4,
                     new BigDecimal(500000),
                     100,
@@ -35,9 +36,9 @@ public final class TestData {
                     "S600",
                     2017,
                     "Black",
-                    "Petrol",
-                    "Sedan",
-                    "Automatic",
+                    new CarMetadata(1, "Petrol"),
+                    new CarMetadata(1, "Sedan"),
+                    new CarMetadata(1, "Automatic"),
                     4,
                     new BigDecimal(500000),
                     100,
@@ -52,9 +53,9 @@ public final class TestData {
                     "S600",
                     2017,
                     "Black",
-                    "Petrol",
-                    "Sedan",
-                    "Automatic",
+                    new CarMetadata(1, "Petrol"),
+                    new CarMetadata(1, "Sedan"),
+                    new CarMetadata(1, "Automatic"),
                     4,
                     new BigDecimal(500000),
                     100,

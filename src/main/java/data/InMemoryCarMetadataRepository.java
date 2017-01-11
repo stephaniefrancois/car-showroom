@@ -1,6 +1,7 @@
 package data;
 
 import core.domain.car.CarFeature;
+import core.domain.car.CarMetadata;
 
 import java.util.Arrays;
 import java.util.List;
@@ -8,18 +9,31 @@ import java.util.stream.Collectors;
 
 public final class InMemoryCarMetadataRepository implements CarMetadataRepository {
     @Override
-    public List<String> getFuelTypes() {
-        return Arrays.asList("Gasoline", "Diesel", "Gas", "Electric");
+    public List<CarMetadata> getFuelTypes() {
+        return Arrays.asList(
+                new CarMetadata(1, "Petrol"),
+                new CarMetadata(2, "Diesel"),
+                new CarMetadata(3, "Gas"),
+                new CarMetadata(4, "Electric"));
     }
 
     @Override
-    public List<String> getBodyStyles() {
-        return Arrays.asList("Sedan", "Hatchback", "Coupe", "Pickup", "SUV", "Sports", "VAN");
+    public List<CarMetadata> getBodyStyles() {
+        return Arrays.asList(
+                new CarMetadata(1, "Sedan"),
+                new CarMetadata(2, "Hatchback"),
+                new CarMetadata(3, "Coupe"),
+                new CarMetadata(4, "Pickup"),
+                new CarMetadata(5, "SUV"),
+                new CarMetadata(6, "Sports"),
+                new CarMetadata(7, "VAN"));
     }
 
     @Override
-    public List<String> getTransmissions() {
-        return Arrays.asList("Manual", "Automatic", "Gas", "Electric");
+    public List<CarMetadata> getTransmissions() {
+        return Arrays.asList(
+                new CarMetadata(1, "Manual"),
+                new CarMetadata(2, "Automatic"));
     }
 
     @Override

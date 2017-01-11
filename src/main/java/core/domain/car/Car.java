@@ -11,9 +11,9 @@ public interface Car {
 
     Integer getYear();
 
-    String getFuelType();
+    CarMetadata getFuelType();
 
-    String getTransmission();
+    CarMetadata getTransmission();
 
     Condition getCondition();
 

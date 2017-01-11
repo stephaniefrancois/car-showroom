@@ -41,7 +41,7 @@ public final class SearchableCarListPanel extends JPanel implements
 
     @Override
     public void carSaved(CarEventArgs e) {
-
+        this.carsList.refresh();
     }
 
     @Override

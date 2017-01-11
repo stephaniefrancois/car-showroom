@@ -27,10 +27,10 @@ public final class InMemoryCarValidationRulesProvider
     private final int maximumCarYear = LocalDate.now().getYear();
 
     public InMemoryCarValidationRulesProvider() {
-        addRule(RuleFor.notEmpty("Body Style", CarProperties::getBodyStyle));
+        addRule(RuleFor.mandatory("Body Style", CarProperties::getBodyStyle));
         addRule(RuleFor.notEmpty("Color", CarProperties::getColor));
-        addRule(RuleFor.notEmpty("Fuel Type", Car::getFuelType));
-        addRule(RuleFor.notEmpty("Transmission", Car::getTransmission));
+        addRule(RuleFor.mandatory("Fuel Type", Car::getFuelType));
+        addRule(RuleFor.mandatory("Transmission", Car::getTransmission));
 
         addRule(RuleFor.mandatory("Make", Car::getMake));
         addRule(RuleFor.minLength(minimumValueLength, "Make", Car::getMake));

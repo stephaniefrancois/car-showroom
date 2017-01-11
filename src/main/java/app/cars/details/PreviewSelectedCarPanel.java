@@ -151,11 +151,11 @@ public class PreviewSelectedCarPanel extends JPanel implements IRaiseEvents<CarD
         makeValueLabel.setText(car.getMake());
         modelValueLabel.setText(car.getModel());
         yearValueLabel.setText(car.getYear().toString());
-        fuelTypeValueLabel.setText(car.getFuelType());
-        transmissionValueLabel.setText(car.getTransmission());
+        fuelTypeValueLabel.setText(car.getFuelType().toString());
+        transmissionValueLabel.setText(car.getTransmission().toString());
         conditionValueLabel.setText(car.getCondition().getDescription());
         colorValueLabel.setText(car.getColor());
-        bodyStyleValueLabel.setText(car.getBodyStyle());
+        bodyStyleValueLabel.setText(car.getBodyStyle().toString());
         mileageValueLabel.setText(car.getMileage().toString());
         numberOfSeatsValueLabel.setText(car.getNumberOfSeats().toString());
         priceValueLabel.setText(car.getPrice().toString());

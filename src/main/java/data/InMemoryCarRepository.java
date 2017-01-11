@@ -1,15 +1,9 @@
 package data;
 
-import core.domain.car.Car;
-import core.domain.car.CarDetails;
-import core.domain.car.CarFeature;
-import core.domain.car.CarProperties;
+import core.domain.car.*;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public final class InMemoryCarRepository implements CarRepository {
@@ -18,9 +12,9 @@ public final class InMemoryCarRepository implements CarRepository {
             new CarDetails(1, "Mercedes Benz", "S600",
                     2017,
                     "Black",
-                    "Petrol",
-                    "Sedan",
-                    "Automatic",
+                    new CarMetadata(1, "Petrol"),
+                    new CarMetadata(1, "Sedan"),
+                    new CarMetadata(2, "Automatic"),
                     4,
                     new BigDecimal(500000),
                     Arrays.asList(new CarFeature("Luxury Seats"),
@@ -31,9 +25,9 @@ public final class InMemoryCarRepository implements CarRepository {
             new CarDetails(2, "Bentley", "Continetal GT",
                     2017,
                     "Gray",
-                    "Petrol",
-                    "Coupe",
-                    "Automatic",
+                    new CarMetadata(1, "Petrol"),
+                    new CarMetadata(3, "Coupe"),
+                    new CarMetadata(2, "Automatic"),
                     4,
                     new BigDecimal(500000),
                     Arrays.asList(new CarFeature("Luxury Seats"))
@@ -41,9 +35,9 @@ public final class InMemoryCarRepository implements CarRepository {
             new CarDetails(3, "BMW", "760Li",
                     2017,
                     "Electric Blue",
-                    "Petrol",
-                    "Sedan",
-                    "Automatic",
+                    new CarMetadata(1, "Petrol"),
+                    new CarMetadata(1, "Sedan"),
+                    new CarMetadata(2, "Automatic"),
                     4,
                     new BigDecimal(450000),
                     Arrays.asList(new CarFeature("Luxury Seats"))
@@ -51,9 +45,9 @@ public final class InMemoryCarRepository implements CarRepository {
             new CarDetails(4, "Audi", "80",
                     1980,
                     "Red",
-                    "Petrol",
-                    "Sedan",
-                    "Manual",
+                    new CarMetadata(2, "Diesel"),
+                    new CarMetadata(2, "Hatchback"),
+                    new CarMetadata(1, "Manual"),
                     4,
                     new BigDecimal(1000),
                     1000000,
@@ -82,8 +76,50 @@ public final class InMemoryCarRepository implements CarRepository {
 
     @Override
     public CarProperties saveCar(CarProperties car) {
-        cars.add(car);
+        if (car.getCarId() == 0) {
+            addNewCar(car);
+        } else {
+            updateExistingCar(car);
+        }
+
         return car;
+    }
+
+    private void addNewCar(CarProperties car) {
+        Optional<Integer> highestCarIndex =
+                this.cars
+                        .stream()
+                        .map(c -> c.getCarId()).max(Integer::compare);
+        int newCarIndex = 1;
+
+        if (highestCarIndex.isPresent()) {
+            newCarIndex = highestCarIndex.get() + 1;
+        }
+
+        CarProperties newCar = new CarDetails(
+                newCarIndex,
+                car.getMake(),
+                car.getModel(),
+                car.getYear(),
+                car.getColor(),
+                car.getFuelType(),
+                car.getBodyStyle(),
+                car.getTransmission(),
+                car.getNumberOfSeats(),
+                car.getPrice(),
+                car.getMileage(),
+                car.getFeatures());
+
+        this.cars.add(newCar);
+    }
+
+    private void updateExistingCar(CarProperties car) {
+        List<CarProperties> filteredCars =
+                cars.stream()
+                        .filter(c -> c.getCarId() == car.getCarId())
+                        .collect(Collectors.toList());
+        int indexOfUpdatedCar = this.cars.indexOf(filteredCars.get(0));
+        this.cars.set(indexOfUpdatedCar, car);
     }
 
     @Override

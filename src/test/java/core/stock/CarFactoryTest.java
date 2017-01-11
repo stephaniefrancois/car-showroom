@@ -3,6 +3,7 @@ package core.stock;
 import com.sun.javaws.exceptions.InvalidArgumentException;
 import core.domain.car.CarDetails;
 import core.domain.car.CarFeature;
+import core.domain.car.CarMetadata;
 import core.domain.car.CarProperties;
 import core.domain.validation.ValidationError;
 import core.domain.validation.ValidationException;
@@ -62,6 +63,10 @@ public final class CarFactoryTest {
         CarFeature luxurySeats = new CarFeature("Luxury Massage Seats");
         BigDecimal price = new BigDecimal(500000);
 
+        CarMetadata fuelType = new CarMetadata(1, "Petrol");
+        CarMetadata bodyStyle = new CarMetadata(1, "Sedan");
+        CarMetadata transmission = new CarMetadata(1, "Automatic");
+
         Validator<CarProperties> validatorMock = Mockito.mock(Validator.class);
         CarFactory sut = new CarFactory(validatorMock);
         when(validatorMock.validate(any())).thenReturn(new ValidationSummary());
@@ -71,9 +76,9 @@ public final class CarFactoryTest {
         sut.setModel("S600");
         sut.setYear(2017);
         sut.setColor("Black");
-        sut.setFuelType("Petrol");
-        sut.setBodyStyle("Sedan");
-        sut.setTransmission("Automatic");
+        sut.setFuelType(fuelType);
+        sut.setBodyStyle(bodyStyle);
+        sut.setTransmission(transmission);
         sut.setNumberOfSeats(4);
         sut.setPrice(price);
         sut.setMileage(100);
@@ -88,9 +93,9 @@ public final class CarFactoryTest {
         assertThat(car.getModel(), equalTo("S600"));
         assertThat(car.getYear(), equalTo(2017));
         assertThat(car.getColor(), equalTo("Black"));
-        assertThat(car.getFuelType(), equalTo("Petrol"));
-        assertThat(car.getBodyStyle(), equalTo("Sedan"));
-        assertThat(car.getTransmission(), equalTo("Automatic"));
+        assertThat(car.getFuelType(), equalTo(fuelType));
+        assertThat(car.getBodyStyle(), equalTo(bodyStyle));
+        assertThat(car.getTransmission(), equalTo(transmission));
         assertThat(car.getNumberOfSeats(), equalTo(4));
         assertThat(car.getPrice(), equalTo(price));
         assertThat(car.getMileage(), equalTo(100));

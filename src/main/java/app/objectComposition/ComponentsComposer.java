@@ -9,7 +9,9 @@ import core.stock.validation.InMemoryCarValidationRulesProvider;
 import core.stock.validation.RuleBasedCarValidator;
 import core.validation.RuleBasedValidator;
 import core.validation.ValidationRulesProvider;
+import data.CarMetadataRepository;
 import data.CarRepository;
+import data.InMemoryCarMetadataRepository;
 import data.InMemoryCarRepository;
 
 public final class ComponentsComposer {
@@ -43,5 +45,9 @@ public final class ComponentsComposer {
             return new CarFactory(validator);
         }
         return new CarFactory(car, validator);
+    }
+
+    public CarMetadataRepository getCarMetadataRepository() {
+        return new InMemoryCarMetadataRepository();
     }
 }

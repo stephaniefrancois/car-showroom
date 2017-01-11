@@ -1,15 +1,16 @@
 package data;
 
 import core.domain.car.CarFeature;
+import core.domain.car.CarMetadata;
 
 import java.util.List;
 
 public interface CarMetadataRepository {
-    List<String> getFuelTypes();
+    List<CarMetadata> getFuelTypes();
 
-    List<String> getBodyStyles();
+    List<CarMetadata> getBodyStyles();
 
-    List<String> getTransmissions();
+    List<CarMetadata> getTransmissions();
 
     List<CarFeature> getFeatures();
 }

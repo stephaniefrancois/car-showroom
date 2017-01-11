@@ -1,10 +1,7 @@
 package core.stock;
 
 import com.sun.javaws.exceptions.InvalidArgumentException;
-import core.domain.car.CarDetails;
-import core.domain.car.CarFeature;
-import core.domain.car.CarProperties;
-import core.domain.car.Condition;
+import core.domain.car.*;
 import core.domain.car.conditions.NewCar;
 import core.domain.validation.ValidationException;
 import core.domain.validation.ValidationSummary;
@@ -26,9 +23,9 @@ public final class CarFactory implements CarProperties {
     private String model;
     private Integer year;
     private String color;
-    private String fuelType;
-    private String bodyStyle;
-    private String transmission;
+    private CarMetadata fuelType;
+    private CarMetadata bodyStyle;
+    private CarMetadata transmission;
     private List<CarFeature> features;
     private Integer mileage;
     private Condition condition;
@@ -46,9 +43,9 @@ public final class CarFactory implements CarProperties {
         model = "S600";
         year = LocalDateTime.now().getYear();
         color = "Black";
-        fuelType = new String("Petrol");
-        bodyStyle = new String("Sedan");
-        transmission = new String("Automatic");
+        fuelType = new CarMetadata(1, "Petrol");
+        bodyStyle = new CarMetadata(1, "Sedan");
+        transmission = new CarMetadata(1, "Automatic");
         features = new ArrayList<>();
         mileage = 0;
         condition = new NewCar();
@@ -114,20 +111,20 @@ public final class CarFactory implements CarProperties {
     }
 
     @Override
-    public String getFuelType() {
+    public CarMetadata getFuelType() {
         return fuelType;
     }
 
-    public void setFuelType(String fuelType) {
+    public void setFuelType(CarMetadata fuelType) {
         this.fuelType = fuelType;
     }
 
     @Override
-    public String getTransmission() {
+    public CarMetadata getTransmission() {
         return transmission;
     }
 
-    public void setTransmission(String transmission) {
+    public void setTransmission(CarMetadata transmission) {
         this.transmission = transmission;
     }
 
@@ -160,11 +157,11 @@ public final class CarFactory implements CarProperties {
     }
 
     @Override
-    public String getBodyStyle() {
+    public CarMetadata getBodyStyle() {
         return bodyStyle;
     }
 
-    public void setBodyStyle(String bodyStyle) {
+    public void setBodyStyle(CarMetadata bodyStyle) {
         this.bodyStyle = bodyStyle;
     }
 
