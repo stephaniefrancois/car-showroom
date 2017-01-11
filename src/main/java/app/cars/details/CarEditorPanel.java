@@ -45,8 +45,6 @@ public final class CarEditorPanel extends JPanel implements
     private final CarMetadataRepository carMetadata;
     private CarFactory carFactory;
 
-    // TODO: implement NEW car option and CLEAR all fields if new car is being created!
-
     public CarEditorPanel() {
         setLayout(new GridBagLayout());
 
@@ -204,6 +202,21 @@ public final class CarEditorPanel extends JPanel implements
         // TODO: map selected FEATURES from FORM to car factory!
     }
 
+    public void createCar() {
+        this.carFactory = this.carFactoryProvider.createCarFactory();
+        setDefaultValuesForNewCar();
+        this.mapCarValuesToForm(this.carFactory);
+    }
+
+    private void setDefaultValuesForNewCar() {
+        this.fuelTypeCombo.setSelectedIndex(0);
+        this.bodyStyleCombo.setSelectedIndex(0);
+        this.transmissionCombo.setSelectedIndex(0);
+        carFactory.setFuelType((CarMetadata) this.fuelTypeCombo.getSelectedItem());
+        carFactory.setBodyStyle((CarMetadata) this.bodyStyleCombo.getSelectedItem());
+        carFactory.setTransmission((CarMetadata) this.transmissionCombo.getSelectedItem());
+    }
+
     public void editCar(int carId) {
         System.out.println("Editing car with id: " + carId); // TODO: add logging statement about car being edited
         CarProperties car = this.carStock.getCarDetails(carId);
@@ -225,8 +238,6 @@ public final class CarEditorPanel extends JPanel implements
 
         // TODO: fill in Car FEATURES
         // List<CarFeature> features;
-
-        // TODO: map CarFactory Values To Form
     }
 
     @Override

@@ -8,4 +8,6 @@ public interface CarListener extends EventListener {
     void carDeleted(CarEventArgs e);
 
     void carSelected(CarEventArgs e);
+
+    void carCreationRequested();
 }

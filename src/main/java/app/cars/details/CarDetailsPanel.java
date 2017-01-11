@@ -62,6 +62,12 @@ public final class CarDetailsPanel extends JPanel
     }
 
     @Override
+    public void carCreationRequested() {
+        this.carEditorView.getValue().createCar();
+        contentPresenter.show(this, this.carEditorView.getKey());
+    }
+
+    @Override
     public void carEditRequested(CarEventArgs e) {
         this.carEditorView.getValue().editCar(e.getCarId());
         contentPresenter.show(this, this.carEditorView.getKey());

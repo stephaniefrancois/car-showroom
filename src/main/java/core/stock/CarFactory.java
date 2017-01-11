@@ -39,18 +39,18 @@ public final class CarFactory implements CarProperties {
 
         this.validator = validator;
         carId = 0;
-        make = "Mercedes Benz";
-        model = "S600";
+        make = "";
+        model = "";
         year = LocalDateTime.now().getYear();
-        color = "Black";
-        fuelType = new CarMetadata(1, "Petrol");
-        bodyStyle = new CarMetadata(1, "Sedan");
-        transmission = new CarMetadata(1, "Automatic");
+        color = "";
+        fuelType = null;
+        bodyStyle = null;
+        transmission = null;
         features = new ArrayList<>();
         mileage = 0;
         condition = new NewCar();
-        numberOfSeats = 4;
-        price = new BigDecimal(500000);
+        numberOfSeats = 0;
+        price = new BigDecimal(0);
     }
 
     public CarFactory(CarProperties car, Validator<CarProperties> validator) {

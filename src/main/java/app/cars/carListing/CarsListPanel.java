@@ -34,21 +34,22 @@ public final class CarsListPanel extends JPanel implements IRaiseEvents<CarListe
         tableModel = new CarTableModel();
         carsTable = new JTable(tableModel);
         add(new JScrollPane(carsTable), BorderLayout.CENTER);
-        popup = new JPopupMenu();
-
-        this.configurePopupMenu();
+        popup = this.configurePopupMenu();
         this.refresh();
     }
 
     public void refresh() {
         // TODO: load this using multi-threading
         this.tableModel.setData(carStock.getAvailableCars());
-        // TODO: refresh the GRIDVIEW, for some reason it doesnt work!?
+        this.tableModel.fireTableDataChanged();
     }
 
-    private void configurePopupMenu() {
-        JMenuItem removeItem = new JMenuItem("Delete car ...");
-        popup.add(removeItem);
+    private JPopupMenu configurePopupMenu() {
+        JPopupMenu menu = new JPopupMenu();
+        JMenuItem addCarMenu = new JMenuItem("Add car ...");
+        JMenuItem removeCarMenu = new JMenuItem("Delete car ...");
+        menu.add(addCarMenu);
+        menu.add(removeCarMenu);
 
         carsTable.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
@@ -56,7 +57,7 @@ public final class CarsListPanel extends JPanel implements IRaiseEvents<CarListe
                 selectCarByRowIndex(e.getSource(), row);
 
                 if (e.getButton() == MouseEvent.BUTTON3) {
-                    popup.show(carsTable, e.getX(), e.getY());
+                    menu.show(carsTable, e.getX(), e.getY());
                 }
             }
         });
@@ -71,7 +72,13 @@ public final class CarsListPanel extends JPanel implements IRaiseEvents<CarListe
             }
         });
 
-        removeItem.addActionListener(new ActionListener() {
+        addCarMenu.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                listeners.notifyListeners(l -> l.carCreationRequested());
+            }
+        });
+
+        removeCarMenu.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 int row = carsTable.getSelectedRow();
                 if (row > -1) {
@@ -80,6 +87,8 @@ public final class CarsListPanel extends JPanel implements IRaiseEvents<CarListe
                 }
             }
         });
+
+        return menu;
     }
 
     private void selectCarByRowIndex(Object source, int rowIndex) {
@@ -99,7 +108,7 @@ public final class CarsListPanel extends JPanel implements IRaiseEvents<CarListe
     private void askUserToDeleteCar(ActionEvent arg0, int row, Car car) {
         int action = JOptionPane.showConfirmDialog(CarsListPanel.this,
                 String.format("Do you really want to delete '%s %s' ?", car.getMake(), car.getModel()),
-                "Confirm Exit", JOptionPane.YES_NO_OPTION);
+                "Confirm car deletion", JOptionPane.YES_NO_OPTION);
 
         // TODO: consider messaging between components, currently we need to inform other components that the CAR has been deleted
         if (action == JOptionPane.YES_OPTION) {
