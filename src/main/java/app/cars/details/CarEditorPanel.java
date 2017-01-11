@@ -209,12 +209,9 @@ public final class CarEditorPanel extends JPanel implements
     }
 
     private void setDefaultValuesForNewCar() {
-        this.fuelTypeCombo.setSelectedIndex(0);
-        this.bodyStyleCombo.setSelectedIndex(0);
-        this.transmissionCombo.setSelectedIndex(0);
-        carFactory.setFuelType((CarMetadata) this.fuelTypeCombo.getSelectedItem());
-        carFactory.setBodyStyle((CarMetadata) this.bodyStyleCombo.getSelectedItem());
-        carFactory.setTransmission((CarMetadata) this.transmissionCombo.getSelectedItem());
+        carFactory.setFuelType((CarMetadata) this.fuelTypeCombo.getItemAt(0));
+        carFactory.setBodyStyle((CarMetadata) this.bodyStyleCombo.getItemAt(0));
+        carFactory.setTransmission((CarMetadata) this.transmissionCombo.getItemAt(0));
     }
 
     public void editCar(int carId) {
