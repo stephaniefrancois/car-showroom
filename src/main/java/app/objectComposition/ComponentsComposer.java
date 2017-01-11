@@ -9,8 +9,8 @@ import core.stock.validation.InMemoryCarValidationRulesProvider;
 import core.stock.validation.RuleBasedCarValidator;
 import core.validation.RuleBasedValidator;
 import core.validation.ValidationRulesProvider;
-import dataAccessLayer.CarRepository;
-import dataAccessLayer.InMemoryCarRepository;
+import data.CarRepository;
+import data.InMemoryCarRepository;
 
 public final class ComponentsComposer {
 

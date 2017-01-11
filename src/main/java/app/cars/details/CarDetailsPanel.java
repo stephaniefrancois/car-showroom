@@ -4,55 +4,56 @@ import app.cars.CarEventArgs;
 import app.cars.carListing.CarListener;
 import app.styles.BorderStyles;
 import app.styles.ComponentSizes;
+import common.EventProducersAggregate;
 import common.IRaiseEvents;
+import javafx.util.Pair;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public final class CarDetailsPanel extends JPanel
         implements CarListener, CarDetailsListener, IRaiseEvents<CarDetailsListener> {
 
     private final CardLayout contentPresenter;
-    private Map<String, JPanel> cards;
+    private final Pair<String, CarEditorPanel> carEditorView = new Pair<>(CarEditorPanel.class.getName(), new CarEditorPanel());
+    private final Pair<String, NoCarSelectedPanel> noCarSelectedView = new Pair<>(NoCarSelectedPanel.class.getName(), new NoCarSelectedPanel());
+    private final Pair<String, PreviewSelectedCarPanel> previewCarView = new Pair<>(PreviewSelectedCarPanel.class.getName(), new PreviewSelectedCarPanel());
+    private final EventProducersAggregate<CarDetailsListener> eventProducers;
 
     public CarDetailsPanel() {
         setMinimumSize(ComponentSizes.MINIMUM_CAR_DETAILS_PANEL_SIZE);
         setBorder(BorderStyles.getTitleBorder("Car details:"));
         contentPresenter = new CardLayout();
         setLayout(contentPresenter);
-        cards = configureContentPages();
-        cards.forEach((key, panel) -> {
-            add(panel, key);
-        });
-        noCarSelected();
+
+        add(carEditorView.getValue(), carEditorView.getKey());
+        add(noCarSelectedView.getValue(), noCarSelectedView.getKey());
+        add(previewCarView.getValue(), previewCarView.getKey());
+
+        navigateToNoCarSelected();
+
+        carEditorView.getValue().addListener(this);
+        previewCarView.getValue().addListener(this);
+
+        eventProducers = new EventProducersAggregate<>(Arrays.asList(
+                this.carEditorView.getValue(),
+                this.previewCarView.getValue()
+        ));
     }
 
-    private Map<String, JPanel> configureContentPages() {
-        Map<String, JPanel> cards = new HashMap<>();
-        cards.put(CarEditorPanel.class.getName(), new CarEditorPanel());
-        cards.put(NoCarSelectedPanel.class.getName(), new NoCarSelectedPanel());
-        cards.put(PreviewSelectedCarPanel.class.getName(), new PreviewSelectedCarPanel());
-        return cards;
-    }
-
-    public void noCarSelected() {
-        contentPresenter.show(this, NoCarSelectedPanel.class.getName());
+    public void navigateToNoCarSelected() {
+        contentPresenter.show(this, this.noCarSelectedView.getKey());
     }
 
     public void previewSelectedCar(int carId) {
-        String key = PreviewSelectedCarPanel.class.getName();
-        PreviewSelectedCarPanel previewPanel = (PreviewSelectedCarPanel) cards.get(key);
-        previewPanel.previewCar(carId);
-        contentPresenter.show(this, key);
+        this.previewCarView.getValue().previewCar(carId);
+        contentPresenter.show(this, this.previewCarView.getKey());
     }
 
     @Override
     public void carDeleted(CarEventArgs e) {
-        this.noCarSelected();
+        this.navigateToNoCarSelected();
     }
 
     @Override
@@ -62,21 +63,19 @@ public final class CarDetailsPanel extends JPanel
 
     @Override
     public void carEditRequested(CarEventArgs e) {
-        String key = CarEditorPanel.class.getName();
-        CarEditorPanel editor = (CarEditorPanel) cards.get(key);
-        editor.editCar(e.getCarId());
-        contentPresenter.show(this, key);
+        this.carEditorView.getValue().editCar(e.getCarId());
+        contentPresenter.show(this, this.carEditorView.getKey());
     }
 
     @Override
-    public void carModified(CarEventArgs e) {
+    public void carSaved(CarEventArgs e) {
         this.previewSelectedCar(e.getCarId());
     }
 
     @Override
     public void carEditCancelled(CarEventArgs e) {
         if (e.getCarId() == 0) {
-            this.noCarSelected();
+            this.navigateToNoCarSelected();
         } else {
             this.previewSelectedCar(e.getCarId());
         }
@@ -84,20 +83,11 @@ public final class CarDetailsPanel extends JPanel
 
     @Override
     public void addListener(CarDetailsListener listenerToAdd) {
-        List<IRaiseEvents<CarDetailsListener>> eventProducers = this.getEventProducers();
-        eventProducers.forEach(p -> p.addListener(listenerToAdd));
+        this.eventProducers.addListener(listenerToAdd);
     }
 
     @Override
     public void removeListener(CarDetailsListener listenerToRemove) {
-        List<IRaiseEvents<CarDetailsListener>> eventProducers = this.getEventProducers();
-        eventProducers.forEach(p -> p.removeListener(listenerToRemove));
-    }
-
-    private List<IRaiseEvents<CarDetailsListener>> getEventProducers() {
-        return Arrays.asList(
-                (IRaiseEvents<CarDetailsListener>) cards.get(CarEditorPanel.class.getName()),
-                (IRaiseEvents<CarDetailsListener>) cards.get(PreviewSelectedCarPanel.class.getName())
-        );
+        this.eventProducers.removeListener(listenerToRemove);
     }
 }

@@ -1,4 +1,4 @@
-package dataAccessLayer;
+package data;
 
 import core.domain.car.*;
 

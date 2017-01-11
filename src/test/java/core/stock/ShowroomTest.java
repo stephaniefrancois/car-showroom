@@ -4,7 +4,7 @@ import com.sun.javaws.exceptions.InvalidArgumentException;
 import core.domain.car.Car;
 import core.domain.car.CarDetails;
 import core.domain.car.UnableToUpdateCarException;
-import dataAccessLayer.CarRepository;
+import data.CarRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import testing.helpers.TestData.Cars;

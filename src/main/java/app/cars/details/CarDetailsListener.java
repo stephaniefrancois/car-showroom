@@ -7,7 +7,7 @@ import java.util.EventListener;
 public interface CarDetailsListener extends EventListener {
     void carEditRequested(CarEventArgs e);
 
-    void carModified(CarEventArgs e);
+    void carSaved(CarEventArgs e);
 
     void carEditCancelled(CarEventArgs e);
 }

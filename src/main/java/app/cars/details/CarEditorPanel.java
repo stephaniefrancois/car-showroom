@@ -17,7 +17,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public final class CarEditorPanel extends JPanel implements IRaiseEvents<CarDetailsListener> {
+public final class CarEditorPanel extends JPanel implements
+        IRaiseEvents<CarDetailsListener> {
     private final GridBagConstraints formGridConfig;
     private final JTextField makeField;
     private final JTextField modelField;
@@ -155,7 +156,7 @@ public final class CarEditorPanel extends JPanel implements IRaiseEvents<CarDeta
                 carStock.updateCar(car);
             }
             CarEventArgs args = new CarEventArgs(e.getSource(), carFactory.getCarId());
-            listeners.notifyListeners(l -> l.carModified(args));
+            listeners.notifyListeners(l -> l.carSaved(args));
         } catch (Exception ex) {
             ex.printStackTrace(); // TODO: log error regarding car validation
         }

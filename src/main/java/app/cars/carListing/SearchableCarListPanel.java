@@ -1,12 +1,16 @@
 package app.cars.carListing;
 
+import app.cars.CarEventArgs;
+import app.cars.details.CarDetailsListener;
 import app.cars.search.SearchPanel;
 import common.IRaiseEvents;
 
 import javax.swing.*;
 import java.awt.*;
 
-public final class SearchableCarListPanel extends JPanel implements IRaiseEvents<CarListener> {
+public final class SearchableCarListPanel extends JPanel implements
+        CarDetailsListener,
+        IRaiseEvents<CarListener> {
     private final SearchPanel searchPanel;
     private final CarsListPanel carsList;
 
@@ -28,5 +32,20 @@ public final class SearchableCarListPanel extends JPanel implements IRaiseEvents
     @Override
     public void removeListener(CarListener listenerToRemove) {
         carsList.removeListener(listenerToRemove);
+    }
+
+    @Override
+    public void carEditRequested(CarEventArgs e) {
+
+    }
+
+    @Override
+    public void carSaved(CarEventArgs e) {
+
+    }
+
+    @Override
+    public void carEditCancelled(CarEventArgs e) {
+
     }
 }

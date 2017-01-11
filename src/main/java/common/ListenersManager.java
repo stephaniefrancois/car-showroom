@@ -1,9 +1,11 @@
 package common;
 
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.function.Consumer;
 
-public final class ListenersManager<TListener> implements IRaiseEvents<TListener> {
+public final class ListenersManager<TListener extends EventListener>
+        implements IRaiseEvents<TListener> {
 
     private final java.util.List<TListener> listeners;
 

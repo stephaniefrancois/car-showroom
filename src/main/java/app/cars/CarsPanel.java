@@ -20,8 +20,6 @@ public final class CarsPanel extends JPanel {
         add(this.carDetails, BorderLayout.EAST);
 
         this.searchableCars.addListener(this.carDetails);
-        // TODO: so that the list would refresh its cars!
-        this.carDetails.addListener(this.carDetails);
-        //this.carDetails.addListener(this.searchableCars);
+        this.carDetails.addListener(this.searchableCars);
     }
 }

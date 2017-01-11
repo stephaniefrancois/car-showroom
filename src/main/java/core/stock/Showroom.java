@@ -3,7 +3,7 @@ package core.stock;
 import core.domain.car.Car;
 import core.domain.car.CarProperties;
 import core.domain.car.UnableToUpdateCarException;
-import dataAccessLayer.CarRepository;
+import data.CarRepository;
 
 import java.util.List;
 import java.util.Objects;

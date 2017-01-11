@@ -5,6 +5,7 @@ import app.cars.details.features.CarFeaturesPanel;
 import app.objectComposition.ServiceLocator;
 import app.styles.LabelStyles;
 import common.IRaiseEvents;
+import common.ListenersManager;
 import core.domain.car.CarProperties;
 import core.stock.CarStock;
 
@@ -12,8 +13,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
 public class PreviewSelectedCarPanel extends JPanel implements IRaiseEvents<CarDetailsListener> {
 
@@ -32,7 +31,7 @@ public class PreviewSelectedCarPanel extends JPanel implements IRaiseEvents<CarD
     private final CarFeaturesPanel carFeaturesPanel;
 
     private final JButton editCarBtn;
-    private final List<CarDetailsListener> listeners;
+    private final ListenersManager<CarDetailsListener> listeners;
     private final CarStock carStock;
     private CarProperties car;
 
@@ -40,7 +39,7 @@ public class PreviewSelectedCarPanel extends JPanel implements IRaiseEvents<CarD
         setLayout(new GridBagLayout());
 
         this.car = null;
-        this.listeners = new ArrayList<>();
+        this.listeners = new ListenersManager<>();
         this.carStock = ServiceLocator.getComposer().getCarStockService();
 
 
@@ -89,7 +88,11 @@ public class PreviewSelectedCarPanel extends JPanel implements IRaiseEvents<CarD
         editCarBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                notifyListenersAboutCarEditRequest(e.getSource());
+                if (car == null) {
+                    return;
+                }
+                CarEventArgs event = new CarEventArgs(e.getSource(), car.getCarId());
+                listeners.notifyListeners(l -> l.carEditRequested(event));
             }
         });
     }
@@ -161,27 +164,11 @@ public class PreviewSelectedCarPanel extends JPanel implements IRaiseEvents<CarD
 
     @Override
     public void addListener(CarDetailsListener listenerToAdd) {
-        if (!listeners.contains(listenerToAdd)) {
-            listeners.add(listenerToAdd);
-        }
+        this.listeners.addListener(listenerToAdd);
     }
 
     @Override
     public void removeListener(CarDetailsListener listenerToRemove) {
-        if (listeners.contains(listenerToRemove)) {
-            listeners.remove(listenerToRemove);
-        }
-    }
-
-
-    private void notifyListenersAboutCarEditRequest(Object source) {
-        if (this.car == null) {
-            return;
-        }
-
-        if (listeners.size() > 0) {
-            CarEventArgs event = new CarEventArgs(source, this.car.getCarId());
-            listeners.forEach(listener -> listener.carEditRequested(event));
-        }
+        this.listeners.removeListener(listenerToRemove);
     }
 }
