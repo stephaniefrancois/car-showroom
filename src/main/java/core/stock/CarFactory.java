@@ -1,7 +1,10 @@
 package core.stock;
 
 import com.sun.javaws.exceptions.InvalidArgumentException;
-import core.domain.car.*;
+import core.domain.car.CarDetails;
+import core.domain.car.CarFeature;
+import core.domain.car.CarProperties;
+import core.domain.car.Condition;
 import core.domain.car.conditions.NewCar;
 import core.domain.validation.ValidationException;
 import core.domain.validation.ValidationSummary;
@@ -23,9 +26,9 @@ public final class CarFactory implements CarProperties {
     private String model;
     private Integer year;
     private String color;
-    private FuelType fuelType;
-    private BodyStyle bodyStyle;
-    private Transmission transmission;
+    private String fuelType;
+    private String bodyStyle;
+    private String transmission;
     private List<CarFeature> features;
     private Integer mileage;
     private Condition condition;
@@ -43,9 +46,9 @@ public final class CarFactory implements CarProperties {
         model = "S600";
         year = LocalDateTime.now().getYear();
         color = "Black";
-        fuelType = new FuelType("Petrol");
-        bodyStyle = new BodyStyle("Sedan");
-        transmission = new Transmission("Automatic");
+        fuelType = new String("Petrol");
+        bodyStyle = new String("Sedan");
+        transmission = new String("Automatic");
         features = new ArrayList<>();
         mileage = 0;
         condition = new NewCar();
@@ -111,30 +114,26 @@ public final class CarFactory implements CarProperties {
     }
 
     @Override
-    public FuelType getFuelType() {
+    public String getFuelType() {
         return fuelType;
     }
 
-    public void setFuelType(FuelType fuelType) {
+    public void setFuelType(String fuelType) {
         this.fuelType = fuelType;
     }
 
     @Override
-    public Transmission getTransmission() {
+    public String getTransmission() {
         return transmission;
     }
 
-    public void setTransmission(Transmission transmission) {
+    public void setTransmission(String transmission) {
         this.transmission = transmission;
     }
 
     @Override
     public Condition getCondition() {
         return condition;
-    }
-
-    public void setCondition(Condition condition) {
-        this.condition = condition;
     }
 
     @Override
@@ -161,11 +160,11 @@ public final class CarFactory implements CarProperties {
     }
 
     @Override
-    public BodyStyle getBodyStyle() {
+    public String getBodyStyle() {
         return bodyStyle;
     }
 
-    public void setBodyStyle(BodyStyle bodyStyle) {
+    public void setBodyStyle(String bodyStyle) {
         this.bodyStyle = bodyStyle;
     }
 

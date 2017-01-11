@@ -1,6 +1,9 @@
 package data;
 
-import core.domain.car.*;
+import core.domain.car.Car;
+import core.domain.car.CarDetails;
+import core.domain.car.CarFeature;
+import core.domain.car.CarProperties;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -15,9 +18,9 @@ public final class InMemoryCarRepository implements CarRepository {
             new CarDetails(1, "Mercedes Benz", "S600",
                     2017,
                     "Black",
-                    new FuelType("Petrol"),
-                    new BodyStyle("Sedan"),
-                    new Transmission("Automatic"),
+                    "Petrol",
+                    "Sedan",
+                    "Automatic",
                     4,
                     new BigDecimal(500000),
                     Arrays.asList(new CarFeature("Luxury Seats"),
@@ -28,9 +31,9 @@ public final class InMemoryCarRepository implements CarRepository {
             new CarDetails(2, "Bentley", "Continetal GT",
                     2017,
                     "Gray",
-                    new FuelType("Petrol"),
-                    new BodyStyle("Coupe"),
-                    new Transmission("Automatic"),
+                    "Petrol",
+                    "Coupe",
+                    "Automatic",
                     4,
                     new BigDecimal(500000),
                     Arrays.asList(new CarFeature("Luxury Seats"))
@@ -38,9 +41,9 @@ public final class InMemoryCarRepository implements CarRepository {
             new CarDetails(3, "BMW", "760Li",
                     2017,
                     "Electric Blue",
-                    new FuelType("Petrol"),
-                    new BodyStyle("Sedan"),
-                    new Transmission("Automatic"),
+                    "Petrol",
+                    "Sedan",
+                    "Automatic",
                     4,
                     new BigDecimal(450000),
                     Arrays.asList(new CarFeature("Luxury Seats"))
@@ -48,9 +51,9 @@ public final class InMemoryCarRepository implements CarRepository {
             new CarDetails(4, "Audi", "80",
                     1980,
                     "Red",
-                    new FuelType("Petrol"),
-                    new BodyStyle("Sedan"),
-                    new Transmission("Manual"),
+                    "Petrol",
+                    "Sedan",
+                    "Manual",
                     4,
                     new BigDecimal(1000),
                     1000000,

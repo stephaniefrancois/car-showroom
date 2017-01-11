@@ -9,8 +9,8 @@ public class CarDescription implements Car {
     private final String make;
     private final String model;
     private final int year;
-    private final FuelType fuelType;
-    private final Transmission transmission;
+    private final String fuelType;
+    private final String transmission;
     private final Condition condition;
     private final BigDecimal price;
 
@@ -18,8 +18,8 @@ public class CarDescription implements Car {
                           String make,
                           String model,
                           int year,
-                          FuelType fuelType,
-                          Transmission transmission,
+                          String fuelType,
+                          String transmission,
                           Condition condition,
                           BigDecimal price) {
         this.carId = carId;
@@ -53,12 +53,12 @@ public class CarDescription implements Car {
     }
 
     @Override
-    public FuelType getFuelType() {
+    public String getFuelType() {
         return fuelType;
     }
 
     @Override
-    public Transmission getTransmission() {
+    public String getTransmission() {
         return transmission;
     }
 

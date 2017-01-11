@@ -1,7 +1,9 @@
 package testing.helpers;
 
 import core.domain.UserProfile;
-import core.domain.car.*;
+import core.domain.car.CarDetails;
+import core.domain.car.CarFeature;
+import core.domain.car.CarProperties;
 import core.domain.deal.*;
 
 import java.math.BigDecimal;
@@ -17,9 +19,9 @@ public final class TestData {
                     "S600",
                     2017,
                     "Black",
-                    new FuelType("Petrol"),
-                    new BodyStyle("Sedan"),
-                    new Transmission("Automatic"),
+                    "Petrol",
+                    "Sedan",
+                    "Automatic",
                     4,
                     new BigDecimal(500000),
                     100,
@@ -33,9 +35,9 @@ public final class TestData {
                     "S600",
                     2017,
                     "Black",
-                    new FuelType("Petrol"),
-                    new BodyStyle("Sedan"),
-                    new Transmission("Automatic"),
+                    "Petrol",
+                    "Sedan",
+                    "Automatic",
                     4,
                     new BigDecimal(500000),
                     100,
@@ -50,9 +52,9 @@ public final class TestData {
                     "S600",
                     2017,
                     "Black",
-                    new FuelType("Petrol"),
-                    new BodyStyle("Sedan"),
-                    new Transmission("Automatic"),
+                    "Petrol",
+                    "Sedan",
+                    "Automatic",
                     4,
                     new BigDecimal(500000),
                     100,

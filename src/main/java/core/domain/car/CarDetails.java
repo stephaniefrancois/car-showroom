@@ -12,9 +12,9 @@ public final class CarDetails implements CarProperties {
     private final String model;
     private final Integer year;
     private final String color;
-    private final FuelType fuelType;
-    private final BodyStyle bodyStyle;
-    private final Transmission transmission;
+    private final String fuelType;
+    private final String bodyStyle;
+    private final String transmission;
     private final List<CarFeature> features;
     private final Integer mileage;
     private final Condition condition;
@@ -25,9 +25,9 @@ public final class CarDetails implements CarProperties {
                       String model,
                       Integer year,
                       String color,
-                      FuelType fuelType,
-                      BodyStyle bodyStyle,
-                      Transmission transmission,
+                      String fuelType,
+                      String bodyStyle,
+                      String transmission,
                       int numberOfSeats,
                       BigDecimal price,
                       List<CarFeature> features) {
@@ -40,9 +40,9 @@ public final class CarDetails implements CarProperties {
                       String model,
                       Integer year,
                       String color,
-                      FuelType fuelType,
-                      BodyStyle bodyStyle,
-                      Transmission transmission,
+                      String fuelType,
+                      String bodyStyle,
+                      String transmission,
                       int numberOfSeats,
                       BigDecimal price,
                       int mileage,
@@ -57,9 +57,9 @@ public final class CarDetails implements CarProperties {
                       String model,
                       Integer year,
                       String color,
-                      FuelType fuelType,
-                      BodyStyle bodyStyle,
-                      Transmission transmission,
+                      String fuelType,
+                      String bodyStyle,
+                      String transmission,
                       int numberOfSeats,
                       BigDecimal price,
                       List<CarFeature> features) {
@@ -73,9 +73,9 @@ public final class CarDetails implements CarProperties {
                       String model,
                       Integer year,
                       String color,
-                      FuelType fuelType,
-                      BodyStyle bodyStyle,
-                      Transmission transmission,
+                      String fuelType,
+                      String bodyStyle,
+                      String transmission,
                       int numberOfSeats,
                       BigDecimal price,
                       int mileage,
@@ -124,16 +124,16 @@ public final class CarDetails implements CarProperties {
     }
 
     @Override
-    public FuelType getFuelType() {
+    public String getFuelType() {
         return fuelType;
     }
 
-    public BodyStyle getBodyStyle() {
+    public String getBodyStyle() {
         return bodyStyle;
     }
 
     @Override
-    public Transmission getTransmission() {
+    public String getTransmission() {
         return transmission;
     }
 
