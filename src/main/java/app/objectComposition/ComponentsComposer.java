@@ -8,6 +8,8 @@ import core.stock.Showroom;
 import core.stock.validation.InMemoryCarValidationRulesProvider;
 import core.stock.validation.RuleBasedCarValidator;
 import core.validation.RuleBasedValidator;
+import core.validation.TreeLikeValidationErrorsFormatter;
+import core.validation.ValidationErrorsFormatter;
 import core.validation.ValidationRulesProvider;
 import data.CarMetadataRepository;
 import data.CarRepository;
@@ -49,5 +51,9 @@ public final class ComponentsComposer {
 
     public CarMetadataRepository getCarMetadataRepository() {
         return new InMemoryCarMetadataRepository();
+    }
+
+    public ValidationErrorsFormatter getValidationErrorsFormatter() {
+        return new TreeLikeValidationErrorsFormatter();
     }
 }

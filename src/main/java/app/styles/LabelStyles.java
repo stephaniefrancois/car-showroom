@@ -15,4 +15,8 @@ public class LabelStyles {
         float fontSize = defaultFont.getSize() * 1.2f;
         return defaultFont.deriveFont(fontSize);
     }
+
+    public static Color getBackgroudColorForFieldLabel() {
+        return new JLabel().getBackground();
+    }
 }

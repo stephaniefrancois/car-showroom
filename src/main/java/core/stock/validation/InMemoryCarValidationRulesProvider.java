@@ -48,10 +48,6 @@ public final class InMemoryCarValidationRulesProvider
         addRule(RuleFor.minValue(minimumPrice, "Price", Car::getPrice));
         addRule(RuleFor.maxValue(maximumPrice, "Price", Car::getPrice));
 
-        addRule(RuleFor.mandatory("Price", Car::getPrice));
-        addRule(RuleFor.minValue(minimumPrice, "Price", Car::getPrice));
-        addRule(RuleFor.maxValue(maximumPrice, "Price", Car::getPrice));
-
         addRule(RuleFor.minValue(minimumMileage, "Mileage", CarProperties::getMileage));
         addRule(RuleFor.maxValue(maximumMileage, "Mileage", CarProperties::getMileage));
 
