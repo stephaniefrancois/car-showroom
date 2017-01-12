@@ -1,5 +1,6 @@
 package app.cars.details;
 
+import app.common.ValidateableFieldDescriptor;
 import app.objectComposition.ServiceLocator;
 import app.styles.ComponentSizes;
 import app.styles.LabelStyles;
@@ -12,7 +13,9 @@ import data.CarMetadataRepository;
 import javax.swing.*;
 import java.awt.*;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public final class CarEditorInputsPanel extends JPanel {
@@ -31,10 +34,13 @@ public final class CarEditorInputsPanel extends JPanel {
 
     private final CarMetadataRepository carMetadata;
 
+    private Map<String, ValidateableFieldDescriptor> fieldsMap;
+
     public CarEditorInputsPanel() {
         setLayout(new GridBagLayout());
 
         this.carMetadata = ServiceLocator.getComposer().getCarMetadataRepository();
+        this.fieldsMap = new HashMap<>();
         formGridConfig = new GridBagConstraints();
         formGridConfig.fill = GridBagConstraints.NONE;
 
@@ -49,16 +55,16 @@ public final class CarEditorInputsPanel extends JPanel {
         colorField = new JTextField(ComponentSizes.INPUT_COLUMNS_COUNT);
         mileageField = new JTextField(ComponentSizes.INPUT_COLUMNS_COUNT);
 
-        addControlWithLabel(makeField, "Make:", 0, 0);
-        addControlWithLabel(modelField, "Model:", 1, 0);
-        addControlWithLabel(yearField, "Year:", 2, 0);
-        addControlWithLabel(colorField, "Color:", 3, 0);
-        addControlWithLabel(fuelTypeCombo, "Fuel Type:", 4, 0);
-        addControlWithLabel(bodyStyleCombo, "Body Style:", 5, 0);
-        addControlWithLabel(transmissionCombo, "Transmission:", 6, 0);
-        addControlWithLabel(numberOfSeatsField, "Number of seats:", 7, 0);
-        addControlWithLabel(mileageField, "Mileage:", 8, 0);
-        addControlWithLabel(priceField, "Price:", 9, 0);
+        addControlWithLabel(makeField, "Make", 0, 0);
+        addControlWithLabel(modelField, "Model", 1, 0);
+        addControlWithLabel(yearField, "Year", 2, 0);
+        addControlWithLabel(colorField, "Color", 3, 0);
+        addControlWithLabel(fuelTypeCombo, "Fuel Type", 4, 0);
+        addControlWithLabel(bodyStyleCombo, "Body Style", 5, 0);
+        addControlWithLabel(transmissionCombo, "Transmission", 6, 0);
+        addControlWithLabel(numberOfSeatsField, "Number of seats", 7, 0);
+        addControlWithLabel(mileageField, "Mileage", 8, 0);
+        addControlWithLabel(priceField, "Price", 9, 0);
 
         formGridConfig.gridy = 10;
         formGridConfig.weightx = 1;
@@ -70,8 +76,12 @@ public final class CarEditorInputsPanel extends JPanel {
         this.populateCarMetadata();
     }
 
+    public Map<String, ValidateableFieldDescriptor> getFieldsMap() {
+        return fieldsMap;
+    }
+
     private void addControlWithLabel(Component componentToAdd, String label, int rowIndex, int columnIndex) {
-        JLabel componentLabel = new JLabel(label);
+        JLabel componentLabel = new JLabel(String.format("%s:", label));
         componentLabel.setLabelFor(componentToAdd);
         componentLabel.setFont(LabelStyles.getFontForFieldLabel());
         componentToAdd.setFont(LabelStyles.getFontForFieldLabel());
@@ -92,6 +102,7 @@ public final class CarEditorInputsPanel extends JPanel {
         formGridConfig.insets = new Insets(5, 0, 5, 0);
         formGridConfig.anchor = GridBagConstraints.LINE_START;
         add(componentToAdd, formGridConfig);
+        this.fieldsMap.put(label, new ValidateableFieldDescriptor(componentLabel, componentToAdd));
     }
 
     private void populateCarMetadata() {

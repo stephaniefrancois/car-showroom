@@ -1,6 +1,7 @@
 package app.cars.details;
 
 import app.cars.CarEventArgs;
+import app.common.ValidationSummaryPanel;
 import app.objectComposition.ServiceLocator;
 import common.IRaiseEvents;
 import common.ListenersManager;
@@ -78,7 +79,9 @@ public final class CarEditorPanel extends JPanel implements
         this.carFactory = this.inputsPanel.mapFormValuesToCarFactory(this.carFactory);
 
         ValidationSummary validationSummary = carFactory.validate();
-        this.validationMessagesPanel.displayValidationResults(validationSummary);
+        this.validationMessagesPanel
+                .displayValidationResults(validationSummary,
+                        this.inputsPanel.getFieldsMap());
 
         if (validationSummary.getIsValid() == false) {
             System.err.println(String.format("Car with ID: '%d' is NOT valid!", carFactory.getCarId())); // TODO: log this

@@ -19,4 +19,12 @@ public class LabelStyles {
     public static Color getBackgroudColorForFieldLabel() {
         return new JLabel().getBackground();
     }
+
+    public static Color getForegroundColorForInvalidFieldLabel() {
+        return Color.red;
+    }
+
+    public static Color getForegroundColorForInvalidField() {
+        return Color.red;
+    }
 }
