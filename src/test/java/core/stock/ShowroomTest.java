@@ -152,7 +152,7 @@ public final class ShowroomTest {
         List<Car> cars = Arrays.asList(Cars.getCar());
         CarRepository carRepositoryMock = Mockito.mock(CarRepository.class);
         Showroom sut = new Showroom(carRepositoryMock);
-        when(carRepositoryMock.find(searchCriteria)).thenReturn(cars);
+        when(carRepositoryMock.findCars(searchCriteria)).thenReturn(cars);
 
         // When
         List<Car> result = sut.find(searchCriteria);

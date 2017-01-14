@@ -132,7 +132,7 @@ public final class InMemoryCarRepository implements CarRepository {
     }
 
     @Override
-    public List<Car> find(String searchCriteria) {
+    public List<Car> findCars(String searchCriteria) {
         return this.cars.stream()
                 .filter(c -> c.getMake().toLowerCase().contains(searchCriteria.toLowerCase()) ||
                         c.getModel().toLowerCase().contains(searchCriteria.toLowerCase()))

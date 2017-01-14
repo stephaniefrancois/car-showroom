@@ -59,6 +59,6 @@ public final class Showroom implements CarStock {
 
     @Override
     public List<Car> find(String searchCriteria) {
-        return this.carRepository.find(searchCriteria);
+        return this.carRepository.findCars(searchCriteria);
     }
 }

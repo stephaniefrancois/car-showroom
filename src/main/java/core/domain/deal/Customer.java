@@ -2,36 +2,52 @@ package core.domain.deal;
 
 import java.time.LocalDate;
 
-public final class Customer {
+public final class Customer implements CustomerProperties {
+    private final int customerId;
     private final String firstName;
     private final String lastName;
-    private final LocalDate dateOfBirth;
+    private final String city;
     private final LocalDate customerSince;
 
-    public Customer(String firstName,
+    public Customer(int customerId,
+                    String firstName,
                     String lastName,
-                    LocalDate dateOfBirth,
+                    String city,
                     LocalDate customerSince) {
-
+        this.customerId = customerId;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.dateOfBirth = dateOfBirth;
+        this.city = city;
         this.customerSince = customerSince;
     }
 
-    public LocalDate getCustomerSince() {
-        return customerSince;
+    public Customer(String firstName,
+                    String lastName,
+                    String city) {
+        this(0, firstName, lastName, city, LocalDate.now());
     }
 
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
+    public int getCustomerId() {
+        return customerId;
     }
 
+    @Override
     public String getLastName() {
         return lastName;
     }
 
+    @Override
     public String getFirstName() {
         return firstName;
+    }
+
+    @Override
+    public LocalDate getCustomerSince() {
+        return customerSince;
+    }
+
+    @Override
+    public String getCity() {
+        return city;
     }
 }

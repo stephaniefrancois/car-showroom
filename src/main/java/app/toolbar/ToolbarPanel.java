@@ -60,6 +60,7 @@ public final class ToolbarPanel extends JPanel
     private List<ToolbarItem> getToolbarItems() {
         return Arrays.asList(
                 createMenuItem("ViewCars", "View Cars", ResourceProvider.getCarIcon()),
+                createMenuItem("ViewCustomers", "View Customers", ResourceProvider.getCustomersIcon()),
                 createMenuItem("ViewSales", "View Sales", ResourceProvider.getSalesIcon()),
                 createMenuItem("ViewReports", "View Reports", ResourceProvider.getReportsIcon()),
                 createMenuItem("ViewSettings", "View Settings", ResourceProvider.getSettingsIcon())

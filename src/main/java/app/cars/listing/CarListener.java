@@ -1,4 +1,4 @@
-package app.cars.carListing;
+package app.cars.listing;
 
 import app.cars.CarEventArgs;
 

@@ -1,6 +1,6 @@
 package app.cars;
 
-import app.cars.carListing.SearchableCarListPanel;
+import app.cars.listing.SearchableCarListPanel;
 import app.cars.details.CarDetailsPanel;
 
 import javax.swing.*;

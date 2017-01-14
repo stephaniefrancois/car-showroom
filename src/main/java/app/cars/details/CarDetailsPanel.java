@@ -1,7 +1,7 @@
 package app.cars.details;
 
 import app.cars.CarEventArgs;
-import app.cars.carListing.CarListener;
+import app.cars.listing.CarListener;
 import app.styles.BorderStyles;
 import app.styles.ComponentSizes;
 import common.EventProducersAggregate;
@@ -22,7 +22,7 @@ public final class CarDetailsPanel extends JPanel
     private final EventProducersAggregate<CarDetailsListener> eventProducers;
 
     public CarDetailsPanel() {
-        setMinimumSize(ComponentSizes.MINIMUM_CAR_DETAILS_PANEL_SIZE);
+        setMinimumSize(ComponentSizes.MINIMUM_DETAILS_PANEL_SIZE);
         setBorder(BorderStyles.getTitleBorder("Car details:"));
         contentPresenter = new CardLayout();
         setLayout(contentPresenter);

@@ -21,6 +21,10 @@ public final class ResourceProvider {
         return createIcon(getIconPath("IconDBSetting.jpg"));
     }
 
+    public static ImageIcon getCustomersIcon() {
+        return createIcon(getIconPath("customers.jpg"));
+    }
+
     private static String getIconPath(String fileName) {
         return String.format("/resources/icons/%s", fileName);
     }

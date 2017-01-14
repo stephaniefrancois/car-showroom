@@ -27,6 +27,10 @@ public final class AppFrame extends JFrame {
                     content.navigateToCars();
                     break;
                 }
+                case "ViewCustomers": {
+                    content.navigateToCustomers();
+                    break;
+                }
                 case "ViewSales": {
                     content.navigateToSales();
                     break;
@@ -53,6 +57,8 @@ public final class AppFrame extends JFrame {
         setSize(getMinimumSize());
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
+        pack();
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 }

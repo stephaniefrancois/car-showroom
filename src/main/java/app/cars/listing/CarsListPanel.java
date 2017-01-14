@@ -1,4 +1,4 @@
-package app.cars.carListing;
+package app.cars.listing;
 
 import app.cars.CarEventArgs;
 import app.cars.search.CarSearchEventArgs;
@@ -39,7 +39,7 @@ public final class CarsListPanel extends JPanel implements IRaiseEvents<CarListe
                 .getComposer()
                 .getCarStockService();
 
-        setMinimumSize(ComponentSizes.MINIMUM_CAR_LIST_PANEL_SIZE);
+        setMinimumSize(ComponentSizes.MINIMUM_LIST_PANEL_SIZE);
         contentPresenter = new CardLayout();
         setLayout(contentPresenter);
 
@@ -194,7 +194,6 @@ public final class CarsListPanel extends JPanel implements IRaiseEvents<CarListe
         if (cars.isEmpty()) {
             this.addNewCarButton.setVisible(false);
             this.displayNoCarsFound(String.format("No cars found with search criteria '%s' ...", e.getSearchCriteria()));
-            // TODO: show no cars found panel!
             return;
         }
         this.tableModel.setData(cars);

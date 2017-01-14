@@ -1,4 +1,4 @@
-package app.cars.search;
+package app.customers.search;
 
 import app.common.ValidateAbleFieldDescriptor;
 import app.styles.BorderStyles;
@@ -10,10 +10,10 @@ import common.ListenersManager;
 import javax.swing.*;
 import java.awt.*;
 
-public class SearchPanel extends JPanel implements IRaiseEvents<CarSearchListener> {
+public class SearchPanel extends JPanel implements IRaiseEvents<CustomerSearchListener> {
 
     private static final int MINIMUM_SEARCH_CRITERIA_LENGTH = 2;
-    private final ListenersManager<CarSearchListener> listeners;
+    private final ListenersManager<CustomerSearchListener> listeners;
 
     public SearchPanel() {
         this.listeners = new ListenersManager<>();
@@ -24,7 +24,7 @@ public class SearchPanel extends JPanel implements IRaiseEvents<CarSearchListene
         JLabel searchLabel = new JLabel("Search:");
         JTextField searchInput = new JTextField(20);
         JButton searchButton = new JButton("Search");
-        JButton resetSearchButton = new JButton("Show All Cars");
+        JButton resetSearchButton = new JButton("Show All Customers");
         ValidateAbleFieldDescriptor searchFieldDescriptor = new ValidateAbleFieldDescriptor(searchLabel, searchInput);
 
         add(searchLabel);
@@ -44,8 +44,8 @@ public class SearchPanel extends JPanel implements IRaiseEvents<CarSearchListene
             }
 
             searchFieldDescriptor.markFieldAsValid();
-            CarSearchEventArgs args = new CarSearchEventArgs(e.getSource(), searchCriteria);
-            this.listeners.notifyListeners(l -> l.searchForCars(args));
+            CustomerSearchEventArgs args = new CustomerSearchEventArgs(e.getSource(), searchCriteria);
+            this.listeners.notifyListeners(l -> l.searchForCustomers(args));
             resetSearchButton.setVisible(true);
         });
 
@@ -58,12 +58,12 @@ public class SearchPanel extends JPanel implements IRaiseEvents<CarSearchListene
     }
 
     @Override
-    public void addListener(CarSearchListener listenerToAdd) {
+    public void addListener(CustomerSearchListener listenerToAdd) {
         this.listeners.addListener(listenerToAdd);
     }
 
     @Override
-    public void removeListener(CarSearchListener listenerToRemove) {
+    public void removeListener(CustomerSearchListener listenerToRemove) {
         this.listeners.removeListener(listenerToRemove);
     }
 }

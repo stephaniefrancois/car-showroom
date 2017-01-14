@@ -1,6 +1,7 @@
 package app;
 
 import app.cars.CarsPanel;
+import app.customers.CustomersPanel;
 import app.reports.ReportsPanel;
 import app.sales.SalesPanel;
 import app.settings.SettingsPanel;
@@ -31,6 +32,7 @@ public final class ContentPanel extends JPanel {
     private Map<String, JPanel> configureContentPages() {
         Map<String, JPanel> cards = new HashMap<>();
         cards.put(CarsPanel.class.getName(), new CarsPanel());
+        cards.put(CustomersPanel.class.getName(), new CustomersPanel());
         cards.put(SalesPanel.class.getName(), new SalesPanel());
         cards.put(ReportsPanel.class.getName(), new ReportsPanel());
         cards.put(SettingsPanel.class.getName(), new SettingsPanel());
@@ -40,6 +42,10 @@ public final class ContentPanel extends JPanel {
 
     public void navigateToCars() {
         navigateTo(CarsPanel.class.getName());
+    }
+
+    public void navigateToCustomers() {
+        navigateTo(CustomersPanel.class.getName());
     }
 
     public void navigateToSales() {

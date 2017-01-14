@@ -14,5 +14,5 @@ public interface CarRepository {
 
     void removeCar(int carId);
 
-    List<Car> find(String searchCriteria);
+    List<Car> findCars(String searchCriteria);
 }

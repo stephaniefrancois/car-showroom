@@ -68,8 +68,7 @@ public final class TestData {
             return new Customer(
                     "Stephanie",
                     "Francois",
-                    LocalDate.of(1995, 12, 29),
-                    LocalDate.of(2010, 1, 1));
+                    "Trou aux Biches");
         }
     }
 
