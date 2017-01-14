@@ -3,6 +3,7 @@ package app.common;
 import app.objectComposition.ServiceLocator;
 import app.styles.BorderStyles;
 import app.styles.LabelStyles;
+import core.domain.validation.ValidationError;
 import core.domain.validation.ValidationSummary;
 import core.validation.ValidationErrorsFormatter;
 
@@ -26,6 +27,7 @@ public final class ValidationSummaryPanel extends JPanel {
         this.validationErrorsLabel.setBackground(LabelStyles.getBackgroudColorForFieldLabel());
         this.validationErrorsLabel.setLineWrap(true);
         this.validationErrorsLabel.setBorder(BorderStyles.getContentMargin());
+        this.validationErrorsLabel.setEditable(false);
         add(this.validationErrorsLabel, BorderLayout.CENTER);
     }
 
@@ -50,14 +52,14 @@ public final class ValidationSummaryPanel extends JPanel {
     }
 
     private void resetAllInvalidFields(Map<String, ValidateableFieldDescriptor> fieldsMap) {
-        fieldsMap.values().forEach(d -> d.markFieldAsValid());
+        fieldsMap.values().forEach(ValidateableFieldDescriptor::markFieldAsValid);
     }
 
     private void markInvalidFields(ValidationSummary validationSummary,
                                    Map<String, ValidateableFieldDescriptor> fieldsMap) {
         List<String> invalidFieldsNames = validationSummary
                 .getValidationErrors().stream()
-                .map(e -> e.getFieldName())
+                .map(ValidationError::getFieldName)
                 .collect(Collectors.toList());
 
         for (String invalidFieldName : invalidFieldsNames) {

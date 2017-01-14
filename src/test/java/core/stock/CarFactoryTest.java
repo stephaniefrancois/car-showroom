@@ -20,6 +20,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Matchers.any;
@@ -32,7 +33,7 @@ public final class CarFactoryTest {
     public void GivenCarFactoryWhenUpdatingExistingCarThenAllCarFactoryPropertiesShouldBeSetCorrectly() {
         // Given
         List<CarFeature> features = new ArrayList<>();
-        features.add(new CarFeature("Luxury Massage Seats"));
+        features.add(new CarFeature(1, "Luxury Massage Seats"));
 
         CarDetails car = Cars.getCar(features);
 
@@ -60,7 +61,7 @@ public final class CarFactoryTest {
     @Test
     public void GivenCorrectlySetPropertiesWhenWeBuildCarWeShouldHaveCarPropertiesSet() throws ValidationException, InvalidArgumentException {
         // Given
-        CarFeature luxurySeats = new CarFeature("Luxury Massage Seats");
+        CarFeature luxurySeats = new CarFeature(1, "Luxury Massage Seats");
         BigDecimal price = new BigDecimal(500000);
 
         CarMetadata fuelType = new CarMetadata(1, "Petrol");
@@ -146,13 +147,13 @@ public final class CarFactoryTest {
     }
 
     @Test
-    public void GivenAnyCarWhenAddingFeatureThenWeShouldBeAbleToRetrieveFeature() throws InvalidArgumentException {
+    public void GivenAnyCarWhenAddingFeatureThenWeShouldBeAbleToRetrieveFeature() {
         // Given
         Validator<CarProperties> validatorMock = Mockito.mock(Validator.class);
         CarFactory sut = new CarFactory(validatorMock);
         when(validatorMock.validate(any())).thenReturn(new ValidationSummary());
 
-        CarFeature featureToAdd = new CarFeature("Feature 1");
+        CarFeature featureToAdd = new CarFeature(1, "Feature 1");
 
         // When
         sut.addCarFeature(featureToAdd);
@@ -162,7 +163,7 @@ public final class CarFactoryTest {
     }
 
     @Test
-    public void GivenAnyCarWhenAddingFeatureButPassingNullThenNoFeatureWillBeAdded() throws InvalidArgumentException {
+    public void GivenAnyCarWhenAddingFeatureButPassingNullThenNoFeatureWillBeAdded() {
         // Given
         Validator<CarProperties> validatorMock = Mockito.mock(Validator.class);
         CarFactory sut = new CarFactory(validatorMock);
@@ -170,18 +171,18 @@ public final class CarFactoryTest {
 
         // When
         // Then
-        assertThrows(InvalidArgumentException.class, () -> sut.addCarFeature(null));
+        assertThrows(NullPointerException.class, () -> sut.addCarFeature(null));
     }
 
     @Test
-    public void GivenAnyCarWhenAddingDuplicateFeatureThenOnlySingleInstanceOfFeatureShouldExist() throws InvalidArgumentException {
+    public void GivenAnyCarWhenAddingDuplicateFeatureThenOnlySingleInstanceOfFeatureShouldExist() {
         // Given
         Validator<CarProperties> validatorMock = Mockito.mock(Validator.class);
         CarFactory sut = new CarFactory(validatorMock);
         when(validatorMock.validate(any())).thenReturn(new ValidationSummary());
 
-        CarFeature featureToAdd = new CarFeature("Feature 1");
-        CarFeature featureToAddDuplicate = new CarFeature("Feature 1");
+        CarFeature featureToAdd = new CarFeature(1, "Feature 1");
+        CarFeature featureToAddDuplicate = new CarFeature(1,"Feature 1");
 
         // When
         sut.addCarFeature(featureToAdd);
@@ -192,10 +193,10 @@ public final class CarFactoryTest {
     }
 
     @Test
-    public void GivenAnyCarWhenRemovingFeatureThenFeatureShouldBeRemoved() throws InvalidArgumentException {
+    public void GivenAnyCarWhenRemovingFeatureThenFeatureShouldBeRemoved() {
         // Given
-        CarFeature luxurySeatsFeature = new CarFeature("Luxury Massage Seats");
-        CarFeature cooledChampagne = new CarFeature("Cooled Champagne");
+        CarFeature luxurySeatsFeature = new CarFeature(1,"Luxury Massage Seats");
+        CarFeature cooledChampagne = new CarFeature(1,"Cooled Champagne");
         List<CarFeature> features = new ArrayList<>();
         features.add(luxurySeatsFeature);
         features.add(cooledChampagne);
@@ -217,8 +218,8 @@ public final class CarFactoryTest {
     @Test
     public void GivenAnyCarWhenRemovingFeatureButPassingNullThenNoFeatureWillBeRemoved() {
         // Given
-        CarFeature luxurySeatsFeature = new CarFeature("Luxury Massage Seats");
-        CarFeature cooledChampagne = new CarFeature("Cooled Champagne");
+        CarFeature luxurySeatsFeature = new CarFeature(1,"Luxury Massage Seats");
+        CarFeature cooledChampagne = new CarFeature(1,"Cooled Champagne");
         List<CarFeature> features = new ArrayList<>();
         features.add(luxurySeatsFeature);
         features.add(cooledChampagne);
@@ -231,15 +232,15 @@ public final class CarFactoryTest {
 
         // When
         // Then
-        assertThrows(InvalidArgumentException.class, () -> sut.removeCarFeature(null));
+        assertThrows(NullPointerException.class, () -> sut.removeCarFeature(null));
     }
 
     @Test
-    public void GivenAnyCarWhenRemovingFeatureThatDoesntExistThenNoFeatureWillBeRemoved() throws InvalidArgumentException {
+    public void GivenAnyCarWhenRemovingFeatureThatDoesntExistThenNoFeatureWillBeRemoved() {
         // Given
-        CarFeature luxurySeatsFeature = new CarFeature("Luxury Massage Seats");
-        CarFeature cooledChampagne = new CarFeature("Cooled Champagne");
-        CarFeature manualWindows = new CarFeature("Manual Windows");
+        CarFeature luxurySeatsFeature = new CarFeature(1,"Luxury Massage Seats");
+        CarFeature cooledChampagne = new CarFeature(1,"Cooled Champagne");
+        CarFeature manualWindows = new CarFeature(1,"Manual Windows");
         List<CarFeature> features = new ArrayList<>();
         features.add(luxurySeatsFeature);
         features.add(cooledChampagne);
@@ -255,5 +256,27 @@ public final class CarFactoryTest {
 
         // Then
         assertThat(sut.getFeatures(), hasSize(2));
+    }
+
+    @Test
+    public void GivenCarWithFeaturesWhenRemoveAllFeaturesThenCarShouldHaveNoFeatures() {
+        // Given
+        CarFeature luxurySeatsFeature = new CarFeature(1,"Luxury Massage Seats");
+        CarFeature cooledChampagne = new CarFeature(1,"Cooled Champagne");
+        List<CarFeature> features = new ArrayList<>();
+        features.add(luxurySeatsFeature);
+        features.add(cooledChampagne);
+
+        CarDetails car = Cars.getCar(features);
+
+        Validator<CarProperties> validatorMock = Mockito.mock(Validator.class);
+        CarFactory sut = new CarFactory(car, validatorMock);
+        when(validatorMock.validate(any())).thenReturn(new ValidationSummary());
+
+        // When
+        sut.removeAllFeatures();
+
+        // Then
+        assertThat(sut.getFeatures(), empty());
     }
 }

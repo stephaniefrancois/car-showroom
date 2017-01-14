@@ -17,10 +17,10 @@ public final class InMemoryCarRepository implements CarRepository {
                     new CarMetadata(2, "Automatic"),
                     4,
                     new BigDecimal(500000),
-                    Arrays.asList(new CarFeature("Luxury Seats"),
-                            new CarFeature("Premium Leather"),
-                            new CarFeature("Champagne"),
-                            new CarFeature("W12 Bi-Turbo engine"))
+                    Arrays.asList(new CarFeature(14, "Luxury Seats"),
+                            new CarFeature(15, "Premium Leather"),
+                            new CarFeature(16, "Champagne"),
+                            new CarFeature(17,"W12 Bi-Turbo engine"))
             ),
             new CarDetails(2, "Bentley", "Continetal GT",
                     2017,
@@ -30,7 +30,7 @@ public final class InMemoryCarRepository implements CarRepository {
                     new CarMetadata(2, "Automatic"),
                     4,
                     new BigDecimal(500000),
-                    Arrays.asList(new CarFeature("Luxury Seats"))
+                    Collections.singletonList(new CarFeature(14, "Luxury Seats"))
             ),
             new CarDetails(3, "BMW", "760Li",
                     2017,
@@ -40,7 +40,7 @@ public final class InMemoryCarRepository implements CarRepository {
                     new CarMetadata(2, "Automatic"),
                     4,
                     new BigDecimal(450000),
-                    Arrays.asList(new CarFeature("Luxury Seats"))
+                    Collections.singletonList(new CarFeature(14, "Luxury Seats"))
             ),
             new CarDetails(4, "Audi", "80",
                     1980,
@@ -89,7 +89,7 @@ public final class InMemoryCarRepository implements CarRepository {
         Optional<Integer> highestCarIndex =
                 this.cars
                         .stream()
-                        .map(c -> c.getCarId()).max(Integer::compare);
+                        .map(Car::getCarId).max(Integer::compare);
         int newCarIndex = 1;
 
         if (highestCarIndex.isPresent()) {

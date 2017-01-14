@@ -67,7 +67,7 @@ public final class CarFactory implements CarProperties {
         fuelType = car.getFuelType();
         bodyStyle = car.getBodyStyle();
         transmission = car.getTransmission();
-        features = car.getFeatures();
+        features = new ArrayList<>(car.getFeatures());
         mileage = car.getMileage();
         condition = car.getCondition();
         numberOfSeats = car.getNumberOfSeats();
@@ -207,10 +207,8 @@ public final class CarFactory implements CarProperties {
         return validator.validate(this);
     }
 
-    public void addCarFeature(CarFeature feature) throws InvalidArgumentException {
-        if (feature == null) {
-            throw new InvalidArgumentException(new String[]{"'feature' must be supplied"});
-        }
+    public void addCarFeature(CarFeature feature) {
+        Objects.requireNonNull(feature);
 
         if (duplicateFeature(feature)) {
             return;
@@ -227,10 +225,8 @@ public final class CarFactory implements CarProperties {
                 .count() > 0;
     }
 
-    public void removeCarFeature(CarFeature feature) throws InvalidArgumentException {
-        if (feature == null) {
-            throw new InvalidArgumentException(new String[]{"'feature' must be supplied"});
-        }
+    public void removeCarFeature(CarFeature feature) {
+        Objects.requireNonNull(feature);
 
         List<CarFeature> featuresToRemove = features
                 .stream()
@@ -243,5 +239,9 @@ public final class CarFactory implements CarProperties {
         for (CarFeature featureToRemove : featuresToRemove) {
             features.remove(featureToRemove);
         }
+    }
+
+    public void removeAllFeatures() {
+        this.features.clear();
     }
 }

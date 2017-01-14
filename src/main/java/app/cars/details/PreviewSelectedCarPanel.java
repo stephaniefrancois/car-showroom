@@ -11,8 +11,6 @@ import core.stock.CarStock;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class PreviewSelectedCarPanel extends JPanel implements IRaiseEvents<CarDetailsListener> {
 
@@ -33,6 +31,7 @@ public class PreviewSelectedCarPanel extends JPanel implements IRaiseEvents<CarD
     private final JButton editCarBtn;
     private final ListenersManager<CarDetailsListener> listeners;
     private final CarStock carStock;
+    private final Insets controlsPadding;
     private CarProperties car;
 
     public PreviewSelectedCarPanel() {
@@ -41,7 +40,7 @@ public class PreviewSelectedCarPanel extends JPanel implements IRaiseEvents<CarD
         this.car = null;
         this.listeners = new ListenersManager<>();
         this.carStock = ServiceLocator.getComposer().getCarStockService();
-
+        this.controlsPadding = new Insets(5, 0, 4, 5);
 
         this.formGridConfig = new GridBagConstraints();
         this.formGridConfig.fill = GridBagConstraints.NONE;
@@ -62,18 +61,19 @@ public class PreviewSelectedCarPanel extends JPanel implements IRaiseEvents<CarD
         this.carFeaturesPanel.setBackground(new JLabel().getBackground());
         this.editCarBtn = new JButton("Edit car ...");
 
-        addControlWithLabel(makeValueLabel, "Make:", 0, 0);
-        addControlWithLabel(modelValueLabel, "Model:", 1, 0);
-        addControlWithLabel(yearValueLabel, "Year:", 2, 0);
-        addControlWithLabel(fuelTypeValueLabel, "Fuel Type:", 3, 0);
-        addControlWithLabel(transmissionValueLabel, "Transmission:", 4, 0);
-        addControlWithLabel(conditionValueLabel, "Condition:", 5, 0);
-        addControlWithLabel(colorValueLabel, "Color:", 6, 0);
-        addControlWithLabel(bodyStyleValueLabel, "Body style:", 7, 0);
-        addControlWithLabel(mileageValueLabel, "Mileage:", 8, 0);
-        addControlWithLabel(numberOfSeatsValueLabel, "Number of seats:", 9, 0);
-        addControlWithLabel(priceValueLabel, "Price:", 10, 0);
-        addControlWithLabel(carFeaturesPanel, "Features:", 0, 1, 11);
+        addControlWithLabel(makeValueLabel, "Make:", 0);
+        addControlWithLabel(modelValueLabel, "Model:", 1);
+        addControlWithLabel(yearValueLabel, "Year:", 2);
+        addControlWithLabel(fuelTypeValueLabel, "Fuel Type:", 3);
+        addControlWithLabel(transmissionValueLabel, "Transmission:", 4);
+        addControlWithLabel(conditionValueLabel, "Condition:", 5);
+        addControlWithLabel(colorValueLabel, "Color:", 6);
+        addControlWithLabel(bodyStyleValueLabel, "Body style:", 7);
+        addControlWithLabel(mileageValueLabel, "Mileage:", 8);
+        addControlWithLabel(numberOfSeatsValueLabel, "Number of seats:", 9);
+        addControlWithLabel(priceValueLabel, "Price:", 10);
+        addCarFeaturesLabels(carFeaturesPanel);
+
 
         formGridConfig.gridy = 11;
 
@@ -85,30 +85,25 @@ public class PreviewSelectedCarPanel extends JPanel implements IRaiseEvents<CarD
         formGridConfig.insets = new Insets(0, 0, 0, 0);
         add(editCarBtn, formGridConfig);
 
-        editCarBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (car == null) {
-                    return;
-                }
-                CarEventArgs event = new CarEventArgs(e.getSource(), car.getCarId());
-                listeners.notifyListeners(l -> l.carEditRequested(event));
+        editCarBtn.addActionListener(e -> {
+            if (car == null) {
+                return;
             }
+            CarEventArgs event = new CarEventArgs(e.getSource(), car.getCarId());
+            listeners.notifyListeners(l -> l.carEditRequested(event));
         });
+    }
+
+    private void addControlWithLabel(Component componentToAdd,
+                                     String label,
+                                     int rowIndex) {
+        addControlWithLabel(componentToAdd, label, rowIndex, 0);
     }
 
     private void addControlWithLabel(Component componentToAdd,
                                      String label,
                                      int rowIndex,
                                      int columnIndex) {
-        addControlWithLabel(componentToAdd, label, rowIndex, columnIndex, 1);
-    }
-
-    private void addControlWithLabel(Component componentToAdd,
-                                     String label,
-                                     int rowIndex,
-                                     int columnIndex,
-                                     int spanNumberOfRows) {
 
         JLabel componentLabel = new JLabel(label);
         componentLabel.setLabelFor(componentToAdd);
@@ -118,20 +113,49 @@ public class PreviewSelectedCarPanel extends JPanel implements IRaiseEvents<CarD
         int columnMultiplier = 2;
 
         formGridConfig.gridy = rowIndex;
-        formGridConfig.weightx = 1;
-        formGridConfig.weighty = 0.1;
         formGridConfig.gridx = columnIndex * columnMultiplier;
+        formGridConfig.weightx = 0.2;
+        formGridConfig.weighty = 0.1;
 
         formGridConfig.fill = GridBagConstraints.NONE;
         formGridConfig.anchor = GridBagConstraints.LINE_END;
-        formGridConfig.insets = new Insets(5, 0, 5, 10);
+        formGridConfig.insets = this.controlsPadding;
         add(componentLabel, formGridConfig);
 
         formGridConfig.gridx = columnIndex * columnMultiplier + 1;
-        formGridConfig.insets = new Insets(5, 0, 5, 0);
+        formGridConfig.weightx = 0.4;
+        formGridConfig.insets = this.controlsPadding;
         formGridConfig.anchor = GridBagConstraints.LINE_START;
-        formGridConfig.gridheight = spanNumberOfRows;
+        formGridConfig.gridheight = 1;
         add(componentToAdd, formGridConfig);
+    }
+
+    private void addCarFeaturesLabels(CarFeaturesPanel carFeaturesPanel) {
+        final int rowsToSpan = 10;
+
+        JLabel componentLabel = new JLabel("Features:");
+        componentLabel.setLabelFor(carFeaturesPanel);
+        componentLabel.setFont(LabelStyles.getFontForFieldLabel());
+        carFeaturesPanel.setFont(LabelStyles.getFontForFieldLabel());
+
+        formGridConfig.gridy = 0;
+        formGridConfig.weightx = 0.4;
+        formGridConfig.weighty = 0.1;
+        formGridConfig.gridx = 2;
+
+        formGridConfig.fill = GridBagConstraints.NONE;
+        formGridConfig.anchor = GridBagConstraints.LINE_START;
+        formGridConfig.insets = this.controlsPadding;
+        add(componentLabel, formGridConfig);
+
+        formGridConfig.gridy = 1;
+        formGridConfig.gridx = 2;
+        formGridConfig.weighty = 1;
+        formGridConfig.insets = this.controlsPadding;
+        formGridConfig.anchor = GridBagConstraints.NORTHWEST;
+        formGridConfig.gridheight = rowsToSpan;
+        add(carFeaturesPanel, formGridConfig);
+
     }
 
     public void previewCar(int carId) {

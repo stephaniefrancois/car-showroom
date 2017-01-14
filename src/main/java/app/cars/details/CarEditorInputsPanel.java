@@ -1,10 +1,11 @@
 package app.cars.details;
 
+import app.cars.details.features.CarFeaturesEditorPanel;
 import app.common.ValidateableFieldDescriptor;
 import app.objectComposition.ServiceLocator;
-import app.styles.ComponentSizes;
 import app.styles.LabelStyles;
 import common.NumberExtensions;
+import core.domain.car.CarFeature;
 import core.domain.car.CarMetadata;
 import core.domain.car.CarProperties;
 import core.stock.CarFactory;
@@ -33,6 +34,8 @@ public final class CarEditorInputsPanel extends JPanel {
     private final JTextField yearField;
 
     private final CarMetadataRepository carMetadata;
+    private final Insets controlsPadding;
+    private final CarFeaturesEditorPanel carFeaturesEditorPanel;
 
     private Map<String, ValidateableFieldDescriptor> fieldsMap;
 
@@ -40,31 +43,33 @@ public final class CarEditorInputsPanel extends JPanel {
         setLayout(new GridBagLayout());
 
         this.carMetadata = ServiceLocator.getComposer().getCarMetadataRepository();
+        this.controlsPadding = new Insets(5, 0, 4, 5);
         this.fieldsMap = new HashMap<>();
         formGridConfig = new GridBagConstraints();
         formGridConfig.fill = GridBagConstraints.NONE;
 
-        makeField = new JTextField(ComponentSizes.INPUT_COLUMNS_COUNT);
-        modelField = new JTextField(ComponentSizes.INPUT_COLUMNS_COUNT);
-        yearField = new JTextField(ComponentSizes.INPUT_COLUMNS_COUNT);
+        makeField = new JTextField();
+        modelField = new JTextField();
+        yearField = new JTextField();
         fuelTypeCombo = new JComboBox();
         bodyStyleCombo = new JComboBox();
         transmissionCombo = new JComboBox();
-        numberOfSeatsField = new JTextField(ComponentSizes.INPUT_COLUMNS_COUNT);
-        priceField = new JTextField(ComponentSizes.INPUT_COLUMNS_COUNT);
-        colorField = new JTextField(ComponentSizes.INPUT_COLUMNS_COUNT);
-        mileageField = new JTextField(ComponentSizes.INPUT_COLUMNS_COUNT);
+        numberOfSeatsField = new JTextField();
+        priceField = new JTextField();
+        colorField = new JTextField();
+        mileageField = new JTextField();
+        this.carFeaturesEditorPanel = new CarFeaturesEditorPanel();
 
-        addControlWithLabel(makeField, "Make", 0, 0);
-        addControlWithLabel(modelField, "Model", 1, 0);
-        addControlWithLabel(yearField, "Year", 2, 0);
-        addControlWithLabel(colorField, "Color", 3, 0);
-        addControlWithLabel(fuelTypeCombo, "Fuel Type", 4, 0);
-        addControlWithLabel(bodyStyleCombo, "Body Style", 5, 0);
-        addControlWithLabel(transmissionCombo, "Transmission", 6, 0);
-        addControlWithLabel(numberOfSeatsField, "Number of seats", 7, 0);
-        addControlWithLabel(mileageField, "Mileage", 8, 0);
-        addControlWithLabel(priceField, "Price", 9, 0);
+        addControlWithLabel(makeField, "Make", 0);
+        addControlWithLabel(modelField, "Model", 1);
+        addControlWithLabel(yearField, "Year", 2);
+        addControlWithLabel(colorField, "Color", 3);
+        addControlWithLabel(fuelTypeCombo, "Fuel Type", 4);
+        addControlWithLabel(bodyStyleCombo, "Body Style", 5);
+        addControlWithLabel(transmissionCombo, "Transmission", 6);
+        addControlWithLabel(numberOfSeatsField, "Number of seats", 7);
+        addControlWithLabel(mileageField, "Mileage", 8);
+        addControlWithLabel(priceField, "Price", 9);
 
         formGridConfig.gridy = 10;
         formGridConfig.weightx = 1;
@@ -73,6 +78,8 @@ public final class CarEditorInputsPanel extends JPanel {
         JPanel placeholder = new JPanel();
         add(placeholder, formGridConfig);
 
+        addCarFeaturesLabels(carFeaturesEditorPanel);
+
         this.populateCarMetadata();
     }
 
@@ -80,7 +87,7 @@ public final class CarEditorInputsPanel extends JPanel {
         return fieldsMap;
     }
 
-    private void addControlWithLabel(Component componentToAdd, String label, int rowIndex, int columnIndex) {
+    private void addControlWithLabel(Component componentToAdd, String label, int rowIndex) {
         JLabel componentLabel = new JLabel(String.format("%s:", label));
         componentLabel.setLabelFor(componentToAdd);
         componentLabel.setFont(LabelStyles.getFontForFieldLabel());
@@ -89,26 +96,58 @@ public final class CarEditorInputsPanel extends JPanel {
         int columnMultiplier = 2;
 
         formGridConfig.gridy = rowIndex;
-        formGridConfig.weightx = 1;
+        formGridConfig.gridx = columnMultiplier;
+        formGridConfig.weightx = 0.1;
         formGridConfig.weighty = 0.1;
-        formGridConfig.gridx = columnIndex * columnMultiplier;
 
         formGridConfig.fill = GridBagConstraints.NONE;
         formGridConfig.anchor = GridBagConstraints.LINE_END;
-        formGridConfig.insets = new Insets(5, 0, 5, 10);
+        formGridConfig.insets = this.controlsPadding;
         add(componentLabel, formGridConfig);
 
-        formGridConfig.gridx = columnIndex * columnMultiplier + 1;
-        formGridConfig.insets = new Insets(5, 0, 5, 0);
+        formGridConfig.gridx = columnMultiplier + 1;
+        formGridConfig.weightx = 0.4;
+        formGridConfig.insets = this.controlsPadding;
         formGridConfig.anchor = GridBagConstraints.LINE_START;
+        formGridConfig.fill = GridBagConstraints.HORIZONTAL;
         add(componentToAdd, formGridConfig);
         this.fieldsMap.put(label, new ValidateableFieldDescriptor(componentLabel, componentToAdd));
     }
 
+
+    private void addCarFeaturesLabels(CarFeaturesEditorPanel carFeaturesEditorPanel) {
+        final int rowsToSpan = 10;
+
+        JLabel componentLabel = new JLabel("Features:");
+        componentLabel.setLabelFor(carFeaturesEditorPanel);
+        componentLabel.setFont(LabelStyles.getFontForFieldLabel());
+        carFeaturesEditorPanel.setFont(LabelStyles.getFontForFieldLabel());
+
+        formGridConfig.gridy = 0;
+        formGridConfig.weightx = 0.4;
+        formGridConfig.weighty = 0.1;
+        formGridConfig.gridx = 2;
+
+        formGridConfig.fill = GridBagConstraints.NONE;
+        formGridConfig.anchor = GridBagConstraints.LINE_START;
+        formGridConfig.insets = this.controlsPadding;
+        add(componentLabel, formGridConfig);
+
+        formGridConfig.gridy = 1;
+        formGridConfig.gridx = 2;
+        formGridConfig.weighty = 1;
+        formGridConfig.insets = this.controlsPadding;
+        formGridConfig.anchor = GridBagConstraints.NORTHWEST;
+        formGridConfig.gridheight = rowsToSpan;
+        add(carFeaturesEditorPanel, formGridConfig);
+    }
+
+
     private void populateCarMetadata() {
-        this.populateComboWithValues(this.fuelTypeCombo, () -> this.carMetadata.getFuelTypes());
-        this.populateComboWithValues(this.bodyStyleCombo, () -> this.carMetadata.getBodyStyles());
-        this.populateComboWithValues(this.transmissionCombo, () -> this.carMetadata.getTransmissions());
+        this.populateComboWithValues(this.fuelTypeCombo, this.carMetadata::getFuelTypes);
+        this.populateComboWithValues(this.bodyStyleCombo, this.carMetadata::getBodyStyles);
+        this.populateComboWithValues(this.transmissionCombo, this.carMetadata::getTransmissions);
+        this.carFeaturesEditorPanel.displayAvailableCarFeatures(this.carMetadata.getFeatures());
     }
 
     private void populateComboWithValues(JComboBox comboBox,
@@ -133,7 +172,9 @@ public final class CarEditorInputsPanel extends JPanel {
         carFactory.setMileage(NumberExtensions.tryParseNumber(this.mileageField.getText(), 0));
         carFactory.setPrice(NumberExtensions.tryParseNumber(this.priceField.getText(), new BigDecimal(0)));
 
-        // TODO: map selected FEATURES from FORM to car factory!
+        carFactory.removeAllFeatures();
+        List<CarFeature> features = this.carFeaturesEditorPanel.getSelectedCarFeatures();
+        features.forEach(carFactory::addCarFeature);
 
         return carFactory;
     }
@@ -157,8 +198,6 @@ public final class CarEditorInputsPanel extends JPanel {
         this.numberOfSeatsField.setText(car.getNumberOfSeats().toString());
         this.mileageField.setText(car.getMileage().toString());
         this.priceField.setText(car.getPrice().toString());
-
-        // TODO: fill in Car FEATURES
-        // List<CarFeature> features;
+        this.carFeaturesEditorPanel.displaySelectedCarFeatures(car.getFeatures());
     }
 }

@@ -38,26 +38,24 @@ public final class InMemoryCarMetadataRepository implements CarMetadataRepositor
 
     @Override
     public List<CarFeature> getFeatures() {
-        List<String> features = Arrays.asList(
-                "Air Conditioner",
-                "AM/FM radio",
-                "CD/DVD Player",
-                "Alloy Wheels",
-                "Power Lock Doors",
-                "Navigation",
-                "ABS",
-                "ASC",
-                "LED tail-lights",
-                "Power steering",
-                "Power windows",
-                "Air bags",
-                "Sun roof",
-                "Luxury Seats"
+        return Arrays.asList(
+                new CarFeature(1 ,"Air Conditioner"),
+                new CarFeature(2 ,"AM/FM radio"),
+                new CarFeature(3 ,"CD/DVD Player"),
+                new CarFeature(4 ,"Alloy Wheels"),
+                new CarFeature(5 ,"Power Lock Doors"),
+                new CarFeature(6 ,"Navigation"),
+                new CarFeature(7 ,"ABS"),
+                new CarFeature(8 ,"ASC"),
+                new CarFeature(9 ,"LED tail-lights"),
+                new CarFeature(10 ,"Power steering"),
+                new CarFeature(11 ,"Power windows"),
+                new CarFeature(12 ,"Air bags"),
+                new CarFeature(13 ,"Sun roof"),
+                new CarFeature(14 ,"Luxury Seats"),
+                new CarFeature(15 ,"Premium Leather"),
+                new CarFeature(16 ,"Champagne"),
+                new CarFeature(17 ,"W12 Bi-Turbo engine")
         );
-
-        return features
-                .stream()
-                .map(s -> new CarFeature(s))
-                .collect(Collectors.toList());
     }
 }

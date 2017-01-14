@@ -16,7 +16,7 @@ public final class CarsPanel extends JPanel {
         this.searchableCars = new SearchableCarListPanel();
         this.carDetails = new CarDetailsPanel();
 
-        add(this.searchableCars, BorderLayout.WEST);
+        add(this.searchableCars, BorderLayout.CENTER);
         add(this.carDetails, BorderLayout.EAST);
 
         this.searchableCars.addListener(this.carDetails);

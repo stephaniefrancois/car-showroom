@@ -12,7 +12,7 @@ public class LabelStyles {
 
     public static Font getFontForFieldLabel() {
         Font defaultFont = new JLabel().getFont();
-        float fontSize = defaultFont.getSize() * 1.2f;
+        float fontSize = defaultFont.getSize();
         return defaultFont.deriveFont(fontSize);
     }
 

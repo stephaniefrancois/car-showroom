@@ -31,9 +31,10 @@ public final class CarsListPanel extends JPanel implements IRaiseEvents<CarListe
         setMinimumSize(ComponentSizes.MINIMUM_CAR_LIST_PANEL_SIZE);
         setLayout(new BorderLayout());
         setBorder(BorderStyles.getTitleBorder("Available cars:"));
-        tableModel = new CarTableModel();
-        carsTable = new JTable(tableModel);
-        add(new JScrollPane(carsTable), BorderLayout.CENTER);
+        this.tableModel = new CarTableModel();
+        this.carsTable = new JTable(tableModel);
+        this.carsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        add(new JScrollPane(this.carsTable), BorderLayout.CENTER);
         popup = this.configurePopupMenu();
         this.refresh();
     }
@@ -72,19 +73,14 @@ public final class CarsListPanel extends JPanel implements IRaiseEvents<CarListe
             }
         });
 
-        addCarMenu.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                listeners.notifyListeners(l -> l.carCreationRequested());
-            }
-        });
+        addCarMenu.addActionListener(arg ->
+                listeners.notifyListeners(CarListener::carCreationRequested));
 
-        removeCarMenu.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                int row = carsTable.getSelectedRow();
-                if (row > -1) {
-                    Car car = tableModel.getValueAt(row);
-                    askUserToDeleteCar(arg0, row, car);
-                }
+        removeCarMenu.addActionListener(arg -> {
+            int row = carsTable.getSelectedRow();
+            if (row > -1) {
+                Car car = tableModel.getValueAt(row);
+                askUserToDeleteCar(arg, row, car);
             }
         });
 

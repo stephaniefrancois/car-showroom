@@ -3,9 +3,8 @@ package app.styles;
 import java.awt.*;
 
 public final class ComponentSizes {
-    public static final int INPUT_COLUMNS_COUNT = 20;
-    private static final int APP_WIDTH = 1024;
-    private static final int APP_HEIGHT = 768;
+    private static final int APP_WIDTH = 1280;
+    private static final int APP_HEIGHT = 800;
     private static final int TOOLBAR_PANEL_HEIGHT = 150;
 
     public static final Dimension APP_SIZE = new Dimension(APP_WIDTH,
@@ -18,7 +17,7 @@ public final class ComponentSizes {
             APP_HEIGHT - MINIMUM_TOOLBAR_SIZE.height);
 
     private static final int SEARCH_PANEL_HEIGHT = 60;
-    private static final int CAR_DETAILS_WIDTH = 300;
+    private static final int CAR_DETAILS_WIDTH = 600;
     public static final Dimension MINIMUM_CAR_SEARCH_PANEL_SIZE = new Dimension(
             APP_WIDTH - CAR_DETAILS_WIDTH,
             SEARCH_PANEL_HEIGHT);

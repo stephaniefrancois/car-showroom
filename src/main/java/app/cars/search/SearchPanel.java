@@ -12,7 +12,7 @@ public class SearchPanel extends JPanel {
         setSize(getMinimumSize());
         setLayout(new FlowLayout(FlowLayout.RIGHT));
         setBorder(BorderStyles.getTitleBorder("Search:"));
-        JTextField searchInput = new JTextField(ComponentSizes.INPUT_COLUMNS_COUNT);
+        JTextField searchInput = new JTextField(20);
         JButton searchButton = new JButton("Search");
 
         add(new JLabel("Search:"));
