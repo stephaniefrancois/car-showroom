@@ -1,9 +1,12 @@
 package app.cars.carListing;
 
 import app.cars.CarEventArgs;
+import app.cars.search.CarSearchEventArgs;
+import app.cars.search.CarSearchListener;
 import app.objectComposition.ServiceLocator;
 import app.styles.BorderStyles;
 import app.styles.ComponentSizes;
+import app.styles.LabelStyles;
 import common.IRaiseEvents;
 import common.ListenersManager;
 import core.domain.car.Car;
@@ -12,13 +15,21 @@ import core.stock.CarStock;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.List;
 
-public final class CarsListPanel extends JPanel implements IRaiseEvents<CarListener> {
+public final class CarsListPanel extends JPanel implements IRaiseEvents<CarListener>, CarSearchListener {
+    private static final String CARS_PANEL_KEY = "CarsPanelKey";
+    private static final String CARS_NOT_FOUND_PANEL_KEY = "CarsNotFoundPanelKey";
     private final CarTableModel tableModel;
     private final JTable carsTable;
     private final CarStock carStock;
     private final JPopupMenu popup;
     private final ListenersManager<CarListener> listeners;
+    private final JPanel carsPanel;
+    private final JPanel noCarsFoundPanel;
+    private final JLabel noCarsFoundLabel;
+    private final CardLayout contentPresenter;
+    private final JButton addNewCarButton;
 
     public CarsListPanel() {
         listeners = new ListenersManager<>();
@@ -29,20 +40,61 @@ public final class CarsListPanel extends JPanel implements IRaiseEvents<CarListe
                 .getCarStockService();
 
         setMinimumSize(ComponentSizes.MINIMUM_CAR_LIST_PANEL_SIZE);
-        setLayout(new BorderLayout());
+        contentPresenter = new CardLayout();
+        setLayout(contentPresenter);
+
         setBorder(BorderStyles.getTitleBorder("Available cars:"));
         this.tableModel = new CarTableModel();
         this.carsTable = new JTable(tableModel);
         this.carsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        add(new JScrollPane(this.carsTable), BorderLayout.CENTER);
+
+        this.carsPanel = new JPanel();
+        this.carsPanel.setLayout(new BorderLayout());
+        this.carsPanel.add(new JScrollPane(this.carsTable), BorderLayout.CENTER);
+
+        this.noCarsFoundLabel = new JLabel();
+        this.noCarsFoundLabel.setFont(LabelStyles.getFontForHeaderLevelOne());
+        this.addNewCarButton = new JButton("Add new car ...");
+        this.addNewCarButton.addActionListener(e -> {
+            listeners.notifyListeners(CarListener::carCreationRequested);
+        });
+
+        this.noCarsFoundPanel = new JPanel();
+        this.noCarsFoundPanel.setLayout(new BorderLayout());
+        JPanel noCarsContainer = new JPanel();
+        noCarsContainer.setLayout(new FlowLayout());
+        noCarsContainer.add(noCarsFoundLabel);
+        noCarsContainer.add(addNewCarButton);
+        this.noCarsFoundPanel.add(noCarsContainer);
+
+        add(this.carsPanel, CARS_PANEL_KEY);
+        add(this.noCarsFoundPanel, CARS_NOT_FOUND_PANEL_KEY);
+
         popup = this.configurePopupMenu();
         this.refresh();
     }
 
     public void refresh() {
         // TODO: load this using multi-threading
+        List<Car> cars = carStock.getAvailableCars();
+        if (cars.isEmpty()) {
+            this.addNewCarButton.setVisible(true);
+            this.displayNoCarsFound("No cars available in the showroom!");
+            return;
+        }
+
         this.tableModel.setData(carStock.getAvailableCars());
         this.tableModel.fireTableDataChanged();
+        this.displayCars();
+    }
+
+    private void displayNoCarsFound(String message) {
+        this.noCarsFoundLabel.setText(message);
+        this.contentPresenter.show(this, CARS_NOT_FOUND_PANEL_KEY);
+    }
+
+    private void displayCars() {
+        this.contentPresenter.show(this, CARS_PANEL_KEY);
     }
 
     private JPopupMenu configurePopupMenu() {
@@ -97,7 +149,7 @@ public final class CarsListPanel extends JPanel implements IRaiseEvents<CarListe
     }
 
     private void notifyListenersAboutSelectedCar(Object source, Car car) {
-            CarEventArgs event = new CarEventArgs(source, car.getCarId());
+        CarEventArgs event = new CarEventArgs(source, car.getCarId());
         listeners.notifyListeners(l -> l.carSelected(event));
     }
 
@@ -106,14 +158,16 @@ public final class CarsListPanel extends JPanel implements IRaiseEvents<CarListe
                 String.format("Do you really want to delete '%s %s' ?", car.getMake(), car.getModel()),
                 "Confirm car deletion", JOptionPane.YES_NO_OPTION);
 
-        // TODO: consider messaging between components, currently we need to inform other components that the CAR has been deleted
         if (action == JOptionPane.YES_OPTION) {
-            // TODO: dispatch message about deleted CAR
             System.out.println("Deleting table row at '" + row + "' index ..."); // TODO: add logging statement
-            carStock.removeCar(car.getCarId()); //TODO: is this really the right place for this dependency??? Should we bubble this up via events?
+            this.refresh();
+            this.carStock.removeCar(car.getCarId());
             CarTableModel tableModel = (CarTableModel) carsTable.getModel();
             tableModel.removeRow(row);
             notifyListenersAboutDeletedCar(arg0, car);
+            if (tableModel.getRowCount() == 0) {
+                this.refresh();
+            }
         }
     }
 
@@ -130,5 +184,26 @@ public final class CarsListPanel extends JPanel implements IRaiseEvents<CarListe
     @Override
     public void removeListener(CarListener listenerToRemove) {
         this.listeners.removeListener(listenerToRemove);
+    }
+
+    @Override
+    public void searchForCars(CarSearchEventArgs e) {
+        // TODO: log about executed search
+        System.out.println("Searching for: " + e.getSearchCriteria());
+        List<Car> cars = this.carStock.find(e.getSearchCriteria());
+        if (cars.isEmpty()) {
+            this.addNewCarButton.setVisible(false);
+            this.displayNoCarsFound(String.format("No cars found with search criteria '%s' ...", e.getSearchCriteria()));
+            // TODO: show no cars found panel!
+            return;
+        }
+        this.tableModel.setData(cars);
+        this.tableModel.fireTableDataChanged();
+        this.displayCars();
+    }
+
+    @Override
+    public void resetSearch() {
+        this.refresh();
     }
 }

@@ -24,7 +24,7 @@ public final class ValidationSummaryPanel extends JPanel {
         // TODO: replace locator with Constructor Injection
         this.validationErrorsFormatter = ServiceLocator.getComposer().getValidationErrorsFormatter();
         this.validationErrorsLabel = new JTextArea();
-        this.validationErrorsLabel.setBackground(LabelStyles.getBackgroudColorForFieldLabel());
+        this.validationErrorsLabel.setBackground(LabelStyles.getBackgroundColorForFieldLabel());
         this.validationErrorsLabel.setLineWrap(true);
         this.validationErrorsLabel.setBorder(BorderStyles.getContentMargin());
         this.validationErrorsLabel.setEditable(false);
@@ -32,7 +32,7 @@ public final class ValidationSummaryPanel extends JPanel {
     }
 
     public void displayValidationResults(ValidationSummary validationSummary,
-                                         Map<String, ValidateableFieldDescriptor> fieldsMap) {
+                                         Map<String, ValidateAbleFieldDescriptor> fieldsMap) {
         Objects.requireNonNull(validationSummary);
         Objects.requireNonNull(fieldsMap);
 
@@ -51,12 +51,12 @@ public final class ValidationSummaryPanel extends JPanel {
         setVisible(true);
     }
 
-    private void resetAllInvalidFields(Map<String, ValidateableFieldDescriptor> fieldsMap) {
-        fieldsMap.values().forEach(ValidateableFieldDescriptor::markFieldAsValid);
+    private void resetAllInvalidFields(Map<String, ValidateAbleFieldDescriptor> fieldsMap) {
+        fieldsMap.values().forEach(ValidateAbleFieldDescriptor::markFieldAsValid);
     }
 
     private void markInvalidFields(ValidationSummary validationSummary,
-                                   Map<String, ValidateableFieldDescriptor> fieldsMap) {
+                                   Map<String, ValidateAbleFieldDescriptor> fieldsMap) {
         List<String> invalidFieldsNames = validationSummary
                 .getValidationErrors().stream()
                 .map(ValidationError::getFieldName)
@@ -64,7 +64,7 @@ public final class ValidationSummaryPanel extends JPanel {
 
         for (String invalidFieldName : invalidFieldsNames) {
             if (fieldsMap.containsKey(invalidFieldName)) {
-                ValidateableFieldDescriptor field = fieldsMap.get(invalidFieldName);
+                ValidateAbleFieldDescriptor field = fieldsMap.get(invalidFieldName);
                 field.markFieldAsInvalid(LabelStyles.getForegroundColorForInvalidFieldLabel(),
                         LabelStyles.getForegroundColorForInvalidField());
             }

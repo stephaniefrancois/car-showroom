@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
-public final class ValidateableFieldDescriptor {
+public final class ValidateAbleFieldDescriptor {
     private final JLabel label;
     private final Component field;
     private final Color labelDefaultForeground;
@@ -12,7 +12,7 @@ public final class ValidateableFieldDescriptor {
     private final Color fieldDefaultForeground;
     private final Color fieldDefaultBackground;
 
-    public ValidateableFieldDescriptor(JLabel label, Component field) {
+    public ValidateAbleFieldDescriptor(JLabel label, Component field) {
         Objects.requireNonNull(label);
         Objects.requireNonNull(field);
 
@@ -22,18 +22,6 @@ public final class ValidateableFieldDescriptor {
         this.labelDefaultBackground = label.getBackground();
         this.fieldDefaultForeground = field.getForeground();
         this.fieldDefaultBackground = field.getBackground();
-    }
-
-    public JLabel getLabel() {
-        return label;
-    }
-
-    public String getLabelContents() {
-        return label.getText();
-    }
-
-    public Component getField() {
-        return field;
     }
 
     public void markFieldAsInvalid(Color labelForeground, Color fieldBackground) {

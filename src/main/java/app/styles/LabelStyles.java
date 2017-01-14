@@ -16,7 +16,7 @@ public class LabelStyles {
         return defaultFont.deriveFont(fontSize);
     }
 
-    public static Color getBackgroudColorForFieldLabel() {
+    public static Color getBackgroundColorForFieldLabel() {
         return new JLabel().getBackground();
     }
 

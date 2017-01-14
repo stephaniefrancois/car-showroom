@@ -56,4 +56,9 @@ public final class Showroom implements CarStock {
         }
         carRepository.saveCar(car);
     }
+
+    @Override
+    public List<Car> find(String searchCriteria) {
+        return this.carRepository.find(searchCriteria);
+    }
 }

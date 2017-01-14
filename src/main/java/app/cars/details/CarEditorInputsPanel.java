@@ -1,7 +1,7 @@
 package app.cars.details;
 
 import app.cars.details.features.CarFeaturesEditorPanel;
-import app.common.ValidateableFieldDescriptor;
+import app.common.ValidateAbleFieldDescriptor;
 import app.objectComposition.ServiceLocator;
 import app.styles.LabelStyles;
 import common.NumberExtensions;
@@ -37,7 +37,7 @@ public final class CarEditorInputsPanel extends JPanel {
     private final Insets controlsPadding;
     private final CarFeaturesEditorPanel carFeaturesEditorPanel;
 
-    private Map<String, ValidateableFieldDescriptor> fieldsMap;
+    private Map<String, ValidateAbleFieldDescriptor> fieldsMap;
 
     public CarEditorInputsPanel() {
         setLayout(new GridBagLayout());
@@ -83,7 +83,7 @@ public final class CarEditorInputsPanel extends JPanel {
         this.populateCarMetadata();
     }
 
-    public Map<String, ValidateableFieldDescriptor> getFieldsMap() {
+    public Map<String, ValidateAbleFieldDescriptor> getFieldsMap() {
         return fieldsMap;
     }
 
@@ -109,7 +109,7 @@ public final class CarEditorInputsPanel extends JPanel {
         formGridConfig.anchor = GridBagConstraints.LINE_START;
         formGridConfig.fill = GridBagConstraints.HORIZONTAL;
         add(componentToAdd, formGridConfig);
-        this.fieldsMap.put(label, new ValidateableFieldDescriptor(componentLabel, componentToAdd));
+        this.fieldsMap.put(label, new ValidateAbleFieldDescriptor(componentLabel, componentToAdd));
     }
 
 

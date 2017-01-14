@@ -1,6 +1,5 @@
 package app.cars.details.features;
 
-import app.styles.BorderStyles;
 import app.styles.LabelStyles;
 import common.StringExtensions;
 import core.domain.car.CarFeature;
@@ -17,7 +16,7 @@ public final class CarFeaturesListPanel extends JPanel {
     public CarFeaturesListPanel() {
         setLayout(new BorderLayout());
         this.featuresLabel = new JTextArea();
-        this.featuresLabel.setBackground(LabelStyles.getBackgroudColorForFieldLabel());
+        this.featuresLabel.setBackground(LabelStyles.getBackgroundColorForFieldLabel());
         this.featuresLabel.setFont(LabelStyles.getFontForFieldLabel());
         this.featuresLabel.setLineWrap(true);
         this.featuresLabel.setEditable(false);

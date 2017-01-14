@@ -10,6 +10,7 @@ import org.mockito.Mockito;
 import testing.helpers.TestData.Cars;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -142,5 +143,21 @@ public final class ShowroomTest {
         // When
         // Then
         assertThrows(UnableToUpdateCarException.class, () -> sut.updateCar(car));
+    }
+
+    @Test
+    public void GivenCarSearchExecutedThenShouldFindCarFromRepository() {
+        // Given
+        String searchCriteria = "car1";
+        List<Car> cars = Arrays.asList(Cars.getCar());
+        CarRepository carRepositoryMock = Mockito.mock(CarRepository.class);
+        Showroom sut = new Showroom(carRepositoryMock);
+        when(carRepositoryMock.find(searchCriteria)).thenReturn(cars);
+
+        // When
+        List<Car> result = sut.find(searchCriteria);
+
+        // Then
+        assertThat(result, equalTo(cars));
     }
 }

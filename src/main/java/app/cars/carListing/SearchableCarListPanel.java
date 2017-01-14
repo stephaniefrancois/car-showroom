@@ -22,6 +22,8 @@ public final class SearchableCarListPanel extends JPanel implements
 
         add(this.searchPanel, BorderLayout.NORTH);
         add(this.carsList, BorderLayout.CENTER);
+
+        this.searchPanel.addListener(this.carsList);
     }
 
     @Override

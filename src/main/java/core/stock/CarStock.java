@@ -9,6 +9,8 @@ import java.util.List;
 public interface CarStock {
     List<Car> getAvailableCars();
 
+    List<Car> find(String searchCriteria);
+
     CarProperties getCarDetails(int carId);
 
     void removeCar(int carId);

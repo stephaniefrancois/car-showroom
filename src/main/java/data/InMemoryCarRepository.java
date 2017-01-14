@@ -130,4 +130,12 @@ public final class InMemoryCarRepository implements CarRepository {
             this.cars.remove(car);
         }
     }
+
+    @Override
+    public List<Car> find(String searchCriteria) {
+        return this.cars.stream()
+                .filter(c -> c.getMake().toLowerCase().contains(searchCriteria.toLowerCase()) ||
+                        c.getModel().toLowerCase().contains(searchCriteria.toLowerCase()))
+                .collect(Collectors.toList());
+    }
 }

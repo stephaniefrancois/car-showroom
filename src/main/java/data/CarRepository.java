@@ -13,4 +13,6 @@ public interface CarRepository {
     CarProperties saveCar(CarProperties car);
 
     void removeCar(int carId);
+
+    List<Car> find(String searchCriteria);
 }
