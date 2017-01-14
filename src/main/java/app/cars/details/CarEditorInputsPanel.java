@@ -93,10 +93,8 @@ public final class CarEditorInputsPanel extends JPanel {
         componentLabel.setFont(LabelStyles.getFontForFieldLabel());
         componentToAdd.setFont(LabelStyles.getFontForFieldLabel());
 
-        int columnMultiplier = 2;
-
         formGridConfig.gridy = rowIndex;
-        formGridConfig.gridx = columnMultiplier;
+        formGridConfig.gridx = 0;
         formGridConfig.weightx = 0.1;
         formGridConfig.weighty = 0.1;
 
@@ -105,7 +103,7 @@ public final class CarEditorInputsPanel extends JPanel {
         formGridConfig.insets = this.controlsPadding;
         add(componentLabel, formGridConfig);
 
-        formGridConfig.gridx = columnMultiplier + 1;
+        formGridConfig.gridx = 1;
         formGridConfig.weightx = 0.4;
         formGridConfig.insets = this.controlsPadding;
         formGridConfig.anchor = GridBagConstraints.LINE_START;
@@ -116,7 +114,7 @@ public final class CarEditorInputsPanel extends JPanel {
 
 
     private void addCarFeaturesLabels(CarFeaturesEditorPanel carFeaturesEditorPanel) {
-        final int rowsToSpan = 10;
+        final int rowsToSpan = 9;
 
         JLabel componentLabel = new JLabel("Features:");
         componentLabel.setLabelFor(carFeaturesEditorPanel);
@@ -139,6 +137,7 @@ public final class CarEditorInputsPanel extends JPanel {
         formGridConfig.insets = this.controlsPadding;
         formGridConfig.anchor = GridBagConstraints.NORTHWEST;
         formGridConfig.gridheight = rowsToSpan;
+        formGridConfig.fill = GridBagConstraints.VERTICAL;
         add(carFeaturesEditorPanel, formGridConfig);
     }
 
