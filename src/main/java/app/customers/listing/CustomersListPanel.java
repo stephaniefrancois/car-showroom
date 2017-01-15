@@ -1,15 +1,15 @@
 package app.customers.listing;
 
-import app.customers.CustomerEventArgs;
-import app.customers.search.CustomerSearchEventArgs;
-import app.customers.search.CustomerSearchListener;
+import app.common.BasicEventArgs;
+import app.common.listing.ListEventListener;
+import app.common.search.SearchEventArgs;
+import app.common.search.SearchListener;
 import app.objectComposition.ServiceLocator;
 import app.styles.BorderStyles;
 import app.styles.ComponentSizes;
 import app.styles.LabelStyles;
 import common.IRaiseEvents;
 import common.ListenersManager;
-import core.domain.deal.Customer;
 import core.domain.deal.CustomerProperties;
 import data.CustomerRepository;
 
@@ -18,14 +18,14 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
 
-public final class CustomersListPanel extends JPanel implements IRaiseEvents<CustomerListener>, CustomerSearchListener {
+public final class CustomersListPanel extends JPanel implements IRaiseEvents<ListEventListener>, SearchListener {
     private static final String CUSTOMERS_PANEL_KEY = "CustomersPanelKey";
     private static final String CUSTOMERS_NOT_FOUND_PANEL_KEY = "CustomersNotFoundPanelKey";
     private final CustomerTableModel tableModel;
     private final JTable customersTable;
     private final CustomerRepository customerRepository;
     private final JPopupMenu popup;
-    private final ListenersManager<CustomerListener> listeners;
+    private final ListenersManager<ListEventListener> listeners;
     private final JPanel customersPanel;
     private final JPanel noCustomersFoundPanel;
     private final JLabel noCustomersFoundLabel;
@@ -57,7 +57,7 @@ public final class CustomersListPanel extends JPanel implements IRaiseEvents<Cus
         this.noCustomersFoundLabel.setFont(LabelStyles.getFontForHeaderLevelOne());
         this.addNewCustomerButton = new JButton("Add new customer ...");
         this.addNewCustomerButton.addActionListener(e -> {
-            listeners.notifyListeners(CustomerListener::customerCreationRequested);
+            listeners.notifyListeners(ListEventListener::itemCreationRequested);
         });
 
         this.noCustomersFoundPanel = new JPanel();
@@ -127,7 +127,7 @@ public final class CustomersListPanel extends JPanel implements IRaiseEvents<Cus
         });
 
         addMenu.addActionListener(arg ->
-                listeners.notifyListeners(CustomerListener::customerCreationRequested));
+                listeners.notifyListeners(ListEventListener::itemCreationRequested));
 
         removeMenu.addActionListener(arg -> {
             int row = customersTable.getSelectedRow();
@@ -150,8 +150,8 @@ public final class CustomersListPanel extends JPanel implements IRaiseEvents<Cus
     }
 
     private void notifyListenersAboutSelection(Object source, CustomerProperties customer) {
-        CustomerEventArgs event = new CustomerEventArgs(source, customer.getCustomerId());
-        listeners.notifyListeners(l -> l.customerSelected(event));
+        BasicEventArgs event = new BasicEventArgs(source, customer.getCustomerId());
+        listeners.notifyListeners(l -> l.itemSelected(event));
     }
 
     private void askUserToDeleteCar(ActionEvent arg0, int row, CustomerProperties customer) {
@@ -173,22 +173,22 @@ public final class CustomersListPanel extends JPanel implements IRaiseEvents<Cus
     }
 
     private void notifyListenersAboutDeletedCustomer(ActionEvent arg0, CustomerProperties customer) {
-        CustomerEventArgs event = new CustomerEventArgs(arg0.getSource(), customer.getCustomerId());
-        this.listeners.notifyListeners(l -> l.customerDeleted(event));
+        BasicEventArgs event = new BasicEventArgs(arg0.getSource(), customer.getCustomerId());
+        this.listeners.notifyListeners(l -> l.itemDeleted(event));
     }
 
     @Override
-    public void addListener(CustomerListener listenerToAdd) {
+    public void addListener(ListEventListener listenerToAdd) {
         this.listeners.addListener(listenerToAdd);
     }
 
     @Override
-    public void removeListener(CustomerListener listenerToRemove) {
+    public void removeListener(ListEventListener listenerToRemove) {
         this.listeners.removeListener(listenerToRemove);
     }
 
     @Override
-    public void searchForCustomers(CustomerSearchEventArgs e) {
+    public void search(SearchEventArgs e) {
         // TODO: log about executed search
         System.out.println("Searching for: " + e.getSearchCriteria());
         List<CustomerProperties> customers = this.customerRepository.findCustomers(e.getSearchCriteria());

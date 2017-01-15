@@ -1,6 +1,7 @@
 package app.customers.details;
 
-import app.customers.CustomerEventArgs;
+import app.common.BasicEventArgs;
+import app.common.details.ItemDetailsListener;
 import app.objectComposition.ServiceLocator;
 import app.styles.LabelStyles;
 import common.IRaiseEvents;
@@ -11,7 +12,7 @@ import data.CustomerRepository;
 import javax.swing.*;
 import java.awt.*;
 
-public class PreviewSelectedCustomerPanel extends JPanel implements IRaiseEvents<CustomerDetailsListener> {
+public class PreviewSelectedCustomerPanel extends JPanel implements IRaiseEvents<ItemDetailsListener> {
 
     private final GridBagConstraints formGridConfig;
     private final JLabel firstNameValueLabel;
@@ -20,7 +21,7 @@ public class PreviewSelectedCustomerPanel extends JPanel implements IRaiseEvents
     private final JLabel customerSinceValueLabel;
 
     private final JButton editCustomerBtn;
-    private final ListenersManager<CustomerDetailsListener> listeners;
+    private final ListenersManager<ItemDetailsListener> listeners;
     private final CustomerRepository customerRepository;
     private final Insets controlsPadding;
     private CustomerProperties customer;
@@ -61,8 +62,8 @@ public class PreviewSelectedCustomerPanel extends JPanel implements IRaiseEvents
             if (customer == null) {
                 return;
             }
-            CustomerEventArgs event = new CustomerEventArgs(e.getSource(), customer.getCustomerId());
-            listeners.notifyListeners(l -> l.customerEditRequested(event));
+            BasicEventArgs event = new BasicEventArgs(e.getSource(), customer.getCustomerId());
+            listeners.notifyListeners(l -> l.itemEditRequested(event));
         });
     }
 
@@ -123,12 +124,12 @@ public class PreviewSelectedCustomerPanel extends JPanel implements IRaiseEvents
     }
 
     @Override
-    public void addListener(CustomerDetailsListener listenerToAdd) {
+    public void addListener(ItemDetailsListener listenerToAdd) {
         this.listeners.addListener(listenerToAdd);
     }
 
     @Override
-    public void removeListener(CustomerDetailsListener listenerToRemove) {
+    public void removeListener(ItemDetailsListener listenerToRemove) {
         this.listeners.removeListener(listenerToRemove);
     }
 }

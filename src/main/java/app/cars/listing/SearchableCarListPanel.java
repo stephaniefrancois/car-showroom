@@ -1,16 +1,17 @@
 package app.cars.listing;
 
-import app.cars.CarEventArgs;
-import app.cars.details.CarDetailsListener;
-import app.cars.search.SearchPanel;
+import app.common.BasicEventArgs;
+import app.common.details.ItemDetailsListener;
+import app.common.listing.ListEventListener;
+import app.common.search.SearchPanel;
 import common.IRaiseEvents;
 
 import javax.swing.*;
 import java.awt.*;
 
 public final class SearchableCarListPanel extends JPanel implements
-        CarDetailsListener,
-        IRaiseEvents<CarListener> {
+        ItemDetailsListener,
+        IRaiseEvents<ListEventListener> {
     private final SearchPanel searchPanel;
     private final CarsListPanel carsList;
 
@@ -27,27 +28,27 @@ public final class SearchableCarListPanel extends JPanel implements
     }
 
     @Override
-    public void addListener(CarListener listenerToAdd) {
+    public void addListener(ListEventListener listenerToAdd) {
         carsList.addListener(listenerToAdd);
     }
 
     @Override
-    public void removeListener(CarListener listenerToRemove) {
+    public void removeListener(ListEventListener listenerToRemove) {
         carsList.removeListener(listenerToRemove);
     }
 
     @Override
-    public void carEditRequested(CarEventArgs e) {
+    public void itemEditRequested(BasicEventArgs e) {
 
     }
 
     @Override
-    public void carSaved(CarEventArgs e) {
+    public void itemSaved(BasicEventArgs e) {
         this.carsList.refresh();
     }
 
     @Override
-    public void carEditCancelled(CarEventArgs e) {
+    public void itemEditCancelled(BasicEventArgs e) {
 
     }
 }

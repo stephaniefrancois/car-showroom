@@ -1,4 +1,4 @@
-package app.common;
+package app.common.validation;
 
 import javax.swing.*;
 import java.awt.*;

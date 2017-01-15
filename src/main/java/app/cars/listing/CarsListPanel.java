@@ -1,8 +1,9 @@
 package app.cars.listing;
 
-import app.cars.CarEventArgs;
-import app.cars.search.CarSearchEventArgs;
-import app.cars.search.CarSearchListener;
+import app.common.BasicEventArgs;
+import app.common.listing.ListEventListener;
+import app.common.search.SearchEventArgs;
+import app.common.search.SearchListener;
 import app.objectComposition.ServiceLocator;
 import app.styles.BorderStyles;
 import app.styles.ComponentSizes;
@@ -17,14 +18,14 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
 
-public final class CarsListPanel extends JPanel implements IRaiseEvents<CarListener>, CarSearchListener {
+public final class CarsListPanel extends JPanel implements IRaiseEvents<ListEventListener>, SearchListener {
     private static final String CARS_PANEL_KEY = "CarsPanelKey";
     private static final String CARS_NOT_FOUND_PANEL_KEY = "CarsNotFoundPanelKey";
     private final CarTableModel tableModel;
     private final JTable carsTable;
     private final CarStock carStock;
     private final JPopupMenu popup;
-    private final ListenersManager<CarListener> listeners;
+    private final ListenersManager<ListEventListener> listeners;
     private final JPanel carsPanel;
     private final JPanel noCarsFoundPanel;
     private final JLabel noCarsFoundLabel;
@@ -56,7 +57,7 @@ public final class CarsListPanel extends JPanel implements IRaiseEvents<CarListe
         this.noCarsFoundLabel.setFont(LabelStyles.getFontForHeaderLevelOne());
         this.addNewCarButton = new JButton("Add new car ...");
         this.addNewCarButton.addActionListener(e -> {
-            listeners.notifyListeners(CarListener::carCreationRequested);
+            listeners.notifyListeners(ListEventListener::itemCreationRequested);
         });
 
         this.noCarsFoundPanel = new JPanel();
@@ -126,7 +127,7 @@ public final class CarsListPanel extends JPanel implements IRaiseEvents<CarListe
         });
 
         addCarMenu.addActionListener(arg ->
-                listeners.notifyListeners(CarListener::carCreationRequested));
+                listeners.notifyListeners(ListEventListener::itemCreationRequested));
 
         removeCarMenu.addActionListener(arg -> {
             int row = carsTable.getSelectedRow();
@@ -149,8 +150,8 @@ public final class CarsListPanel extends JPanel implements IRaiseEvents<CarListe
     }
 
     private void notifyListenersAboutSelectedCar(Object source, Car car) {
-        CarEventArgs event = new CarEventArgs(source, car.getCarId());
-        listeners.notifyListeners(l -> l.carSelected(event));
+        BasicEventArgs event = new BasicEventArgs(source, car.getCarId());
+        listeners.notifyListeners(l -> l.itemSelected(event));
     }
 
     private void askUserToDeleteCar(ActionEvent arg0, int row, Car car) {
@@ -172,22 +173,22 @@ public final class CarsListPanel extends JPanel implements IRaiseEvents<CarListe
     }
 
     private void notifyListenersAboutDeletedCar(ActionEvent arg0, Car car) {
-        CarEventArgs event = new CarEventArgs(arg0.getSource(), car.getCarId());
-        this.listeners.notifyListeners(l -> l.carDeleted(event));
+        BasicEventArgs event = new BasicEventArgs(arg0.getSource(), car.getCarId());
+        this.listeners.notifyListeners(l -> l.itemDeleted(event));
     }
 
     @Override
-    public void addListener(CarListener listenerToAdd) {
+    public void addListener(ListEventListener listenerToAdd) {
         this.listeners.addListener(listenerToAdd);
     }
 
     @Override
-    public void removeListener(CarListener listenerToRemove) {
+    public void removeListener(ListEventListener listenerToRemove) {
         this.listeners.removeListener(listenerToRemove);
     }
 
     @Override
-    public void searchForCars(CarSearchEventArgs e) {
+    public void search(SearchEventArgs e) {
         // TODO: log about executed search
         System.out.println("Searching for: " + e.getSearchCriteria());
         List<Car> cars = this.carStock.find(e.getSearchCriteria());

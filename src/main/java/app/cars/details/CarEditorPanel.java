@@ -1,7 +1,8 @@
 package app.cars.details;
 
-import app.cars.CarEventArgs;
-import app.common.ValidationSummaryPanel;
+import app.common.BasicEventArgs;
+import app.common.details.ItemDetailsListener;
+import app.common.validation.ValidationSummaryPanel;
 import app.objectComposition.ServiceLocator;
 import common.IRaiseEvents;
 import common.ListenersManager;
@@ -17,12 +18,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public final class CarEditorPanel extends JPanel implements
-        IRaiseEvents<CarDetailsListener> {
+        IRaiseEvents<ItemDetailsListener> {
 
     private final JButton saveButton;
     private final JButton cancelButton;
 
-    private final ListenersManager<CarDetailsListener> listeners;
+    private final ListenersManager<ItemDetailsListener> listeners;
     private final CarStock carStock;
     private final CarFactoryProvider carFactoryProvider;
     private final CarEditorInputsPanel inputsPanel;
@@ -71,8 +72,8 @@ public final class CarEditorPanel extends JPanel implements
     }
 
     private void cancelCarEditing(ActionEvent e) {
-        CarEventArgs args = new CarEventArgs(e.getSource(), carFactory.getCarId());
-        listeners.notifyListeners(l -> l.carEditCancelled(args));
+        BasicEventArgs args = new BasicEventArgs(e.getSource(), carFactory.getCarId());
+        listeners.notifyListeners(l -> l.itemEditCancelled(args));
     }
 
     private void saveCar(ActionEvent e) {
@@ -97,8 +98,8 @@ public final class CarEditorPanel extends JPanel implements
             } else {
                 carStock.updateCar(car);
             }
-            CarEventArgs args = new CarEventArgs(e.getSource(), carFactory.getCarId());
-            listeners.notifyListeners(l -> l.carSaved(args));
+            BasicEventArgs args = new BasicEventArgs(e.getSource(), carFactory.getCarId());
+            listeners.notifyListeners(l -> l.itemSaved(args));
         } catch (Exception ex) {
             ex.printStackTrace(); // TODO: log error regarding car validation
         }
@@ -119,12 +120,12 @@ public final class CarEditorPanel extends JPanel implements
     }
 
     @Override
-    public void addListener(CarDetailsListener listenerToAdd) {
+    public void addListener(ItemDetailsListener listenerToAdd) {
         this.listeners.addListener(listenerToAdd);
     }
 
     @Override
-    public void removeListener(CarDetailsListener listenerToRemove) {
+    public void removeListener(ItemDetailsListener listenerToRemove) {
         this.listeners.removeListener(listenerToRemove);
     }
 }

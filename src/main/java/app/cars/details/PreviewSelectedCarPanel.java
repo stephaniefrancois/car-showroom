@@ -1,7 +1,8 @@
 package app.cars.details;
 
-import app.cars.CarEventArgs;
 import app.cars.details.features.CarFeaturesPanel;
+import app.common.BasicEventArgs;
+import app.common.details.ItemDetailsListener;
 import app.objectComposition.ServiceLocator;
 import app.styles.LabelStyles;
 import common.IRaiseEvents;
@@ -12,7 +13,7 @@ import core.stock.CarStock;
 import javax.swing.*;
 import java.awt.*;
 
-public class PreviewSelectedCarPanel extends JPanel implements IRaiseEvents<CarDetailsListener> {
+public class PreviewSelectedCarPanel extends JPanel implements IRaiseEvents<ItemDetailsListener> {
 
     private final GridBagConstraints formGridConfig;
     private final JLabel makeValueLabel;
@@ -29,7 +30,7 @@ public class PreviewSelectedCarPanel extends JPanel implements IRaiseEvents<CarD
     private final CarFeaturesPanel carFeaturesPanel;
 
     private final JButton editCarBtn;
-    private final ListenersManager<CarDetailsListener> listeners;
+    private final ListenersManager<ItemDetailsListener> listeners;
     private final CarStock carStock;
     private final Insets controlsPadding;
     private CarProperties car;
@@ -89,8 +90,8 @@ public class PreviewSelectedCarPanel extends JPanel implements IRaiseEvents<CarD
             if (car == null) {
                 return;
             }
-            CarEventArgs event = new CarEventArgs(e.getSource(), car.getCarId());
-            listeners.notifyListeners(l -> l.carEditRequested(event));
+            BasicEventArgs event = new BasicEventArgs(e.getSource(), car.getCarId());
+            listeners.notifyListeners(l -> l.itemEditRequested(event));
         });
     }
 
@@ -187,12 +188,12 @@ public class PreviewSelectedCarPanel extends JPanel implements IRaiseEvents<CarD
     }
 
     @Override
-    public void addListener(CarDetailsListener listenerToAdd) {
+    public void addListener(ItemDetailsListener listenerToAdd) {
         this.listeners.addListener(listenerToAdd);
     }
 
     @Override
-    public void removeListener(CarDetailsListener listenerToRemove) {
+    public void removeListener(ItemDetailsListener listenerToRemove) {
         this.listeners.removeListener(listenerToRemove);
     }
 }

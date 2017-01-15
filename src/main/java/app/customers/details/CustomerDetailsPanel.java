@@ -1,7 +1,9 @@
 package app.customers.details;
 
-import app.customers.CustomerEventArgs;
-import app.customers.listing.CustomerListener;
+import app.common.BasicEventArgs;
+import app.common.details.ItemDetailsListener;
+import app.common.details.NoItemSelectedPanel;
+import app.common.listing.ListEventListener;
 import app.styles.BorderStyles;
 import app.styles.ComponentSizes;
 import common.EventProducersAggregate;
@@ -13,13 +15,13 @@ import java.awt.*;
 import java.util.Arrays;
 
 public final class CustomerDetailsPanel extends JPanel
-        implements CustomerListener, CustomerDetailsListener, IRaiseEvents<CustomerDetailsListener> {
+        implements ListEventListener, ItemDetailsListener, IRaiseEvents<ItemDetailsListener> {
 
     private final CardLayout contentPresenter;
     private final Pair<String, CustomerEditorPanel> carEditorView = new Pair<>(CustomerEditorPanel.class.getName(), new CustomerEditorPanel());
-    private final Pair<String, NoCustomerSelectedPanel> noCustomerSelectedView = new Pair<>(NoCustomerSelectedPanel.class.getName(), new NoCustomerSelectedPanel());
+    private final Pair<String, NoItemSelectedPanel> noCustomerSelectedView = new Pair<>(NoItemSelectedPanel.class.getName(), new NoItemSelectedPanel("No customer selected for preview ..."));
     private final Pair<String, PreviewSelectedCustomerPanel> previewCustomerView = new Pair<>(PreviewSelectedCustomerPanel.class.getName(), new PreviewSelectedCustomerPanel());
-    private final EventProducersAggregate<CustomerDetailsListener> eventProducers;
+    private final EventProducersAggregate<ItemDetailsListener> eventProducers;
     
     public CustomerDetailsPanel() {
         setMinimumSize(ComponentSizes.MINIMUM_DETAILS_PANEL_SIZE);
@@ -46,54 +48,54 @@ public final class CustomerDetailsPanel extends JPanel
         contentPresenter.show(this, this.noCustomerSelectedView.getKey());
     }
 
-    public void previewSelectedCar(int carId) {
+    public void previewSelectedCustomer(int carId) {
         this.previewCustomerView.getValue().previewCustomer(carId);
         contentPresenter.show(this, this.previewCustomerView.getKey());
     }
 
     @Override
-    public void addListener(CustomerDetailsListener listenerToAdd) {
+    public void addListener(ItemDetailsListener listenerToAdd) {
         this.eventProducers.addListener(listenerToAdd);
     }
 
     @Override
-    public void removeListener(CustomerDetailsListener listenerToRemove) {
+    public void removeListener(ItemDetailsListener listenerToRemove) {
         this.eventProducers.removeListener(listenerToRemove);
     }
 
     @Override
-    public void customerDeleted(CustomerEventArgs e) {
+    public void itemDeleted(BasicEventArgs e) {
         this.navigateToNoCustomerSelected();
     }
 
     @Override
-    public void customerSelected(CustomerEventArgs e) {
-        this.previewSelectedCar(e.getCustomerId());
+    public void itemSelected(BasicEventArgs e) {
+        this.previewSelectedCustomer(e.getId());
     }
 
     @Override
-    public void customerCreationRequested() {
+    public void itemCreationRequested() {
         this.carEditorView.getValue().createCustomer();
         contentPresenter.show(this, this.carEditorView.getKey());
     }
 
     @Override
-    public void customerEditRequested(CustomerEventArgs e) {
-        this.carEditorView.getValue().editCustomer(e.getCustomerId());
+    public void itemEditRequested(BasicEventArgs e) {
+        this.carEditorView.getValue().editCustomer(e.getId());
         contentPresenter.show(this, this.carEditorView.getKey());
     }
 
     @Override
-    public void customerSaved(CustomerEventArgs e) {
-        this.previewSelectedCar(e.getCustomerId());
+    public void itemSaved(BasicEventArgs e) {
+        this.previewSelectedCustomer(e.getId());
     }
 
     @Override
-    public void customerEditCancelled(CustomerEventArgs e) {
-        if (e.getCustomerId() == 0) {
+    public void itemEditCancelled(BasicEventArgs e) {
+        if (e.getId() == 0) {
             this.navigateToNoCustomerSelected();
         } else {
-            this.previewSelectedCar(e.getCustomerId());
+            this.previewSelectedCustomer(e.getId());
         }
     }
 }

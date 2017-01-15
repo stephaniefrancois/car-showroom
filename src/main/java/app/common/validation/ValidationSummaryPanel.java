@@ -1,4 +1,4 @@
-package app.common;
+package app.common.validation;
 
 import app.objectComposition.ServiceLocator;
 import app.styles.BorderStyles;

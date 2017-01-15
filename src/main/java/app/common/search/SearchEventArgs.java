@@ -1,11 +1,11 @@
-package app.customers.search;
+package app.common.search;
 
 import java.util.EventObject;
 
-public final class CustomerSearchEventArgs extends EventObject {
+public final class SearchEventArgs extends EventObject {
     private final String searchCriteria;
 
-    public CustomerSearchEventArgs(Object source, String searchCriteria) {
+    public SearchEventArgs(Object source, String searchCriteria) {
         super(source);
         this.searchCriteria = searchCriteria;
     }

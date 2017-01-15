@@ -1,16 +1,17 @@
 package app.customers.listing;
 
-import app.customers.CustomerEventArgs;
-import app.customers.details.CustomerDetailsListener;
-import app.customers.search.SearchPanel;
+import app.common.BasicEventArgs;
+import app.common.details.ItemDetailsListener;
+import app.common.listing.ListEventListener;
+import app.common.search.SearchPanel;
 import common.IRaiseEvents;
 
 import javax.swing.*;
 import java.awt.*;
 
 public final class SearchableCustomerListPanel extends JPanel implements
-        CustomerDetailsListener,
-        IRaiseEvents<CustomerListener> {
+        ItemDetailsListener,
+        IRaiseEvents<ListEventListener> {
     private final SearchPanel searchPanel;
     private final CustomersListPanel customersList;
 
@@ -27,27 +28,27 @@ public final class SearchableCustomerListPanel extends JPanel implements
     }
 
     @Override
-    public void addListener(CustomerListener listenerToAdd) {
+    public void addListener(ListEventListener listenerToAdd) {
         customersList.addListener(listenerToAdd);
     }
 
     @Override
-    public void removeListener(CustomerListener listenerToRemove) {
+    public void removeListener(ListEventListener listenerToRemove) {
         customersList.removeListener(listenerToRemove);
     }
 
     @Override
-    public void customerEditRequested(CustomerEventArgs e) {
+    public void itemEditRequested(BasicEventArgs e) {
 
     }
 
     @Override
-    public void customerSaved(CustomerEventArgs e) {
+    public void itemSaved(BasicEventArgs e) {
         this.customersList.refresh();
     }
 
     @Override
-    public void customerEditCancelled(CustomerEventArgs e) {
+    public void itemEditCancelled(BasicEventArgs e) {
 
     }
 }

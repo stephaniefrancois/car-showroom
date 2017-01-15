@@ -1,7 +1,9 @@
 package app.cars.details;
 
-import app.cars.CarEventArgs;
-import app.cars.listing.CarListener;
+import app.common.BasicEventArgs;
+import app.common.details.ItemDetailsListener;
+import app.common.details.NoItemSelectedPanel;
+import app.common.listing.ListEventListener;
 import app.styles.BorderStyles;
 import app.styles.ComponentSizes;
 import common.EventProducersAggregate;
@@ -13,13 +15,13 @@ import java.awt.*;
 import java.util.Arrays;
 
 public final class CarDetailsPanel extends JPanel
-        implements CarListener, CarDetailsListener, IRaiseEvents<CarDetailsListener> {
+        implements ListEventListener, ItemDetailsListener, IRaiseEvents<ItemDetailsListener> {
 
     private final CardLayout contentPresenter;
     private final Pair<String, CarEditorPanel> carEditorView = new Pair<>(CarEditorPanel.class.getName(), new CarEditorPanel());
-    private final Pair<String, NoCarSelectedPanel> noCarSelectedView = new Pair<>(NoCarSelectedPanel.class.getName(), new NoCarSelectedPanel());
+    private final Pair<String, NoItemSelectedPanel> noCarSelectedView = new Pair<>(NoItemSelectedPanel.class.getName(), new NoItemSelectedPanel("No car selected for preview ..."));
     private final Pair<String, PreviewSelectedCarPanel> previewCarView = new Pair<>(PreviewSelectedCarPanel.class.getName(), new PreviewSelectedCarPanel());
-    private final EventProducersAggregate<CarDetailsListener> eventProducers;
+    private final EventProducersAggregate<ItemDetailsListener> eventProducers;
 
     public CarDetailsPanel() {
         setMinimumSize(ComponentSizes.MINIMUM_DETAILS_PANEL_SIZE);
@@ -52,48 +54,48 @@ public final class CarDetailsPanel extends JPanel
     }
 
     @Override
-    public void carDeleted(CarEventArgs e) {
+    public void itemDeleted(BasicEventArgs e) {
         this.navigateToNoCarSelected();
     }
 
     @Override
-    public void carSelected(CarEventArgs e) {
-        this.previewSelectedCar(e.getCarId());
+    public void itemSelected(BasicEventArgs e) {
+        this.previewSelectedCar(e.getId());
     }
 
     @Override
-    public void carCreationRequested() {
+    public void itemCreationRequested() {
         this.carEditorView.getValue().createCar();
         contentPresenter.show(this, this.carEditorView.getKey());
     }
 
     @Override
-    public void carEditRequested(CarEventArgs e) {
-        this.carEditorView.getValue().editCar(e.getCarId());
+    public void itemEditRequested(BasicEventArgs e) {
+        this.carEditorView.getValue().editCar(e.getId());
         contentPresenter.show(this, this.carEditorView.getKey());
     }
 
     @Override
-    public void carSaved(CarEventArgs e) {
-        this.previewSelectedCar(e.getCarId());
+    public void itemSaved(BasicEventArgs e) {
+        this.previewSelectedCar(e.getId());
     }
 
     @Override
-    public void carEditCancelled(CarEventArgs e) {
-        if (e.getCarId() == 0) {
+    public void itemEditCancelled(BasicEventArgs e) {
+        if (e.getId() == 0) {
             this.navigateToNoCarSelected();
         } else {
-            this.previewSelectedCar(e.getCarId());
+            this.previewSelectedCar(e.getId());
         }
     }
 
     @Override
-    public void addListener(CarDetailsListener listenerToAdd) {
+    public void addListener(ItemDetailsListener listenerToAdd) {
         this.eventProducers.addListener(listenerToAdd);
     }
 
     @Override
-    public void removeListener(CarDetailsListener listenerToRemove) {
+    public void removeListener(ItemDetailsListener listenerToRemove) {
         this.eventProducers.removeListener(listenerToRemove);
     }
 }

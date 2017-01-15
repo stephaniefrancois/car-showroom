@@ -1,6 +1,6 @@
 package app.customers.details;
 
-import app.common.ValidateAbleFieldDescriptor;
+import app.common.validation.ValidateAbleFieldDescriptor;
 import app.styles.LabelStyles;
 import core.customer.CustomerFactory;
 import core.domain.deal.CustomerProperties;

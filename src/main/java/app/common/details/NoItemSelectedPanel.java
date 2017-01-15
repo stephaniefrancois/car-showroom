@@ -1,14 +1,14 @@
-package app.cars.details;
+package app.common.details;
 
 import app.styles.LabelStyles;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class NoCarSelectedPanel extends JPanel {
-    public NoCarSelectedPanel() {
+public final class NoItemSelectedPanel extends JPanel {
+    public NoItemSelectedPanel(String message) {
         setLayout(new BorderLayout());
-        JLabel messageLabel = new JLabel("No car selected for preview ...");
+        JLabel messageLabel = new JLabel(message);
         messageLabel.setFont(LabelStyles.getFontForHeaderLevelOne());
         add(messageLabel, BorderLayout.CENTER);
     }

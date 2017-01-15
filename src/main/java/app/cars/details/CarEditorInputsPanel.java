@@ -1,7 +1,7 @@
 package app.cars.details;
 
 import app.cars.details.features.CarFeaturesEditorPanel;
-import app.common.ValidateAbleFieldDescriptor;
+import app.common.validation.ValidateAbleFieldDescriptor;
 import app.objectComposition.ServiceLocator;
 import app.styles.LabelStyles;
 import common.NumberExtensions;

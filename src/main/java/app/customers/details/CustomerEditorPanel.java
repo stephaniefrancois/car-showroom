@@ -1,7 +1,8 @@
 package app.customers.details;
 
-import app.customers.CustomerEventArgs;
-import app.common.ValidationSummaryPanel;
+import app.common.BasicEventArgs;
+import app.common.details.ItemDetailsListener;
+import app.common.validation.ValidationSummaryPanel;
 import app.objectComposition.ServiceLocator;
 import common.IRaiseEvents;
 import common.ListenersManager;
@@ -17,12 +18,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public final class CustomerEditorPanel extends JPanel implements
-        IRaiseEvents<CustomerDetailsListener> {
+        IRaiseEvents<ItemDetailsListener> {
 
     private final JButton saveButton;
     private final JButton cancelButton;
 
-    private final ListenersManager<CustomerDetailsListener> listeners;
+    private final ListenersManager<ItemDetailsListener> listeners;
     private final CustomerRepository customerRepository;
     private final CustomerFactoryProvider customerFactoryProvider;
     private final CustomerEditorInputsPanel inputsPanel;
@@ -71,8 +72,8 @@ public final class CustomerEditorPanel extends JPanel implements
     }
 
     private void cancelCustomerEditing(ActionEvent e) {
-        CustomerEventArgs args = new CustomerEventArgs(e.getSource(), customerFactory.getCustomerId());
-        listeners.notifyListeners(l -> l.customerEditCancelled(args));
+        BasicEventArgs args = new BasicEventArgs(e.getSource(), customerFactory.getCustomerId());
+        listeners.notifyListeners(l -> l.itemEditCancelled(args));
     }
 
     private void saveCustomer(ActionEvent e) {
@@ -93,8 +94,8 @@ public final class CustomerEditorPanel extends JPanel implements
         try {
             CustomerProperties customer = customerFactory.build();
                 customer = customerRepository.saveCustomer(customer);
-            CustomerEventArgs args = new CustomerEventArgs(e.getSource(), customerFactory.getCustomerId());
-            listeners.notifyListeners(l -> l.customerSaved(args));
+            BasicEventArgs args = new BasicEventArgs(e.getSource(), customerFactory.getCustomerId());
+            listeners.notifyListeners(l -> l.itemSaved(args));
         } catch (Exception ex) {
             ex.printStackTrace(); // TODO: log error regarding customer validation
         }
@@ -113,12 +114,12 @@ public final class CustomerEditorPanel extends JPanel implements
     }
 
     @Override
-    public void addListener(CustomerDetailsListener listenerToAdd) {
+    public void addListener(ItemDetailsListener listenerToAdd) {
         this.listeners.addListener(listenerToAdd);
     }
 
     @Override
-    public void removeListener(CustomerDetailsListener listenerToRemove) {
+    public void removeListener(ItemDetailsListener listenerToRemove) {
         this.listeners.removeListener(listenerToRemove);
     }
 }
