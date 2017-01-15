@@ -155,7 +155,7 @@ public final class CarDetails implements CarProperties {
         return price;
     }
 
-    public int getCarId() {
+    public int getId() {
         return carId;
     }
 }

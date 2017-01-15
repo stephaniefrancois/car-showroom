@@ -1,5 +1,6 @@
 package app.customers.details;
 
+import app.common.details.EditorInputsPanel;
 import app.common.validation.ValidateAbleFieldDescriptor;
 import app.styles.LabelStyles;
 import core.customer.CustomerFactory;
@@ -10,7 +11,7 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class CustomerEditorInputsPanel extends JPanel {
+public final class CustomerEditorInputsPanel extends EditorInputsPanel<CustomerProperties, CustomerFactory> {
 
     private final GridBagConstraints formGridConfig;
     private final JTextField firstNameField;
@@ -48,6 +49,26 @@ public final class CustomerEditorInputsPanel extends JPanel {
         return fieldsMap;
     }
 
+    @Override
+    public CustomerFactory mapFormValuesToItemFactory(CustomerFactory itemFactory) {
+        itemFactory.setFirstName(this.firstNameField.getText());
+        itemFactory.setLastName(this.lastNameField.getText());
+        itemFactory.setCity(this.cityField.getText());
+        return itemFactory;
+    }
+
+    @Override
+    public CustomerFactory setDefaultValuesForNewItem(CustomerFactory itemFactory) {
+        return itemFactory;
+    }
+
+    @Override
+    public void mapItemValuesToForm(CustomerFactory item) {
+        this.firstNameField.setText(item.getFirstName());
+        this.lastNameField.setText(item.getLastName());
+        this.cityField.setText(item.getCity());
+    }
+
     private void addControlWithLabel(Component componentToAdd, String label, int rowIndex) {
         JLabel componentLabel = new JLabel(String.format("%s:", label));
         componentLabel.setLabelFor(componentToAdd);
@@ -71,18 +92,5 @@ public final class CustomerEditorInputsPanel extends JPanel {
         formGridConfig.fill = GridBagConstraints.HORIZONTAL;
         add(componentToAdd, formGridConfig);
         this.fieldsMap.put(label, new ValidateAbleFieldDescriptor(componentLabel, componentToAdd));
-    }
-
-    public CustomerFactory mapFormValuesToCustomerFactory(CustomerFactory customerFactory) {
-        customerFactory.setFirstName(this.firstNameField.getText());
-        customerFactory.setLastName(this.lastNameField.getText());
-        customerFactory.setCity(this.cityField.getText());
-        return customerFactory;
-    }
-
-    public void mapCustomerValuesToForm(CustomerProperties customer) {
-        this.firstNameField.setText(customer.getFirstName());
-        this.lastNameField.setText(customer.getLastName());
-        this.cityField.setText(customer.getCity());
     }
 }

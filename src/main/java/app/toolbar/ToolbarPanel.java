@@ -1,5 +1,6 @@
 package app.toolbar;
 
+import app.RootLogger;
 import app.styles.ButtonStyles;
 import app.styles.ComponentSizes;
 import common.IRaiseEvents;
@@ -12,12 +13,14 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public final class ToolbarPanel extends JPanel
         implements ActionListener,
         IRaiseEvents<ToolbarListener> {
 
+    private static final Logger log = RootLogger.get();
     private final List<ToolbarItem> toolbarItems;
     private final List<ToolbarListener> listeners;
     private ToolbarItem activeToolbarItem;
@@ -49,11 +52,9 @@ public final class ToolbarPanel extends JPanel
             ToolbarItem toolbarItemToSelect = matchingItems.get(0);
             selectToolBarItem(toolbarItemToSelect.getButton(),
                     toolbarItemToSelect);
-
-            // TODO: replace this with logging statements
-            System.out.println("ToolbarItem with key '" + key + "' have been activated.");
+            logToolbarItemSelected(key);
         } else {
-            System.out.println("ToolbarItem with key '" + key + "' has not been found!");
+            logToolbarItemNotFound(key);
         }
     }
 
@@ -122,6 +123,14 @@ public final class ToolbarPanel extends JPanel
         if (listeners.contains(listenerToRemove)) {
             listeners.remove(listenerToRemove);
         }
+    }
+
+    private void logToolbarItemSelected(String key) {
+        log.info(() -> String.format("ToolbarItem with key '%s' have been activated.", key));
+    }
+
+    private void logToolbarItemNotFound(String key) {
+        log.warning(() -> String.format("ToolbarItem with key '%s' has not been found!", key));
     }
 
     private final class ToolbarItem {

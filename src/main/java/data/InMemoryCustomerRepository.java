@@ -38,7 +38,7 @@ public final class InMemoryCustomerRepository implements CustomerRepository {
     public CustomerProperties getCustomer(int customerId) {
         List<CustomerProperties> filteredCustomers =
                 customers.stream()
-                        .filter(c -> c.getCustomerId() == customerId)
+                        .filter(c -> c.getId() == customerId)
                         .collect(Collectors.toList());
 
         if (filteredCustomers.isEmpty()) {
@@ -50,20 +50,20 @@ public final class InMemoryCustomerRepository implements CustomerRepository {
 
     @Override
     public CustomerProperties saveCustomer(CustomerProperties customer) {
-        if (customer.getCustomerId() == 0) {
-            addNewCustomer(customer);
+        if (customer.getId() == 0) {
+            customer = addNewCustomer(customer);
         } else {
-            updateExistingCustomer(customer);
+            customer = updateExistingCustomer(customer);
         }
 
         return customer;
     }
 
-    private void addNewCustomer(CustomerProperties customer) {
+    private CustomerProperties addNewCustomer(CustomerProperties customer) {
         Optional<Integer> highestIndex =
                 this.customers
                         .stream()
-                        .map(CustomerProperties::getCustomerId).max(Integer::compare);
+                        .map(CustomerProperties::getId).max(Integer::compare);
         int newIndex = 1;
 
         if (highestIndex.isPresent()) {
@@ -78,21 +78,23 @@ public final class InMemoryCustomerRepository implements CustomerRepository {
                 customer.getCustomerSince());
 
         this.customers.add(newCustomer);
+        return newCustomer;
     }
 
-    private void updateExistingCustomer(CustomerProperties customer) {
+    private CustomerProperties updateExistingCustomer(CustomerProperties customer) {
         List<CustomerProperties> filteredCustomers =
                 customers.stream()
-                        .filter(c -> c.getCustomerId() == customer.getCustomerId())
+                        .filter(c -> c.getId() == customer.getId())
                         .collect(Collectors.toList());
         int indexOfUpdatedCustomer = this.customers.indexOf(filteredCustomers.get(0));
         this.customers.set(indexOfUpdatedCustomer, customer);
+        return customer;
     }
 
     @Override
     public void removeCustomer(int customerId) {
         List<CustomerProperties> customerToDelete = this.customers.stream()
-                .filter(c -> c.getCustomerId() == customerId)
+                .filter(c -> c.getId() == customerId)
                 .collect(Collectors.toList());
 
         for (CustomerProperties customer : customerToDelete) {

@@ -1,18 +1,15 @@
 package app.customers.details;
 
-import app.common.BasicEventArgs;
-import app.common.details.ItemDetailsListener;
+import app.common.ControlsHelper;
+import app.common.details.PreviewSelectedItemPanel;
 import app.objectComposition.ServiceLocator;
-import app.styles.LabelStyles;
-import common.IRaiseEvents;
-import common.ListenersManager;
 import core.domain.deal.CustomerProperties;
 import data.CustomerRepository;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class PreviewSelectedCustomerPanel extends JPanel implements IRaiseEvents<ItemDetailsListener> {
+public class PreviewSelectedCustomerPanel extends PreviewSelectedItemPanel<CustomerProperties> {
 
     private final GridBagConstraints formGridConfig;
     private final JLabel firstNameValueLabel;
@@ -21,16 +18,12 @@ public class PreviewSelectedCustomerPanel extends JPanel implements IRaiseEvents
     private final JLabel customerSinceValueLabel;
 
     private final JButton editCustomerBtn;
-    private final ListenersManager<ItemDetailsListener> listeners;
     private final CustomerRepository customerRepository;
     private final Insets controlsPadding;
-    private CustomerProperties customer;
 
     public PreviewSelectedCustomerPanel() {
         setLayout(new GridBagLayout());
 
-        this.customer = null;
-        this.listeners = new ListenersManager<>();
         this.customerRepository = ServiceLocator.getComposer().getCustomerRepository();
         this.controlsPadding = new Insets(5, 0, 4, 5);
 
@@ -59,77 +52,26 @@ public class PreviewSelectedCustomerPanel extends JPanel implements IRaiseEvents
         add(editCustomerBtn, formGridConfig);
 
         editCustomerBtn.addActionListener(e -> {
-            if (customer == null) {
-                return;
-            }
-            BasicEventArgs event = new BasicEventArgs(e.getSource(), customer.getCustomerId());
-            listeners.notifyListeners(l -> l.itemEditRequested(event));
+            this.editItem(e.getSource());
         });
+    }
+
+    @Override
+    protected CustomerProperties getItem(int id) {
+        return this.customerRepository.getCustomer(id);
+    }
+
+    @Override
+    protected void populateItemInformation(CustomerProperties item) {
+        firstNameValueLabel.setText(item.getFirstName());
+        lastNameValueLabel.setText(item.getLastName());
+        cityValueLabel.setText(item.getCity());
+        customerSinceValueLabel.setText(item.getCustomerSince().toString());
     }
 
     private void addControlWithLabel(Component componentToAdd,
                                      String label,
                                      int rowIndex) {
-        addControlWithLabel(componentToAdd, label, rowIndex, 0);
-    }
-
-    private void addControlWithLabel(Component componentToAdd,
-                                     String label,
-                                     int rowIndex,
-                                     int columnIndex) {
-
-        JLabel componentLabel = new JLabel(label);
-        componentLabel.setLabelFor(componentToAdd);
-        componentLabel.setFont(LabelStyles.getFontForFieldLabel());
-        componentToAdd.setFont(LabelStyles.getFontForFieldLabel());
-
-        int columnMultiplier = 2;
-
-        formGridConfig.gridy = rowIndex;
-        formGridConfig.gridx = columnIndex * columnMultiplier;
-        formGridConfig.weightx = 0.2;
-        formGridConfig.weighty = 0.1;
-
-        formGridConfig.fill = GridBagConstraints.NONE;
-        formGridConfig.anchor = GridBagConstraints.LINE_END;
-        formGridConfig.insets = this.controlsPadding;
-        add(componentLabel, formGridConfig);
-
-        formGridConfig.gridx = columnIndex * columnMultiplier + 1;
-        formGridConfig.weightx = 0.4;
-        formGridConfig.insets = this.controlsPadding;
-        formGridConfig.anchor = GridBagConstraints.LINE_START;
-        formGridConfig.gridheight = 1;
-        add(componentToAdd, formGridConfig);
-    }
-
-    public void previewCustomer(int customerId) {
-        CustomerProperties customer = this.customerRepository.getCustomer(customerId);
-        if (customer == null) {
-            this.customer = null;
-            // TODO: log a warning that customer was not found
-            // TODO: RAISE event to tell that customer was not found and that NOT FOUND screen would be displayed
-            return;
-        }
-
-        this.customer = customer;
-        populateCustomerInformation(customer);
-    }
-
-    private void populateCustomerInformation(CustomerProperties customer) {
-        firstNameValueLabel.setText(customer.getFirstName());
-        lastNameValueLabel.setText(customer.getLastName());
-        cityValueLabel.setText(customer.getCity());
-        customerSinceValueLabel.setText(customer.getCustomerSince().toString());
-    }
-
-    @Override
-    public void addListener(ItemDetailsListener listenerToAdd) {
-        this.listeners.addListener(listenerToAdd);
-    }
-
-    @Override
-    public void removeListener(ItemDetailsListener listenerToRemove) {
-        this.listeners.removeListener(listenerToRemove);
+        ControlsHelper.addControlWithLabel(componentToAdd, label, rowIndex, this.controlsPadding, this.formGridConfig, this);
     }
 }

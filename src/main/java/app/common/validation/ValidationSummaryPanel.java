@@ -1,5 +1,6 @@
 package app.common.validation;
 
+import app.RootLogger;
 import app.objectComposition.ServiceLocator;
 import app.styles.BorderStyles;
 import app.styles.LabelStyles;
@@ -12,10 +13,12 @@ import java.awt.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public final class ValidationSummaryPanel extends JPanel {
 
+    private static final Logger log = RootLogger.get();
     private final ValidationErrorsFormatter validationErrorsFormatter;
     private final JTextArea validationErrorsLabel;
 
@@ -31,7 +34,7 @@ public final class ValidationSummaryPanel extends JPanel {
         add(this.validationErrorsLabel, BorderLayout.CENTER);
     }
 
-    public void displayValidationResults(ValidationSummary validationSummary,
+    public final void displayValidationResults(ValidationSummary validationSummary,
                                          Map<String, ValidateAbleFieldDescriptor> fieldsMap) {
         Objects.requireNonNull(validationSummary);
         Objects.requireNonNull(fieldsMap);
@@ -45,10 +48,17 @@ public final class ValidationSummaryPanel extends JPanel {
         }
 
         this.markInvalidFields(validationSummary, fieldsMap);
-
         String formattedErrors = this.validationErrorsFormatter.format(validationSummary);
         this.validationErrorsLabel.setText(formattedErrors);
+        logValidationErrors(formattedErrors);
         setVisible(true);
+    }
+
+    public final void clearValidationResults(Map<String, ValidateAbleFieldDescriptor> fieldsMap) {
+        Objects.requireNonNull(fieldsMap);
+        resetAllInvalidFields(fieldsMap);
+        this.validationErrorsLabel.setText("");
+        setVisible(false);
     }
 
     private void resetAllInvalidFields(Map<String, ValidateAbleFieldDescriptor> fieldsMap) {
@@ -69,5 +79,9 @@ public final class ValidationSummaryPanel extends JPanel {
                         LabelStyles.getForegroundColorForInvalidField());
             }
         }
+    }
+
+    private void logValidationErrors(String formattedErrors) {
+        log.warning(() -> formattedErrors);
     }
 }

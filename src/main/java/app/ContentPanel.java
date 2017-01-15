@@ -15,7 +15,6 @@ import java.util.Map;
 public final class ContentPanel extends JPanel {
 
     private final CardLayout contentPresenter;
-    // TODO: Should check CAN NAVIGATE or CAN LEAVE, perhaps define an interface for this???
     private Map<String, JPanel> cards;
 
     public ContentPanel() {

@@ -35,7 +35,7 @@ public final class CustomerFactoryTest {
         CustomerFactory sut = new CustomerFactory(customer, validatorMock);
 
         // Then
-        assertThat(sut.getCustomerId(), equalTo(customer.getCustomerId()));
+        assertThat(sut.getId(), equalTo(customer.getId()));
         assertThat(sut.getFirstName(), equalTo(customer.getFirstName()));
         assertThat(sut.getLastName(), equalTo(customer.getLastName()));
         assertThat(sut.getCity(), equalTo(customer.getCity()));
@@ -57,7 +57,7 @@ public final class CustomerFactoryTest {
         CustomerProperties customer = sut.build();
 
         // Then
-        assertThat(customer.getCustomerId(), equalTo(0));
+        assertThat(customer.getId(), equalTo(0));
         assertThat(customer.getFirstName(), equalTo("Stephanie"));
         assertThat(customer.getLastName(), equalTo("Francois"));
         assertThat(customer.getCity(), equalTo("Trou aux biches"));

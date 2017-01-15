@@ -1,6 +1,6 @@
 package core.stock;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
+import core.ItemFactory;
 import core.domain.car.*;
 import core.domain.car.conditions.NewCar;
 import core.domain.validation.ValidationException;
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 // TODO: allows to add/remove car pictures
 
-public final class CarFactory implements CarProperties {
+public final class CarFactory implements CarProperties, ItemFactory<CarProperties> {
     private final Validator<CarProperties> validator;
     private int carId;
     private String make;
@@ -59,7 +59,7 @@ public final class CarFactory implements CarProperties {
         Objects.requireNonNull(car,
                 "'car' must be supplied!");
 
-        carId = car.getCarId();
+        carId = car.getId();
         make = car.getMake();
         model = car.getModel();
         year = car.getYear();
@@ -75,7 +75,7 @@ public final class CarFactory implements CarProperties {
     }
 
     @Override
-    public int getCarId() {
+    public int getId() {
         return carId;
     }
 
@@ -183,6 +183,7 @@ public final class CarFactory implements CarProperties {
         this.numberOfSeats = numberOfSeats;
     }
 
+    @Override
     public CarProperties build() throws ValidationException {
         ValidationSummary summary = validate();
         if (!summary.getIsValid()) {
@@ -203,6 +204,7 @@ public final class CarFactory implements CarProperties {
                 features);
     }
 
+    @Override
     public ValidationSummary validate() {
         return validator.validate(this);
     }

@@ -1,15 +1,12 @@
 package app.objectComposition;
 
+import core.ItemFactoryProvider;
 import core.customer.CustomerFactory;
-import core.customer.CustomerFactoryProvider;
 import core.customer.validation.InMemoryCustomerValidationRulesProvider;
 import core.customer.validation.RuleBasedCustomerValidator;
 import core.domain.car.CarProperties;
 import core.domain.deal.CustomerProperties;
-import core.stock.CarFactory;
-import core.stock.CarFactoryProvider;
-import core.stock.CarStock;
-import core.stock.Showroom;
+import core.stock.*;
 import core.stock.validation.InMemoryCarValidationRulesProvider;
 import core.stock.validation.RuleBasedCarValidator;
 import core.validation.RuleBasedValidator;
@@ -32,7 +29,7 @@ public final class ComponentsComposer {
         return new Showroom(carRepository);
     }
 
-    public CarFactoryProvider getCarFactoryProvider() {
+    public ItemFactoryProvider<CarProperties, CarFactory> getCarFactoryProvider() {
         return new ObjectComposerBasedCarFactoryProvider();
     }
 
@@ -82,7 +79,7 @@ public final class ComponentsComposer {
         return new CustomerFactory(customer, validator);
     }
 
-    public CustomerFactoryProvider getCustomerFactoryProvider() {
+    public ItemFactoryProvider<CustomerProperties, CustomerFactory> getCustomerFactoryProvider() {
         return new ObjectComposerBasedCustomerFactoryProvider();
     }
 }

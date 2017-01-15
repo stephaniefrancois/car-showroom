@@ -38,7 +38,7 @@ public final class ShowroomTest {
 
         // Then
         assertThat(result, hasSize(1));
-        assertThat(result.get(0).getCarId(), equalTo(carId));
+        assertThat(result.get(0).getId(), equalTo(carId));
     }
 
     @Test
@@ -56,7 +56,7 @@ public final class ShowroomTest {
         sut.removeCar(carId);
 
         // Then
-        verify(carRepositoryMock, times(1)).removeCar(car.getCarId());
+        verify(carRepositoryMock, times(1)).removeCar(car.getId());
     }
 
     @Test

@@ -1,5 +1,6 @@
 package core.stock;
 
+import app.RootLogger;
 import core.domain.car.Car;
 import core.domain.car.CarProperties;
 import core.domain.car.UnableToUpdateCarException;
@@ -7,9 +8,11 @@ import data.CarRepository;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 public final class Showroom implements CarStock {
 
+    private static final Logger log = RootLogger.get();
     private final CarRepository carRepository;
 
     public Showroom(CarRepository carRepository) {
@@ -33,9 +36,10 @@ public final class Showroom implements CarStock {
     public void removeCar(int carId) {
         CarProperties car = carRepository.getCar(carId);
         if (car != null) {
-            carRepository.removeCar(car.getCarId());
+            logDeletingCar(carId);
+            carRepository.removeCar(car.getId());
         } else {
-            // TODO: log car not found
+            logCantDeleteCar(carId);
         }
     }
 
@@ -51,8 +55,8 @@ public final class Showroom implements CarStock {
         Objects.requireNonNull(car,
                 "'car' must be supplied!");
 
-        if (car.getCarId() <= 0) {
-            throw new UnableToUpdateCarException(car.getCarId());
+        if (car.getId() <= 0) {
+            throw new UnableToUpdateCarException(car.getId());
         }
         carRepository.saveCar(car);
     }
@@ -60,5 +64,13 @@ public final class Showroom implements CarStock {
     @Override
     public List<Car> find(String searchCriteria) {
         return this.carRepository.findCars(searchCriteria);
+    }
+
+    private void logDeletingCar(int carId) {
+        log.info(() -> String.format("Deleting car with id '%d' ...", carId));
+    }
+
+    private void logCantDeleteCar(int carId) {
+        log.warning(() -> String.format("Car with id '%d' was NOT found and CAN'T be deleted!", carId));
     }
 }

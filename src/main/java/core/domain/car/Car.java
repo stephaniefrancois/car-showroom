@@ -1,10 +1,10 @@
 package core.domain.car;
 
+import core.domain.IHaveIdentifier;
+
 import java.math.BigDecimal;
 
-public interface Car {
-    int getCarId();
-
+public interface Car extends IHaveIdentifier {
     String getMake();
 
     String getModel();

@@ -1,19 +1,26 @@
 package app.cars;
 
-import app.cars.listing.SearchableCarListPanel;
 import app.cars.details.CarDetailsPanel;
+import app.cars.listing.CarsListPanel;
+import app.common.listing.SearchableListPanel;
+import app.common.search.SearchPanel;
+import core.domain.car.Car;
 
 import javax.swing.*;
 import java.awt.*;
 
 public final class CarsPanel extends JPanel {
-    private final SearchableCarListPanel searchableCars;
+    private final SearchableListPanel<Car> searchableCars;
     private final CarDetailsPanel carDetails;
 
     public CarsPanel() {
         setLayout(new BorderLayout());
 
-        this.searchableCars = new SearchableCarListPanel();
+        this.searchableCars = new SearchableListPanel(
+                new SearchPanel(),
+                new CarsListPanel()
+        );
+
         this.carDetails = new CarDetailsPanel();
 
         add(this.searchableCars, BorderLayout.CENTER);

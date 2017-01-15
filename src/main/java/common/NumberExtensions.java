@@ -1,14 +1,18 @@
 package common;
 
+import app.RootLogger;
+
 import java.math.BigDecimal;
+import java.util.logging.Logger;
 
 public final class NumberExtensions {
+    private static final Logger log = RootLogger.get();
+
     public final static int tryParseNumber(String text, int defaultValue) {
         try {
             return Integer.valueOf(text);
         } catch (NumberFormatException ex) {
-            System.err.println(String.format("Failed to parse '%s' to INTEGER!", text));
-            // TODO: log conversion failure
+            log.severe(() -> String.format("Failed to parse '%s' to INTEGER!", text));
             return defaultValue;
         }
     }
@@ -17,8 +21,7 @@ public final class NumberExtensions {
         try {
             return new BigDecimal(text);
         } catch (NumberFormatException ex) {
-            // TODO: log conversion failure
-            System.err.println(String.format("Failed to parse '%s' to DECIMAL!", text));
+            log.severe(() -> String.format("Failed to parse '%s' to DECIMAL!", text));
             return defaultValue;
         }
     }

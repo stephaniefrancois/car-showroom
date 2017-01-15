@@ -43,7 +43,7 @@ public final class CarFactoryTest {
         CarFactory sut = new CarFactory(car, validatorMock);
 
         // Then
-        assertThat(sut.getCarId(), equalTo(car.getCarId()));
+        assertThat(sut.getId(), equalTo(car.getId()));
         assertThat(sut.getMake(), equalTo(car.getMake()));
         assertThat(sut.getModel(), equalTo(car.getModel()));
         assertThat(sut.getYear(), equalTo(car.getYear()));
@@ -89,7 +89,7 @@ public final class CarFactoryTest {
         CarProperties car = sut.build();
 
         // Then
-        assertThat(car.getCarId(), equalTo(0));
+        assertThat(car.getId(), equalTo(0));
         assertThat(car.getMake(), equalTo("MB"));
         assertThat(car.getModel(), equalTo("S600"));
         assertThat(car.getYear(), equalTo(2017));

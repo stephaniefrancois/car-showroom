@@ -1,5 +1,6 @@
 package app.common.search;
 
+import app.RootLogger;
 import app.common.validation.ValidateAbleFieldDescriptor;
 import app.styles.BorderStyles;
 import app.styles.ComponentSizes;
@@ -9,9 +10,11 @@ import common.ListenersManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.logging.Logger;
 
 public final class SearchPanel extends JPanel implements IRaiseEvents<SearchListener> {
 
+    private static final Logger log = RootLogger.get();
     private static final int MINIMUM_SEARCH_CRITERIA_LENGTH = 2;
     private final ListenersManager<SearchListener> listeners;
 
@@ -37,9 +40,7 @@ public final class SearchPanel extends JPanel implements IRaiseEvents<SearchList
             if (searchCriteria == null || searchCriteria.trim().length() < MINIMUM_SEARCH_CRITERIA_LENGTH) {
                 searchFieldDescriptor.markFieldAsInvalid(LabelStyles.getForegroundColorForInvalidFieldLabel(),
                         LabelStyles.getForegroundColorForInvalidField());
-
-                // TODO: log error in search criteria
-                System.err.println("Search criteria -> '" + searchCriteria + "' is NOT valid!");
+                logInvalidSearchCriteria(searchCriteria);
                 return;
             }
 
@@ -65,5 +66,9 @@ public final class SearchPanel extends JPanel implements IRaiseEvents<SearchList
     @Override
     public void removeListener(SearchListener listenerToRemove) {
         this.listeners.removeListener(listenerToRemove);
+    }
+
+    private void logInvalidSearchCriteria(String searchCriteria) {
+        log.info(() -> String.format("Search criteria -> '%s' is NOT valid!", searchCriteria));
     }
 }

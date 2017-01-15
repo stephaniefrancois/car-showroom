@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class ValidationSummary {
-    private final List<ValidationError> validationErrors;
+     private final List<ValidationError> validationErrors;
 
     public ValidationSummary() {
         validationErrors = new ArrayList<>();

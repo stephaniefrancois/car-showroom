@@ -1,14 +1,18 @@
 package core.validation;
 
+import app.RootLogger;
 import core.domain.validation.ValidationError;
 import core.domain.validation.ValidationSummary;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public abstract class RuleBasedValidator<TModelToValidate>
         implements Validator<TModelToValidate> {
+
+    private static final Logger log = RootLogger.get();
     private final ValidationRulesProvider<TModelToValidate> rulesProvider;
 
     public RuleBasedValidator(ValidationRulesProvider<TModelToValidate> rulesProvider) {
@@ -23,7 +27,7 @@ public abstract class RuleBasedValidator<TModelToValidate>
         List<ValidationRule<TModelToValidate>> rules = rulesProvider.getValidationRules();
 
         if (rules.isEmpty()) {
-            // TODO: log that we have no validation rules and this is most likely an ERROR!
+            logNoRulesFound();
             return new ValidationSummary();
         }
 
@@ -54,5 +58,9 @@ public abstract class RuleBasedValidator<TModelToValidate>
                 .map(ValidationSummary::getValidationErrors)
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
+    }
+
+    private void logNoRulesFound() {
+        log.warning(() -> "No validation rules have been found, this is most likely a configuration ERROR!");
     }
 }

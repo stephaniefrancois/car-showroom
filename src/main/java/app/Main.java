@@ -1,16 +1,12 @@
 package app;
 
-import fluent.logging.ChildLoggerFactory;
-import fluent.logging.FluentLogger;
-import fluent.logging.NameRootLogger;
-
 import javax.swing.*;
-import java.util.function.Function;
-import java.util.logging.Logger;
+import java.io.IOException;
+import java.util.logging.*;
 
 public class Main {
 
-    private static Logger log = FluentLogger.configureAndGetLogger(getLoggerConfiguration(), Main.class);
+    private static Logger log = configureRootLogger();
 
     public static void main(String[] args) {
         log.info("Car-Showroom app starting ...");
@@ -22,15 +18,21 @@ public class Main {
         log.info("Car-showroom application has been started successfully.");
     }
 
-    private static Function<NameRootLogger, ChildLoggerFactory> getLoggerConfiguration() {
-        return s -> s.withLoggerName("root")
-                .logToFile(f -> f.inApplicationRootDirectory()
-                        .appendToExisting()
-                        .file("app")
-                        .withExtension("log")
-                )
-                .usingSimpleFormatter()
-                .andCaptureAllLogs()
-                .build();
+    private static Logger configureRootLogger() {
+        Handler handler = new ConsoleHandler();
+        Level logLevel = Level.ALL;
+        try {
+            handler = new FileHandler("./app.log", true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Formatter formatter = new SimpleFormatter();
+        Logger logger = Logger.getLogger("root");
+        handler.setFormatter(formatter);
+        handler.setLevel(logLevel);
+        logger.addHandler(handler);
+        logger.setLevel(logLevel);
+
+        return logger;
     }
 }

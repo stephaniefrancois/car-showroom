@@ -20,7 +20,7 @@ public final class InMemoryCarRepository implements CarRepository {
                     Arrays.asList(new CarFeature(14, "Luxury Seats"),
                             new CarFeature(15, "Premium Leather"),
                             new CarFeature(16, "Champagne"),
-                            new CarFeature(17,"W12 Bi-Turbo engine"))
+                            new CarFeature(17, "W12 Bi-Turbo engine"))
             ),
             new CarDetails(2, "Bentley", "Continetal GT",
                     2017,
@@ -64,7 +64,7 @@ public final class InMemoryCarRepository implements CarRepository {
     public CarProperties getCar(int carId) {
         List<CarProperties> filteredCars =
                 cars.stream()
-                        .filter(c -> c.getCarId() == carId)
+                        .filter(c -> c.getId() == carId)
                         .collect(Collectors.toList());
 
         if (filteredCars.isEmpty()) {
@@ -76,20 +76,20 @@ public final class InMemoryCarRepository implements CarRepository {
 
     @Override
     public CarProperties saveCar(CarProperties car) {
-        if (car.getCarId() == 0) {
-            addNewCar(car);
+        if (car.getId() == 0) {
+            car = addNewCar(car);
         } else {
-            updateExistingCar(car);
+            car = updateExistingCar(car);
         }
 
         return car;
     }
 
-    private void addNewCar(CarProperties car) {
+    private CarProperties addNewCar(CarProperties car) {
         Optional<Integer> highestCarIndex =
                 this.cars
                         .stream()
-                        .map(Car::getCarId).max(Integer::compare);
+                        .map(Car::getId).max(Integer::compare);
         int newCarIndex = 1;
 
         if (highestCarIndex.isPresent()) {
@@ -111,20 +111,22 @@ public final class InMemoryCarRepository implements CarRepository {
                 car.getFeatures());
 
         this.cars.add(newCar);
+        return newCar;
     }
 
-    private void updateExistingCar(CarProperties car) {
+    private CarProperties updateExistingCar(CarProperties car) {
         List<CarProperties> filteredCars =
                 cars.stream()
-                        .filter(c -> c.getCarId() == car.getCarId())
+                        .filter(c -> c.getId() == car.getId())
                         .collect(Collectors.toList());
         int indexOfUpdatedCar = this.cars.indexOf(filteredCars.get(0));
         this.cars.set(indexOfUpdatedCar, car);
+        return car;
     }
 
     @Override
     public void removeCar(int carId) {
-        List<CarProperties> carsToDelete = this.cars.stream().filter(c -> c.getCarId() == carId).collect(Collectors.toList());
+        List<CarProperties> carsToDelete = this.cars.stream().filter(c -> c.getId() == carId).collect(Collectors.toList());
 
         for (CarProperties car : carsToDelete) {
             this.cars.remove(car);

@@ -1,6 +1,7 @@
 package app.cars.details;
 
 import app.cars.details.features.CarFeaturesEditorPanel;
+import app.common.details.EditorInputsPanel;
 import app.common.validation.ValidateAbleFieldDescriptor;
 import app.objectComposition.ServiceLocator;
 import app.styles.LabelStyles;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public final class CarEditorInputsPanel extends JPanel {
+public final class CarEditorInputsPanel extends EditorInputsPanel<CarProperties, CarFactory> {
 
     private final GridBagConstraints formGridConfig;
     private final JTextField makeField;
@@ -83,6 +84,7 @@ public final class CarEditorInputsPanel extends JPanel {
         this.populateCarMetadata();
     }
 
+    @Override
     public Map<String, ValidateAbleFieldDescriptor> getFieldsMap() {
         return fieldsMap;
     }
@@ -111,7 +113,6 @@ public final class CarEditorInputsPanel extends JPanel {
         add(componentToAdd, formGridConfig);
         this.fieldsMap.put(label, new ValidateAbleFieldDescriptor(componentLabel, componentToAdd));
     }
-
 
     private void addCarFeaturesLabels(CarFeaturesEditorPanel carFeaturesEditorPanel) {
         final int rowsToSpan = 9;
@@ -158,7 +159,8 @@ public final class CarEditorInputsPanel extends JPanel {
         comboBox.setEditable(false);
     }
 
-    public CarFactory mapFormValuesToCarFactory(CarFactory carFactory) {
+    @Override
+    public CarFactory mapFormValuesToItemFactory(CarFactory carFactory) {
         carFactory.setMake(this.makeField.getText());
         carFactory.setModel(this.modelField.getText());
         carFactory.setYear(NumberExtensions.tryParseNumber(this.yearField.getText(), 0));
@@ -178,7 +180,8 @@ public final class CarEditorInputsPanel extends JPanel {
         return carFactory;
     }
 
-    public CarFactory setDefaultValuesForNewCar(CarFactory carFactory) {
+    @Override
+    public CarFactory setDefaultValuesForNewItem(CarFactory carFactory) {
         carFactory.setFuelType((CarMetadata) this.fuelTypeCombo.getItemAt(0));
         carFactory.setBodyStyle((CarMetadata) this.bodyStyleCombo.getItemAt(0));
         carFactory.setTransmission((CarMetadata) this.transmissionCombo.getItemAt(0));
@@ -186,17 +189,18 @@ public final class CarEditorInputsPanel extends JPanel {
         return carFactory;
     }
 
-    public void mapCarValuesToForm(CarProperties car) {
-        this.makeField.setText(car.getMake());
-        this.modelField.setText(car.getModel());
-        this.yearField.setText(car.getYear().toString());
-        this.colorField.setText(car.getColor());
-        this.fuelTypeCombo.setSelectedItem(car.getFuelType());
-        this.bodyStyleCombo.setSelectedItem(car.getBodyStyle());
-        this.transmissionCombo.setSelectedItem(car.getTransmission());
-        this.numberOfSeatsField.setText(car.getNumberOfSeats().toString());
-        this.mileageField.setText(car.getMileage().toString());
-        this.priceField.setText(car.getPrice().toString());
-        this.carFeaturesEditorPanel.displaySelectedCarFeatures(car.getFeatures());
+    @Override
+    public void mapItemValuesToForm(CarFactory item) {
+        this.makeField.setText(item.getMake());
+        this.modelField.setText(item.getModel());
+        this.yearField.setText(item.getYear().toString());
+        this.colorField.setText(item.getColor());
+        this.fuelTypeCombo.setSelectedItem(item.getFuelType());
+        this.bodyStyleCombo.setSelectedItem(item.getBodyStyle());
+        this.transmissionCombo.setSelectedItem(item.getTransmission());
+        this.numberOfSeatsField.setText(item.getNumberOfSeats().toString());
+        this.mileageField.setText(item.getMileage().toString());
+        this.priceField.setText(item.getPrice().toString());
+        this.carFeaturesEditorPanel.displaySelectedCarFeatures(item.getFeatures());
     }
 }

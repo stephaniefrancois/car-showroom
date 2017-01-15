@@ -27,7 +27,7 @@ public final class Customer implements CustomerProperties {
         this(0, firstName, lastName, city, LocalDate.now());
     }
 
-    public int getCustomerId() {
+    public int getId() {
         return customerId;
     }
 

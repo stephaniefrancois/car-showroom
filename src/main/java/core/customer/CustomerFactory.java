@@ -1,5 +1,6 @@
 package core.customer;
 
+import core.ItemFactory;
 import core.domain.deal.Customer;
 import core.domain.deal.CustomerProperties;
 import core.domain.validation.ValidationException;
@@ -10,7 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public final class CustomerFactory implements CustomerProperties {
+public final class CustomerFactory implements CustomerProperties, ItemFactory<CustomerProperties> {
     private final Validator<CustomerProperties> validator;
     private int customerId;
     private String firstName;
@@ -37,7 +38,7 @@ public final class CustomerFactory implements CustomerProperties {
         Objects.requireNonNull(customer,
                 "'customer' must be supplied!");
 
-        customerId = customer.getCustomerId();
+        customerId = customer.getId();
         firstName = customer.getFirstName();
         lastName = customer.getLastName();
         city = customer.getCity();
@@ -45,7 +46,7 @@ public final class CustomerFactory implements CustomerProperties {
     }
 
     @Override
-    public int getCustomerId() {
+    public int getId() {
         return customerId;
     }
 

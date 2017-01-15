@@ -33,7 +33,7 @@ public class CarDescription implements Car {
     }
 
     @Override
-    public int getCarId() {
+    public int getId() {
         return carId;
     }
 
