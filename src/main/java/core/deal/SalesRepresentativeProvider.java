@@ -1,7 +1,7 @@
 package core.deal;
 
-import core.authentication.NotAuthenticatedException;
-import core.domain.deal.SalesRepresentative;
+import core.authentication.model.NotAuthenticatedException;
+import core.deal.model.SalesRepresentative;
 
 public interface SalesRepresentativeProvider {
     SalesRepresentative getActiveSalesRepresentative() throws NotAuthenticatedException;

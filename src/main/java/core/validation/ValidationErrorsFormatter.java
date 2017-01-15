@@ -1,6 +1,6 @@
 package core.validation;
 
-import core.domain.validation.ValidationSummary;
+import core.validation.model.ValidationSummary;
 
 public interface ValidationErrorsFormatter {
     String format(ValidationSummary validationSummary);

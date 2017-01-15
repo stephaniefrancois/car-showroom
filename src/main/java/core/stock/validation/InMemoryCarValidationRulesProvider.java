@@ -1,7 +1,6 @@
 package core.stock.validation;
 
-import core.domain.car.Car;
-import core.domain.car.CarProperties;
+import core.stock.model.CarDetails;
 import core.validation.RuleFor;
 import core.validation.ValidationRulesProvider;
 
@@ -9,7 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public final class InMemoryCarValidationRulesProvider
-        extends ValidationRulesProvider<CarProperties> {
+        extends ValidationRulesProvider<CarDetails> {
 
     private final int minimumValueLength = 2;
     private final int maximumValueLength = 50;
@@ -27,32 +26,32 @@ public final class InMemoryCarValidationRulesProvider
     private final int maximumCarYear = LocalDate.now().getYear();
 
     public InMemoryCarValidationRulesProvider() {
-        addRule(RuleFor.mandatory("Body Style", CarProperties::getBodyStyle));
-        addRule(RuleFor.notEmpty("Color", CarProperties::getColor));
-        addRule(RuleFor.mandatory("Fuel Type", Car::getFuelType));
-        addRule(RuleFor.mandatory("Transmission", Car::getTransmission));
+        addRule(RuleFor.mandatory("Body Style", CarDetails::getBodyStyle));
+        addRule(RuleFor.notEmpty("Color", CarDetails::getColor));
+        addRule(RuleFor.mandatory("Fuel Type", CarDetails::getFuelType));
+        addRule(RuleFor.mandatory("Transmission", CarDetails::getTransmission));
 
-        addRule(RuleFor.mandatory("Make", Car::getMake));
-        addRule(RuleFor.minLength(minimumValueLength, "Make", Car::getMake));
-        addRule(RuleFor.maxLength(maximumValueLength, "Make", Car::getMake));
+        addRule(RuleFor.mandatory("Make", CarDetails::getMake));
+        addRule(RuleFor.minLength(minimumValueLength, "Make", CarDetails::getMake));
+        addRule(RuleFor.maxLength(maximumValueLength, "Make", CarDetails::getMake));
 
-        addRule(RuleFor.mandatory("Model", Car::getModel));
-        addRule(RuleFor.minLength(minimumValueLength, "Model", Car::getModel));
-        addRule(RuleFor.maxLength(maximumValueLength, "Model", Car::getModel));
+        addRule(RuleFor.mandatory("Model", CarDetails::getModel));
+        addRule(RuleFor.minLength(minimumValueLength, "Model", CarDetails::getModel));
+        addRule(RuleFor.maxLength(maximumValueLength, "Model", CarDetails::getModel));
 
-        addRule(RuleFor.mandatory("Number of seats", CarProperties::getNumberOfSeats));
-        addRule(RuleFor.minValue(minimumNumberOfSeats, "Number of seats", CarProperties::getNumberOfSeats));
-        addRule(RuleFor.maxValue(maximumNumberOfSeats, "Number of seats", CarProperties::getNumberOfSeats));
+        addRule(RuleFor.mandatory("Number of seats", CarDetails::getNumberOfSeats));
+        addRule(RuleFor.minValue(minimumNumberOfSeats, "Number of seats", CarDetails::getNumberOfSeats));
+        addRule(RuleFor.maxValue(maximumNumberOfSeats, "Number of seats", CarDetails::getNumberOfSeats));
 
-        addRule(RuleFor.mandatory("Price", Car::getPrice));
-        addRule(RuleFor.minValue(minimumPrice, "Price", Car::getPrice));
-        addRule(RuleFor.maxValue(maximumPrice, "Price", Car::getPrice));
+        addRule(RuleFor.mandatory("Price", CarDetails::getPrice));
+        addRule(RuleFor.minValue(minimumPrice, "Price", CarDetails::getPrice));
+        addRule(RuleFor.maxValue(maximumPrice, "Price", CarDetails::getPrice));
 
-        addRule(RuleFor.minValue(minimumMileage, "Mileage", CarProperties::getMileage));
-        addRule(RuleFor.maxValue(maximumMileage, "Mileage", CarProperties::getMileage));
+        addRule(RuleFor.minValue(minimumMileage, "Mileage", CarDetails::getMileage));
+        addRule(RuleFor.maxValue(maximumMileage, "Mileage", CarDetails::getMileage));
 
-        addRule(RuleFor.mandatory("Year", Car::getYear));
-        addRule(RuleFor.minValue(minimumCarYear, "Year", Car::getYear));
-        addRule(RuleFor.maxValue(maximumCarYear, "Year", Car::getYear));
+        addRule(RuleFor.mandatory("Year", CarDetails::getYear));
+        addRule(RuleFor.minValue(minimumCarYear, "Year", CarDetails::getYear));
+        addRule(RuleFor.maxValue(maximumCarYear, "Year", CarDetails::getYear));
     }
 }

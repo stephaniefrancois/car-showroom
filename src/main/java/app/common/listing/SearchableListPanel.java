@@ -4,7 +4,7 @@ import app.common.BasicEventArgs;
 import app.common.details.ItemDetailsListener;
 import app.common.search.SearchPanel;
 import common.IRaiseEvents;
-import core.domain.IHaveIdentifier;
+import core.IHaveIdentifier;
 
 import javax.swing.*;
 import java.awt.*;

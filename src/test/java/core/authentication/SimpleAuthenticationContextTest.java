@@ -1,6 +1,9 @@
 package core.authentication;
 
-import core.domain.UserProfile;
+import core.authentication.model.AuthenticationContext;
+import core.authentication.model.SimpleAuthenticationContext;
+import core.authentication.model.User;
+import core.authentication.model.UserProfile;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.*;

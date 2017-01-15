@@ -1,8 +1,8 @@
 package core.validation;
 
 import app.RootLogger;
-import core.domain.validation.ValidationError;
-import core.domain.validation.ValidationSummary;
+import core.validation.model.ValidationError;
+import core.validation.model.ValidationSummary;
 
 import java.util.List;
 import java.util.Objects;

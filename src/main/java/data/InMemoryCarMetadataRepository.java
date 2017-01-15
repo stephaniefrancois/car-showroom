@@ -1,11 +1,10 @@
 package data;
 
-import core.domain.car.CarFeature;
-import core.domain.car.CarMetadata;
+import core.stock.model.CarFeature;
+import core.stock.model.CarMetadata;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public final class InMemoryCarMetadataRepository implements CarMetadataRepository {
     @Override

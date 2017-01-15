@@ -1,8 +1,8 @@
 package core.stock;
 
-import core.domain.car.Car;
-import core.domain.car.CarProperties;
-import core.domain.car.UnableToUpdateCarException;
+import core.stock.model.Car;
+import core.stock.model.CarDetails;
+import core.stock.model.UnableToUpdateCarException;
 
 import java.util.List;
 
@@ -11,11 +11,11 @@ public interface CarStock {
 
     List<Car> find(String searchCriteria);
 
-    CarProperties getCarDetails(int carId);
+    CarDetails getCarDetails(int carId);
 
     void removeCar(int carId);
 
-    CarProperties addCar(CarProperties car);
+    CarDetails addCar(CarDetails car);
 
-    void updateCar(CarProperties car) throws UnableToUpdateCarException;
+    void updateCar(CarDetails car) throws UnableToUpdateCarException;
 }

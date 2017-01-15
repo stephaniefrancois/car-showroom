@@ -1,11 +1,15 @@
 package core.stock;
 
+import core.IHaveIdentifier;
 import core.ItemFactory;
-import core.domain.car.*;
-import core.domain.car.conditions.NewCar;
-import core.domain.validation.ValidationException;
-import core.domain.validation.ValidationSummary;
+import core.stock.model.CarDetails;
+import core.stock.model.CarFeature;
+import core.stock.model.CarMetadata;
+import core.stock.model.Condition;
+import core.stock.model.conditions.NewCar;
 import core.validation.Validator;
+import core.validation.model.ValidationException;
+import core.validation.model.ValidationSummary;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -16,8 +20,8 @@ import java.util.stream.Collectors;
 
 // TODO: allows to add/remove car pictures
 
-public final class CarFactory implements CarProperties, ItemFactory<CarProperties> {
-    private final Validator<CarProperties> validator;
+public final class CarFactory implements IHaveIdentifier, ItemFactory<CarDetails> {
+    private final Validator<CarDetails> validator;
     private int carId;
     private String make;
     private String model;
@@ -32,7 +36,7 @@ public final class CarFactory implements CarProperties, ItemFactory<CarPropertie
     private Integer numberOfSeats;
     private BigDecimal price;
 
-    public CarFactory(Validator<CarProperties> validator) {
+    public CarFactory(Validator<CarDetails> validator) {
 
         Objects.requireNonNull(validator,
                 "'validator' must be supplied!");
@@ -53,7 +57,7 @@ public final class CarFactory implements CarProperties, ItemFactory<CarPropertie
         price = new BigDecimal(0);
     }
 
-    public CarFactory(CarProperties car, Validator<CarProperties> validator) {
+    public CarFactory(CarDetails car, Validator<CarDetails> validator) {
         this(validator);
 
         Objects.requireNonNull(car,
@@ -79,11 +83,6 @@ public final class CarFactory implements CarProperties, ItemFactory<CarPropertie
         return carId;
     }
 
-    public void setCarId(int carId) {
-        this.carId = carId;
-    }
-
-    @Override
     public String getMake() {
         return make;
     }
@@ -92,7 +91,6 @@ public final class CarFactory implements CarProperties, ItemFactory<CarPropertie
         this.make = make;
     }
 
-    @Override
     public String getModel() {
         return model;
     }
@@ -101,7 +99,6 @@ public final class CarFactory implements CarProperties, ItemFactory<CarPropertie
         this.model = model;
     }
 
-    @Override
     public Integer getYear() {
         return year;
     }
@@ -110,7 +107,6 @@ public final class CarFactory implements CarProperties, ItemFactory<CarPropertie
         this.year = year;
     }
 
-    @Override
     public CarMetadata getFuelType() {
         return fuelType;
     }
@@ -119,7 +115,6 @@ public final class CarFactory implements CarProperties, ItemFactory<CarPropertie
         this.fuelType = fuelType;
     }
 
-    @Override
     public CarMetadata getTransmission() {
         return transmission;
     }
@@ -128,12 +123,10 @@ public final class CarFactory implements CarProperties, ItemFactory<CarPropertie
         this.transmission = transmission;
     }
 
-    @Override
     public Condition getCondition() {
         return condition;
     }
 
-    @Override
     public BigDecimal getPrice() {
         return price;
     }
@@ -142,12 +135,10 @@ public final class CarFactory implements CarProperties, ItemFactory<CarPropertie
         this.price = price;
     }
 
-    @Override
     public List<CarFeature> getFeatures() {
         return features;
     }
 
-    @Override
     public String getColor() {
         return color;
     }
@@ -156,7 +147,6 @@ public final class CarFactory implements CarProperties, ItemFactory<CarPropertie
         this.color = color;
     }
 
-    @Override
     public CarMetadata getBodyStyle() {
         return bodyStyle;
     }
@@ -165,7 +155,6 @@ public final class CarFactory implements CarProperties, ItemFactory<CarPropertie
         this.bodyStyle = bodyStyle;
     }
 
-    @Override
     public Integer getMileage() {
         return mileage;
     }
@@ -174,7 +163,6 @@ public final class CarFactory implements CarProperties, ItemFactory<CarPropertie
         this.mileage = mileage;
     }
 
-    @Override
     public Integer getNumberOfSeats() {
         return numberOfSeats;
     }
@@ -184,12 +172,16 @@ public final class CarFactory implements CarProperties, ItemFactory<CarPropertie
     }
 
     @Override
-    public CarProperties build() throws ValidationException {
+    public CarDetails build() throws ValidationException {
         ValidationSummary summary = validate();
         if (!summary.getIsValid()) {
             throw new ValidationException(summary.getValidationErrors());
         }
 
+        return buildCar();
+    }
+
+    private CarDetails buildCar() {
         return new CarDetails(carId,
                 make,
                 model,
@@ -206,7 +198,8 @@ public final class CarFactory implements CarProperties, ItemFactory<CarPropertie
 
     @Override
     public ValidationSummary validate() {
-        return validator.validate(this);
+        CarDetails car = buildCar();
+        return validator.validate(car);
     }
 
     public void addCarFeature(CarFeature feature) {

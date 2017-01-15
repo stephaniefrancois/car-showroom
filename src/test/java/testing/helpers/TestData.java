@@ -1,11 +1,14 @@
 package testing.helpers;
 
-import core.domain.UserProfile;
-import core.domain.car.CarDetails;
-import core.domain.car.CarFeature;
-import core.domain.car.CarMetadata;
-import core.domain.car.CarProperties;
-import core.domain.deal.*;
+import core.authentication.model.UserProfile;
+import core.customer.model.Customer;
+import core.deal.model.CarDealDetails;
+import core.deal.model.PaymentOptions;
+import core.deal.model.PaymentSchedule;
+import core.deal.model.SalesRepresentative;
+import core.stock.model.CarDetails;
+import core.stock.model.CarFeature;
+import core.stock.model.CarMetadata;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -97,8 +100,8 @@ public final class TestData {
     }
 
     public static class Deals {
-        public static CarDealProperties getDeal() {
-            CarProperties car = Cars.getCar();
+        public static CarDealDetails getDeal() {
+            CarDetails car = Cars.getCar();
             Customer customer = Customers.getCustomer();
             SalesRepresentative salesMan = SalesPeople.getSalesMan();
 
@@ -106,7 +109,8 @@ public final class TestData {
             PaymentOptions paymentOptions = PaymentOptionsData.getPaymentOptions();
             PaymentSchedule schedule = PaymentSchedules.getSchedule();
 
-            return new CarDeal(car,
+            return new CarDealDetails(1,
+                    car,
                     customer,
                     dealDate,
                     salesMan,

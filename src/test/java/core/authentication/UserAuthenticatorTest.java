@@ -1,6 +1,9 @@
 package core.authentication;
 
-import core.domain.UserProfile;
+import core.authentication.model.AuthenticationContext;
+import core.authentication.model.AuthenticationResult;
+import core.authentication.model.User;
+import core.authentication.model.UserProfile;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;

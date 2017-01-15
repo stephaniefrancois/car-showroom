@@ -1,7 +1,7 @@
 package core.deal;
 
-import core.domain.deal.PaymentOptions;
-import core.domain.deal.PaymentSchedule;
+import core.deal.model.PaymentOptions;
+import core.deal.model.PaymentSchedule;
 
 import java.math.BigDecimal;
 

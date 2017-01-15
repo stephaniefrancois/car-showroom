@@ -7,13 +7,13 @@ import app.common.details.PreviewSelectedItemPanel;
 import app.objectComposition.ServiceLocator;
 import app.styles.LabelStyles;
 import common.ListenersManager;
-import core.domain.car.CarProperties;
 import core.stock.CarStock;
+import core.stock.model.CarDetails;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class PreviewSelectedCarPanel extends PreviewSelectedItemPanel<CarProperties> {
+public class PreviewSelectedCarPanel extends PreviewSelectedItemPanel<CarDetails> {
 
     private final GridBagConstraints formGridConfig;
     private final JLabel makeValueLabel;
@@ -90,12 +90,12 @@ public class PreviewSelectedCarPanel extends PreviewSelectedItemPanel<CarPropert
     }
 
     @Override
-    protected CarProperties getItem(int id) {
+    protected CarDetails getItem(int id) {
         return this.carStock.getCarDetails(id);
     }
 
     @Override
-    protected void populateItemInformation(CarProperties item) {
+    protected void populateItemInformation(CarDetails item) {
         makeValueLabel.setText(item.getMake());
         modelValueLabel.setText(item.getModel());
         yearValueLabel.setText(item.getYear().toString());

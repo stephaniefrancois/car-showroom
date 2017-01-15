@@ -1,5 +1,6 @@
 package core.validation;
-import core.domain.validation.ValidationSummary;
+
+import core.validation.model.ValidationSummary;
 
 public interface Validator<TModelToValidate> {
     ValidationSummary validate(TModelToValidate model);

@@ -4,14 +4,14 @@ import app.common.details.EditorInputsPanel;
 import app.common.validation.ValidateAbleFieldDescriptor;
 import app.styles.LabelStyles;
 import core.customer.CustomerFactory;
-import core.domain.deal.CustomerProperties;
+import core.customer.model.Customer;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class CustomerEditorInputsPanel extends EditorInputsPanel<CustomerProperties, CustomerFactory> {
+public final class CustomerEditorInputsPanel extends EditorInputsPanel<Customer, CustomerFactory> {
 
     private final GridBagConstraints formGridConfig;
     private final JTextField firstNameField;

@@ -4,7 +4,7 @@ import app.cars.details.CarDetailsPanel;
 import app.cars.listing.CarsListPanel;
 import app.common.listing.SearchableListPanel;
 import app.common.search.SearchPanel;
-import core.domain.car.Car;
+import core.stock.model.Car;
 
 import javax.swing.*;
 import java.awt.*;

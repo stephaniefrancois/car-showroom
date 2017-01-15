@@ -1,12 +1,11 @@
 package core.customer;
 
 import com.sun.javaws.exceptions.InvalidArgumentException;
-import core.domain.deal.Customer;
-import core.domain.deal.CustomerProperties;
-import core.domain.validation.ValidationError;
-import core.domain.validation.ValidationException;
-import core.domain.validation.ValidationSummary;
+import core.customer.model.Customer;
 import core.validation.Validator;
+import core.validation.model.ValidationError;
+import core.validation.model.ValidationException;
+import core.validation.model.ValidationSummary;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -29,7 +28,7 @@ public final class CustomerFactoryTest {
         // Given
         Customer customer = Customers.getCustomer();
 
-        Validator<CustomerProperties> validatorMock = Mockito.mock(Validator.class);
+        Validator<Customer> validatorMock = Mockito.mock(Validator.class);
 
         // When
         CustomerFactory sut = new CustomerFactory(customer, validatorMock);
@@ -45,7 +44,7 @@ public final class CustomerFactoryTest {
     @Test
     public void GivenCorrectlySetPropertiesWhenWeBuildCustomerWeShouldHaveCustomerPropertiesSet() throws ValidationException, InvalidArgumentException {
         // Given
-        Validator<CustomerProperties> validatorMock = Mockito.mock(Validator.class);
+        Validator<Customer> validatorMock = Mockito.mock(Validator.class);
         CustomerFactory sut = new CustomerFactory(validatorMock);
         when(validatorMock.validate(any())).thenReturn(new ValidationSummary());
 
@@ -54,7 +53,7 @@ public final class CustomerFactoryTest {
         sut.setLastName("Francois");
         sut.setCity("Trou aux biches");
 
-        CustomerProperties customer = sut.build();
+        Customer customer = sut.build();
 
         // Then
         assertThat(customer.getId(), equalTo(0));
@@ -66,7 +65,7 @@ public final class CustomerFactoryTest {
     @Test
     public void GivenWeHaveMissingDataWhenBuildingCustomerThenValidationErrorsShouldBeReturned() {
         // Given
-        Validator<CustomerProperties> validatorMock = Mockito.mock(Validator.class);
+        Validator<Customer> validatorMock = Mockito.mock(Validator.class);
         CustomerFactory sut = new CustomerFactory(validatorMock);
 
         List<ValidationError> errors = new ArrayList<>();
@@ -87,7 +86,7 @@ public final class CustomerFactoryTest {
     @Test
     public void GivenInvalidCustomerSetupWhenWeBuildCustomerThenExceptionShouldBeThrown() {
         // Given
-        Validator<CustomerProperties> validatorMock = Mockito.mock(Validator.class);
+        Validator<Customer> validatorMock = Mockito.mock(Validator.class);
         CustomerFactory sut = new CustomerFactory(validatorMock);
 
         List<ValidationError> errors = new ArrayList<>();

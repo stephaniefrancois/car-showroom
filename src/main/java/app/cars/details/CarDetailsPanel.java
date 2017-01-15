@@ -1,11 +1,11 @@
 package app.cars.details;
 
 import app.common.details.DetailsPanel;
-import core.domain.car.CarProperties;
 import core.stock.CarFactory;
+import core.stock.model.CarDetails;
 import javafx.util.Pair;
 
-public final class CarDetailsPanel extends DetailsPanel<CarProperties, CarFactory> {
+public final class CarDetailsPanel extends DetailsPanel<CarDetails, CarFactory> {
 
 
     public CarDetailsPanel() {

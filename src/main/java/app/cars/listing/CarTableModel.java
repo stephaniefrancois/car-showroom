@@ -1,7 +1,7 @@
 package app.cars.listing;
 
 import app.common.listing.TableModel;
-import core.domain.car.Car;
+import core.stock.model.Car;
 
 public final class CarTableModel extends TableModel<Car> {
     public CarTableModel() {

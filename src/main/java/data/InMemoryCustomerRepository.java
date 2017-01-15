@@ -1,7 +1,6 @@
 package data;
 
-import core.domain.deal.Customer;
-import core.domain.deal.CustomerProperties;
+import core.customer.model.Customer;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -11,7 +10,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public final class InMemoryCustomerRepository implements CustomerRepository {
-    private ArrayList<CustomerProperties> customers = new ArrayList<>(Arrays.asList(
+    private ArrayList<Customer> customers = new ArrayList<>(Arrays.asList(
             new Customer(1,
                     "Stephanie",
                     "Francois",
@@ -30,13 +29,13 @@ public final class InMemoryCustomerRepository implements CustomerRepository {
     ));
 
     @Override
-    public List<CustomerProperties> getCustomers() {
+    public List<Customer> getCustomers() {
         return customers.stream().map(c -> c).collect(Collectors.toList());
     }
 
     @Override
-    public CustomerProperties getCustomer(int customerId) {
-        List<CustomerProperties> filteredCustomers =
+    public Customer getCustomer(int customerId) {
+        List<Customer> filteredCustomers =
                 customers.stream()
                         .filter(c -> c.getId() == customerId)
                         .collect(Collectors.toList());
@@ -49,7 +48,7 @@ public final class InMemoryCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public CustomerProperties saveCustomer(CustomerProperties customer) {
+    public Customer saveCustomer(Customer customer) {
         if (customer.getId() == 0) {
             customer = addNewCustomer(customer);
         } else {
@@ -59,11 +58,11 @@ public final class InMemoryCustomerRepository implements CustomerRepository {
         return customer;
     }
 
-    private CustomerProperties addNewCustomer(CustomerProperties customer) {
+    private Customer addNewCustomer(Customer customer) {
         Optional<Integer> highestIndex =
                 this.customers
                         .stream()
-                        .map(CustomerProperties::getId).max(Integer::compare);
+                        .map(Customer::getId).max(Integer::compare);
         int newIndex = 1;
 
         if (highestIndex.isPresent()) {
@@ -81,8 +80,8 @@ public final class InMemoryCustomerRepository implements CustomerRepository {
         return newCustomer;
     }
 
-    private CustomerProperties updateExistingCustomer(CustomerProperties customer) {
-        List<CustomerProperties> filteredCustomers =
+    private Customer updateExistingCustomer(Customer customer) {
+        List<Customer> filteredCustomers =
                 customers.stream()
                         .filter(c -> c.getId() == customer.getId())
                         .collect(Collectors.toList());
@@ -93,17 +92,17 @@ public final class InMemoryCustomerRepository implements CustomerRepository {
 
     @Override
     public void removeCustomer(int customerId) {
-        List<CustomerProperties> customerToDelete = this.customers.stream()
+        List<Customer> customerToDelete = this.customers.stream()
                 .filter(c -> c.getId() == customerId)
                 .collect(Collectors.toList());
 
-        for (CustomerProperties customer : customerToDelete) {
+        for (Customer customer : customerToDelete) {
             this.customers.remove(customer);
         }
     }
 
     @Override
-    public List<CustomerProperties> findCustomers(String searchCriteria) {
+    public List<Customer> findCustomers(String searchCriteria) {
         return this.customers.stream()
                 .filter(c -> c.getFirstName().toLowerCase().contains(searchCriteria.toLowerCase()) ||
                         c.getLastName().toLowerCase().contains(searchCriteria.toLowerCase())

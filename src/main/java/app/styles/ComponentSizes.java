@@ -4,7 +4,7 @@ import java.awt.*;
 
 public final class ComponentSizes {
     private static final int APP_WIDTH = 1280;
-    private static final int APP_HEIGHT = 768;
+    private static final int APP_HEIGHT = 800;
     private static final int TOOLBAR_PANEL_HEIGHT = 150;
 
     public static final Dimension APP_SIZE = new Dimension(APP_WIDTH,

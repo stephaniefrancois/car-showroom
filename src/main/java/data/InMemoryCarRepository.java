@@ -1,6 +1,9 @@
 package data;
 
-import core.domain.car.*;
+import core.stock.model.Car;
+import core.stock.model.CarDetails;
+import core.stock.model.CarFeature;
+import core.stock.model.CarMetadata;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -8,7 +11,7 @@ import java.util.stream.Collectors;
 
 public final class InMemoryCarRepository implements CarRepository {
 
-    private ArrayList<CarProperties> cars = new ArrayList<>(Arrays.asList(
+    private ArrayList<CarDetails> cars = new ArrayList<>(Arrays.asList(
             new CarDetails(1, "Mercedes Benz", "S600",
                     2017,
                     "Black",
@@ -57,12 +60,19 @@ public final class InMemoryCarRepository implements CarRepository {
 
     @Override
     public List<Car> getCars() {
-        return cars.stream().map(c -> c).collect(Collectors.toList());
+        return cars.stream().map(c -> new Car(
+                c.getId(),
+                c.getMake(),
+                c.getModel(),
+                c.getYear(),
+                c.getCondition(),
+                c.getPrice()
+        )).collect(Collectors.toList());
     }
 
     @Override
-    public CarProperties getCar(int carId) {
-        List<CarProperties> filteredCars =
+    public CarDetails getCar(int carId) {
+        List<CarDetails> filteredCars =
                 cars.stream()
                         .filter(c -> c.getId() == carId)
                         .collect(Collectors.toList());
@@ -75,7 +85,7 @@ public final class InMemoryCarRepository implements CarRepository {
     }
 
     @Override
-    public CarProperties saveCar(CarProperties car) {
+    public CarDetails saveCar(CarDetails car) {
         if (car.getId() == 0) {
             car = addNewCar(car);
         } else {
@@ -85,18 +95,18 @@ public final class InMemoryCarRepository implements CarRepository {
         return car;
     }
 
-    private CarProperties addNewCar(CarProperties car) {
+    private CarDetails addNewCar(CarDetails car) {
         Optional<Integer> highestCarIndex =
                 this.cars
                         .stream()
-                        .map(Car::getId).max(Integer::compare);
+                        .map(CarDetails::getId).max(Integer::compare);
         int newCarIndex = 1;
 
         if (highestCarIndex.isPresent()) {
             newCarIndex = highestCarIndex.get() + 1;
         }
 
-        CarProperties newCar = new CarDetails(
+        CarDetails newCar = new CarDetails(
                 newCarIndex,
                 car.getMake(),
                 car.getModel(),
@@ -114,8 +124,8 @@ public final class InMemoryCarRepository implements CarRepository {
         return newCar;
     }
 
-    private CarProperties updateExistingCar(CarProperties car) {
-        List<CarProperties> filteredCars =
+    private CarDetails updateExistingCar(CarDetails car) {
+        List<CarDetails> filteredCars =
                 cars.stream()
                         .filter(c -> c.getId() == car.getId())
                         .collect(Collectors.toList());
@@ -126,9 +136,9 @@ public final class InMemoryCarRepository implements CarRepository {
 
     @Override
     public void removeCar(int carId) {
-        List<CarProperties> carsToDelete = this.cars.stream().filter(c -> c.getId() == carId).collect(Collectors.toList());
+        List<CarDetails> carsToDelete = this.cars.stream().filter(c -> c.getId() == carId).collect(Collectors.toList());
 
-        for (CarProperties car : carsToDelete) {
+        for (CarDetails car : carsToDelete) {
             this.cars.remove(car);
         }
     }
@@ -138,6 +148,14 @@ public final class InMemoryCarRepository implements CarRepository {
         return this.cars.stream()
                 .filter(c -> c.getMake().toLowerCase().contains(searchCriteria.toLowerCase()) ||
                         c.getModel().toLowerCase().contains(searchCriteria.toLowerCase()))
+                .map(c -> new Car(
+                        c.getId(),
+                        c.getMake(),
+                        c.getModel(),
+                        c.getYear(),
+                        c.getCondition(),
+                        c.getPrice()
+                ))
                 .collect(Collectors.toList());
     }
 }

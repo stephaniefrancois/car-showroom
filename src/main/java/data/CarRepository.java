@@ -1,16 +1,16 @@
 package data;
 
-import core.domain.car.Car;
-import core.domain.car.CarProperties;
+import core.stock.model.Car;
+import core.stock.model.CarDetails;
 
 import java.util.List;
 
 public interface CarRepository {
     List<Car> getCars();
 
-    CarProperties getCar(int carId);
+    CarDetails getCar(int carId);
 
-    CarProperties saveCar(CarProperties car);
+    CarDetails saveCar(CarDetails car);
 
     void removeCar(int carId);
 

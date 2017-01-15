@@ -1,33 +1,40 @@
 package core.deal;
 
-import core.domain.car.CarProperties;
-import core.domain.deal.*;
-import core.domain.validation.ValidationException;
-import core.domain.validation.ValidationSummary;
+import core.ItemFactory;
+import core.customer.model.Customer;
+import core.deal.model.CarDealDetails;
+import core.deal.model.PaymentOptions;
+import core.deal.model.PaymentSchedule;
+import core.deal.model.SalesRepresentative;
+import core.stock.model.CarDetails;
 import core.validation.Validator;
+import core.validation.model.ValidationException;
+import core.validation.model.ValidationSummary;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public final class CarDealFactory implements CarDealProperties {
+public final class CarDealFactory implements ItemFactory<CarDealDetails> {
 
     private final PaymentScheduleCalculator paymentScheduleCalculator;
-    private Validator<CarDealProperties> validator;
+    private Validator<CarDealDetails> validator;
+    private int carDealId;
     private PaymentOptions paymentOptions;
     private SalesRepresentative salesRepresentative;
     private LocalDate dealDate;
     private Customer customer;
-    private CarProperties car;
+    private CarDetails car;
 
-    public CarDealFactory(CarDealProperties deal,
-                          Validator<CarDealProperties> validator,
+    public CarDealFactory(CarDealDetails deal,
+                          Validator<CarDealDetails> validator,
                           PaymentScheduleCalculator paymentScheduleCalculator) {
         this(validator, paymentScheduleCalculator);
 
         Objects.requireNonNull(deal,
                 "'deal' must be supplied!");
 
+        carDealId = deal.getId();
         paymentOptions = deal.getPaymentOptions();
         salesRepresentative = deal.getSalesRepresentative();
         dealDate = deal.getDealDate();
@@ -35,7 +42,7 @@ public final class CarDealFactory implements CarDealProperties {
         car = deal.getCar();
     }
 
-    public CarDealFactory(Validator<CarDealProperties> validator,
+    public CarDealFactory(Validator<CarDealDetails> validator,
                           PaymentScheduleCalculator paymentScheduleCalculator) {
 
         Objects.requireNonNull(validator,
@@ -45,6 +52,7 @@ public final class CarDealFactory implements CarDealProperties {
 
         this.validator = validator;
         this.paymentScheduleCalculator = paymentScheduleCalculator;
+        carDealId = 0;
         paymentOptions = null;
         salesRepresentative = null;
         dealDate = null;
@@ -52,7 +60,10 @@ public final class CarDealFactory implements CarDealProperties {
         car = null;
     }
 
-    @Override
+    public int getId() {
+        return carDealId;
+    }
+
     public PaymentOptions getPaymentOptions() {
         return paymentOptions;
     }
@@ -61,7 +72,6 @@ public final class CarDealFactory implements CarDealProperties {
         this.paymentOptions = paymentOptions;
     }
 
-    @Override
     public SalesRepresentative getSalesRepresentative() {
         return salesRepresentative;
     }
@@ -70,7 +80,6 @@ public final class CarDealFactory implements CarDealProperties {
         this.salesRepresentative = salesRepresentative;
     }
 
-    @Override
     public LocalDate getDealDate() {
         return dealDate;
     }
@@ -79,7 +88,6 @@ public final class CarDealFactory implements CarDealProperties {
         this.dealDate = dealDate;
     }
 
-    @Override
     public Customer getCustomer() {
         return customer;
     }
@@ -88,29 +96,38 @@ public final class CarDealFactory implements CarDealProperties {
         this.customer = customer;
     }
 
-    @Override
-    public CarProperties getCar() {
+    public CarDetails getCar() {
         return car;
     }
 
-    public void setCar(CarProperties car) {
+    public void setCar(CarDetails car) {
         this.car = car;
     }
 
-    public CarDeal build() throws ValidationException {
+    public CarDealDetails build() throws ValidationException {
         ValidationSummary summary = validate();
         if (!summary.getIsValid()) {
             throw new ValidationException(summary.getValidationErrors());
         }
 
-        BigDecimal totalAmountToPay = car.getPrice();
+        return buildCarDeal();
+    }
+
+    private CarDealDetails buildCarDeal() {
+        BigDecimal totalAmountToPay = new BigDecimal(0);
+
+        if (car != null) {
+            totalAmountToPay = car.getPrice();
+        }
 
         PaymentSchedule paymentSchedule =
                 paymentScheduleCalculator.calculatePaymentSchedule(
                         totalAmountToPay,
                         paymentOptions);
 
-        return new CarDeal(car,
+        return new CarDealDetails(
+                carDealId,
+                car,
                 customer,
                 dealDate,
                 salesRepresentative,
@@ -119,6 +136,7 @@ public final class CarDealFactory implements CarDealProperties {
     }
 
     public ValidationSummary validate() {
-        return validator.validate(this);
+        CarDealDetails deal = buildCarDeal();
+        return validator.validate(deal);
     }
 }

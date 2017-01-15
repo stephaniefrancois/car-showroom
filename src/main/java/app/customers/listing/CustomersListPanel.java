@@ -2,12 +2,12 @@ package app.customers.listing;
 
 import app.common.listing.ItemsListPanel;
 import app.objectComposition.ServiceLocator;
-import core.domain.deal.CustomerProperties;
+import core.customer.model.Customer;
 import data.CustomerRepository;
 
 import java.util.List;
 
-public final class CustomersListPanel extends ItemsListPanel<CustomerProperties> {
+public final class CustomersListPanel extends ItemsListPanel<Customer> {
     private final CustomerRepository customerRepository;
 
     public CustomersListPanel() {
@@ -23,22 +23,22 @@ public final class CustomersListPanel extends ItemsListPanel<CustomerProperties>
     }
 
     @Override
-    protected List<CustomerProperties> getAllItems() {
+    protected List<Customer> getAllItems() {
         return customerRepository.getCustomers();
     }
 
     @Override
-    protected String getMessageForItemDeleteDialog(CustomerProperties item) {
+    protected String getMessageForItemDeleteDialog(Customer item) {
         return String.format("Do you really want to delete '%s %s' ?", item.getFirstName(), item.getLastName());
     }
 
     @Override
-    protected void removeItem(CustomerProperties itemToDelete) {
+    protected void removeItem(Customer itemToDelete) {
         this.customerRepository.removeCustomer(itemToDelete.getId());
     }
 
     @Override
-    protected List<CustomerProperties> findItems(String searchCriteria) {
+    protected List<Customer> findItems(String searchCriteria) {
         return this.customerRepository.findCustomers(searchCriteria);
     }
 }

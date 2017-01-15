@@ -1,10 +1,10 @@
 package app.objectComposition;
 
-import core.domain.car.CarProperties;
-import core.stock.CarFactory;
 import core.ItemFactoryProvider;
+import core.stock.CarFactory;
+import core.stock.model.CarDetails;
 
-public class ObjectComposerBasedCarFactoryProvider implements ItemFactoryProvider<CarProperties, CarFactory> {
+public class ObjectComposerBasedCarFactoryProvider implements ItemFactoryProvider<CarDetails, CarFactory> {
 
     @Override
     public CarFactory createItemFactory() {
@@ -12,7 +12,7 @@ public class ObjectComposerBasedCarFactoryProvider implements ItemFactoryProvide
     }
 
     @Override
-    public CarFactory createItemFactory(CarProperties item) {
+    public CarFactory createItemFactory(CarDetails item) {
         return ServiceLocator.getComposer().getCarFactory(item);
     }
 }

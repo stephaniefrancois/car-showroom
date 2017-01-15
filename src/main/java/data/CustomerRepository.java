@@ -1,17 +1,17 @@
 package data;
 
-import core.domain.deal.CustomerProperties;
+import core.customer.model.Customer;
 
 import java.util.List;
 
 public interface CustomerRepository {
-    List<CustomerProperties> getCustomers();
+    List<Customer> getCustomers();
 
-    CustomerProperties getCustomer(int customerId);
+    Customer getCustomer(int customerId);
 
-    CustomerProperties saveCustomer(CustomerProperties customer);
+    Customer saveCustomer(Customer customer);
 
     void removeCustomer(int customerId);
 
-    List<CustomerProperties> findCustomers(String searchCriteria);
+    List<Customer> findCustomers(String searchCriteria);
 }

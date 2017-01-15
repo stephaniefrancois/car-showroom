@@ -6,10 +6,10 @@ import app.common.validation.ValidateAbleFieldDescriptor;
 import app.objectComposition.ServiceLocator;
 import app.styles.LabelStyles;
 import common.NumberExtensions;
-import core.domain.car.CarFeature;
-import core.domain.car.CarMetadata;
-import core.domain.car.CarProperties;
 import core.stock.CarFactory;
+import core.stock.model.CarDetails;
+import core.stock.model.CarFeature;
+import core.stock.model.CarMetadata;
 import data.CarMetadataRepository;
 
 import javax.swing.*;
@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public final class CarEditorInputsPanel extends EditorInputsPanel<CarProperties, CarFactory> {
+public final class CarEditorInputsPanel extends EditorInputsPanel<CarDetails, CarFactory> {
 
     private final GridBagConstraints formGridConfig;
     private final JTextField makeField;

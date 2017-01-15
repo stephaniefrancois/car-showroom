@@ -3,13 +3,13 @@ package app.customers.details;
 import app.common.ControlsHelper;
 import app.common.details.PreviewSelectedItemPanel;
 import app.objectComposition.ServiceLocator;
-import core.domain.deal.CustomerProperties;
+import core.customer.model.Customer;
 import data.CustomerRepository;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class PreviewSelectedCustomerPanel extends PreviewSelectedItemPanel<CustomerProperties> {
+public class PreviewSelectedCustomerPanel extends PreviewSelectedItemPanel<Customer> {
 
     private final GridBagConstraints formGridConfig;
     private final JLabel firstNameValueLabel;
@@ -57,12 +57,12 @@ public class PreviewSelectedCustomerPanel extends PreviewSelectedItemPanel<Custo
     }
 
     @Override
-    protected CustomerProperties getItem(int id) {
+    protected Customer getItem(int id) {
         return this.customerRepository.getCustomer(id);
     }
 
     @Override
-    protected void populateItemInformation(CustomerProperties item) {
+    protected void populateItemInformation(Customer item) {
         firstNameValueLabel.setText(item.getFirstName());
         lastNameValueLabel.setText(item.getLastName());
         cityValueLabel.setText(item.getCity());

@@ -2,16 +2,16 @@ package app.customers.listing;
 
 
 import app.common.listing.TableModel;
-import core.domain.deal.CustomerProperties;
+import core.customer.model.Customer;
 
-public final class CustomerTableModel extends TableModel<CustomerProperties> {
+public final class CustomerTableModel extends TableModel<Customer> {
     public CustomerTableModel() {
         super(new String[]{"First Name", "Last Name", "City", "Customer Since"});
     }
 
     @Override
     public Object getValueAt(int row, int col) {
-        CustomerProperties value = getValueAt(row);
+        Customer value = getValueAt(row);
 
         switch (col) {
             case 0:

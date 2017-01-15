@@ -1,7 +1,9 @@
 package core.authentication;
 
+import core.authentication.model.AuthenticationContext;
+import core.authentication.model.NotAuthenticatedException;
 import core.deal.SalesRepresentativeProvider;
-import core.domain.deal.SalesRepresentative;
+import core.deal.model.SalesRepresentative;
 
 import java.util.Objects;
 

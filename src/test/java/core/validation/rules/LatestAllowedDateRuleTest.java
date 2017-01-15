@@ -1,8 +1,8 @@
 package core.validation.rules;
 
-import core.domain.validation.ValidationSummary;
 import core.validation.RuleFor;
 import core.validation.ValidationRule;
+import core.validation.model.ValidationSummary;
 import org.junit.jupiter.api.Test;
 import testing.helpers.FakeModel;
 

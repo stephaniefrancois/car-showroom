@@ -5,11 +5,11 @@ import app.common.BasicEventArgs;
 import app.common.validation.ValidationSummaryPanel;
 import common.IRaiseEvents;
 import common.ListenersManager;
+import core.IHaveIdentifier;
 import core.ItemFactory;
 import core.ItemFactoryProvider;
-import core.domain.IHaveIdentifier;
-import core.domain.car.UnableToUpdateCarException;
-import core.domain.validation.ValidationSummary;
+import core.stock.model.UnableToUpdateCarException;
+import core.validation.model.ValidationSummary;
 
 import javax.swing.*;
 import java.awt.*;

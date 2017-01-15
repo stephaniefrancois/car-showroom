@@ -1,5 +1,9 @@
 package core.authentication;
 
+import core.authentication.model.AuthenticationContext;
+import core.authentication.model.AuthenticationResult;
+import core.authentication.model.User;
+
 import java.util.List;
 import java.util.Objects;
 

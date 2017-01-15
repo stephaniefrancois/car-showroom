@@ -6,7 +6,7 @@ import app.styles.BorderStyles;
 import app.styles.ComponentSizes;
 import common.EventProducersAggregate;
 import common.IRaiseEvents;
-import core.domain.IHaveIdentifier;
+import core.IHaveIdentifier;
 import core.ItemFactory;
 import javafx.util.Pair;
 

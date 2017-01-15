@@ -2,7 +2,7 @@ package app.cars.details.features;
 
 import app.styles.LabelStyles;
 import common.StringExtensions;
-import core.domain.car.CarFeature;
+import core.stock.model.CarFeature;
 
 import javax.swing.*;
 import java.awt.*;

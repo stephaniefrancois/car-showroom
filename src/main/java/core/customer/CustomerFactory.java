@@ -1,25 +1,24 @@
 package core.customer;
 
 import core.ItemFactory;
-import core.domain.deal.Customer;
-import core.domain.deal.CustomerProperties;
-import core.domain.validation.ValidationException;
-import core.domain.validation.ValidationSummary;
+import core.customer.model.Customer;
 import core.validation.Validator;
+import core.validation.model.ValidationException;
+import core.validation.model.ValidationSummary;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public final class CustomerFactory implements CustomerProperties, ItemFactory<CustomerProperties> {
-    private final Validator<CustomerProperties> validator;
+public final class CustomerFactory implements ItemFactory<Customer> {
+    private final Validator<Customer> validator;
     private int customerId;
     private String firstName;
     private String lastName;
     private String city;
     private LocalDate customerSince;
 
-    public CustomerFactory(Validator<CustomerProperties> validator) {
+    public CustomerFactory(Validator<Customer> validator) {
 
         Objects.requireNonNull(validator,
                 "'validator' must be supplied!");
@@ -32,7 +31,7 @@ public final class CustomerFactory implements CustomerProperties, ItemFactory<Cu
         customerSince = LocalDate.from(LocalDateTime.now());
     }
 
-    public CustomerFactory(CustomerProperties customer, Validator<CustomerProperties> validator) {
+    public CustomerFactory(Customer customer, Validator<Customer> validator) {
         this(validator);
 
         Objects.requireNonNull(customer,
@@ -45,12 +44,10 @@ public final class CustomerFactory implements CustomerProperties, ItemFactory<Cu
         customerSince = customer.getCustomerSince();
     }
 
-    @Override
     public int getId() {
         return customerId;
     }
 
-    @Override
     public String getFirstName() {
         return firstName;
     }
@@ -59,7 +56,6 @@ public final class CustomerFactory implements CustomerProperties, ItemFactory<Cu
         this.firstName = firstName;
     }
 
-    @Override
     public String getLastName() {
         return lastName;
     }
@@ -68,7 +64,6 @@ public final class CustomerFactory implements CustomerProperties, ItemFactory<Cu
         this.lastName = lastName;
     }
 
-    @Override
     public String getCity() {
         return city;
     }
@@ -77,17 +72,20 @@ public final class CustomerFactory implements CustomerProperties, ItemFactory<Cu
         this.city = city;
     }
 
-    @Override
     public LocalDate getCustomerSince() {
         return customerSince;
     }
 
-    public CustomerProperties build() throws ValidationException {
+    public Customer build() throws ValidationException {
         ValidationSummary summary = validate();
         if (!summary.getIsValid()) {
             throw new ValidationException(summary.getValidationErrors());
         }
 
+        return buildCustomer();
+    }
+
+    private Customer buildCustomer() {
         return new Customer(customerId,
                 firstName,
                 lastName,
@@ -96,6 +94,7 @@ public final class CustomerFactory implements CustomerProperties, ItemFactory<Cu
     }
 
     public ValidationSummary validate() {
-        return validator.validate(this);
+        Customer customer = this.buildCustomer();
+        return validator.validate(customer);
     }
 }

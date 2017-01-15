@@ -2,8 +2,8 @@ package app.cars.listing;
 
 import app.common.listing.ItemsListPanel;
 import app.objectComposition.ServiceLocator;
-import core.domain.car.Car;
 import core.stock.CarStock;
+import core.stock.model.Car;
 
 import java.util.List;
 

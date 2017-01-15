@@ -4,9 +4,9 @@ import app.RootLogger;
 import app.objectComposition.ServiceLocator;
 import app.styles.BorderStyles;
 import app.styles.LabelStyles;
-import core.domain.validation.ValidationError;
-import core.domain.validation.ValidationSummary;
 import core.validation.ValidationErrorsFormatter;
+import core.validation.model.ValidationError;
+import core.validation.model.ValidationSummary;
 
 import javax.swing.*;
 import java.awt.*;

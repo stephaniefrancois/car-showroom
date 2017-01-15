@@ -1,8 +1,8 @@
 package core.authentication;
 
+import core.authentication.model.*;
 import core.deal.SalesRepresentativeProvider;
-import core.domain.UserProfile;
-import core.domain.deal.SalesRepresentative;
+import core.deal.model.SalesRepresentative;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;

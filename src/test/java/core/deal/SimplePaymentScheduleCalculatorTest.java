@@ -1,8 +1,8 @@
 package core.deal;
 
-import core.domain.deal.PaymentOptions;
-import core.domain.deal.PaymentSchedule;
-import core.domain.deal.ScheduledPayment;
+import core.deal.model.PaymentOptions;
+import core.deal.model.PaymentSchedule;
+import core.deal.model.ScheduledPayment;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;

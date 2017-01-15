@@ -1,11 +1,13 @@
 package core.validation;
 
-import core.domain.validation.ValidationError;
-import core.domain.validation.ValidationSummary;
+import core.validation.model.ValidationError;
+import core.validation.model.ValidationSummary;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import testing.helpers.FakeModel;
 import testing.helpers.FakeRuleBasedModelValidator;
+import testing.helpers.NullLogger;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,6 +19,11 @@ import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.mockito.Mockito.when;
 
 public final class RuleBasedValidatorTest {
+
+    @BeforeAll
+    public static void onceExecutedBeforeAll() {
+        NullLogger.configure();
+    }
 
     @Test
     public void GivenCarWhenNoValidationRulesExistsShouldReturnPositiveValidationResult() {

@@ -1,7 +1,7 @@
 package data;
 
-import core.domain.car.CarFeature;
-import core.domain.car.CarMetadata;
+import core.stock.model.CarFeature;
+import core.stock.model.CarMetadata;
 
 import java.util.List;
 

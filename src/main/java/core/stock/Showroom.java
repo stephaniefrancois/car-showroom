@@ -1,9 +1,9 @@
 package core.stock;
 
 import app.RootLogger;
-import core.domain.car.Car;
-import core.domain.car.CarProperties;
-import core.domain.car.UnableToUpdateCarException;
+import core.stock.model.Car;
+import core.stock.model.CarDetails;
+import core.stock.model.UnableToUpdateCarException;
 import data.CarRepository;
 
 import java.util.List;
@@ -28,13 +28,13 @@ public final class Showroom implements CarStock {
     }
 
     @Override
-    public CarProperties getCarDetails(int carId) {
+    public CarDetails getCarDetails(int carId) {
         return carRepository.getCar(carId);
     }
 
     @Override
     public void removeCar(int carId) {
-        CarProperties car = carRepository.getCar(carId);
+        CarDetails car = carRepository.getCar(carId);
         if (car != null) {
             logDeletingCar(carId);
             carRepository.removeCar(car.getId());
@@ -44,14 +44,14 @@ public final class Showroom implements CarStock {
     }
 
     @Override
-    public CarProperties addCar(CarProperties car) {
+    public CarDetails addCar(CarDetails car) {
         Objects.requireNonNull(car,
                 "'car' must be supplied!");
         return carRepository.saveCar(car);
     }
 
     @Override
-    public void updateCar(CarProperties car) throws UnableToUpdateCarException {
+    public void updateCar(CarDetails car) throws UnableToUpdateCarException {
         Objects.requireNonNull(car,
                 "'car' must be supplied!");
 

@@ -9,7 +9,7 @@ import app.styles.ComponentSizes;
 import app.styles.LabelStyles;
 import common.IRaiseEvents;
 import common.ListenersManager;
-import core.domain.IHaveIdentifier;
+import core.IHaveIdentifier;
 
 import javax.swing.*;
 import java.awt.*;

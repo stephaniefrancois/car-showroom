@@ -1,12 +1,14 @@
 package core.stock;
 
 import com.sun.javaws.exceptions.InvalidArgumentException;
-import core.domain.car.Car;
-import core.domain.car.CarDetails;
-import core.domain.car.UnableToUpdateCarException;
+import core.stock.model.Car;
+import core.stock.model.CarDetails;
+import core.stock.model.UnableToUpdateCarException;
 import data.CarRepository;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import testing.helpers.NullLogger;
 import testing.helpers.TestData.Cars;
 
 import java.util.ArrayList;
@@ -20,6 +22,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 public final class ShowroomTest {
+
+    @BeforeAll
+    public static void onceExecutedBeforeAll() {
+        NullLogger.configure();
+    }
+
     @Test
     public void GivenWeHaveAvailableCarsWhenWeRequestThemThenListOfCarsShouldBeReturned() {
         // Given

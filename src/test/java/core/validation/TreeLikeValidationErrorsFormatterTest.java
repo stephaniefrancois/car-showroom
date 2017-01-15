@@ -1,8 +1,8 @@
 package core.validation;
 
 import common.StringExtensions;
-import core.domain.validation.ValidationError;
-import core.domain.validation.ValidationSummary;
+import core.validation.model.ValidationError;
+import core.validation.model.ValidationSummary;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

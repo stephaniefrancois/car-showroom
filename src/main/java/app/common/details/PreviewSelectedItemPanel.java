@@ -4,7 +4,7 @@ import app.RootLogger;
 import app.common.BasicEventArgs;
 import common.IRaiseEvents;
 import common.ListenersManager;
-import core.domain.IHaveIdentifier;
+import core.IHaveIdentifier;
 
 import javax.swing.*;
 import java.util.logging.Logger;

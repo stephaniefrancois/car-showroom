@@ -4,11 +4,11 @@ import app.common.details.EditorPanel;
 import app.common.validation.ValidationSummaryPanel;
 import app.objectComposition.ServiceLocator;
 import core.customer.CustomerFactory;
-import core.domain.car.UnableToUpdateCarException;
-import core.domain.deal.CustomerProperties;
+import core.customer.model.Customer;
+import core.stock.model.UnableToUpdateCarException;
 import data.CustomerRepository;
 
-public final class CustomerEditorPanel extends EditorPanel<CustomerProperties, CustomerFactory> {
+public final class CustomerEditorPanel extends EditorPanel<Customer, CustomerFactory> {
     private final CustomerRepository customerRepository;
 
     public CustomerEditorPanel() {
@@ -20,12 +20,12 @@ public final class CustomerEditorPanel extends EditorPanel<CustomerProperties, C
     }
 
     @Override
-    protected CustomerProperties saveItem(CustomerProperties itemToSave) throws UnableToUpdateCarException {
+    protected Customer saveItem(Customer itemToSave) throws UnableToUpdateCarException {
         return customerRepository.saveCustomer(itemToSave);
     }
 
     @Override
-    protected CustomerProperties getItem(int id) {
+    protected Customer getItem(int id) {
         return this.customerRepository.getCustomer(id);
     }
 }

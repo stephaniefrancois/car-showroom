@@ -1,11 +1,11 @@
 package core.stock.validation;
 
-import core.domain.car.CarProperties;
+import core.stock.model.CarDetails;
 import core.validation.RuleBasedValidator;
 import core.validation.ValidationRulesProvider;
 
-public final class RuleBasedCarValidator extends RuleBasedValidator<CarProperties> {
-    public RuleBasedCarValidator(ValidationRulesProvider<CarProperties> rulesProvider) {
+public final class RuleBasedCarValidator extends RuleBasedValidator<CarDetails> {
+    public RuleBasedCarValidator(ValidationRulesProvider<CarDetails> rulesProvider) {
         super(rulesProvider);
     }
 }

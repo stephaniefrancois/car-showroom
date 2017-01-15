@@ -11,9 +11,9 @@ public class ControlsHelper {
                                                    int rowIndex,
                                                    Insets padding,
                                                    GridBagConstraints formGridConfig,
-                                                   JPanel constrolsContainer) {
+                                                   JPanel controlsContainer) {
         return addControlWithLabel(componentToAdd, label, rowIndex, 0,
-                padding, formGridConfig, constrolsContainer);
+                padding, formGridConfig, controlsContainer);
     }
 
     public final static JPanel addControlWithLabel(Component componentToAdd,
@@ -22,7 +22,7 @@ public class ControlsHelper {
                                                    int columnIndex,
                                                    Insets padding,
                                                    GridBagConstraints formGridConfig,
-                                                   JPanel constrolsContainer) {
+                                                   JPanel controlsContainer) {
 
         JLabel componentLabel = new JLabel(label);
         componentLabel.setLabelFor(componentToAdd);
@@ -39,15 +39,15 @@ public class ControlsHelper {
         formGridConfig.fill = GridBagConstraints.NONE;
         formGridConfig.anchor = GridBagConstraints.LINE_END;
         formGridConfig.insets = padding;
-        constrolsContainer.add(componentLabel, formGridConfig);
+        controlsContainer.add(componentLabel, formGridConfig);
 
         formGridConfig.gridx = columnIndex * columnMultiplier + 1;
         formGridConfig.weightx = 0.4;
         formGridConfig.insets = padding;
         formGridConfig.anchor = GridBagConstraints.LINE_START;
         formGridConfig.gridheight = 1;
-        constrolsContainer.add(componentToAdd, formGridConfig);
+        controlsContainer.add(componentToAdd, formGridConfig);
 
-        return constrolsContainer;
+        return controlsContainer;
     }
 }

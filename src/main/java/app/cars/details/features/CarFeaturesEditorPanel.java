@@ -1,6 +1,6 @@
 package app.cars.details.features;
 
-import core.domain.car.CarFeature;
+import core.stock.model.CarFeature;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

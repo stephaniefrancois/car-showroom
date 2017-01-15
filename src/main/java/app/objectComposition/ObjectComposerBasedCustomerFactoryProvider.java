@@ -1,18 +1,17 @@
 package app.objectComposition;
 
-
 import core.ItemFactoryProvider;
 import core.customer.CustomerFactory;
-import core.domain.deal.CustomerProperties;
+import core.customer.model.Customer;
 
-public class ObjectComposerBasedCustomerFactoryProvider implements ItemFactoryProvider<CustomerProperties, CustomerFactory> {
+public class ObjectComposerBasedCustomerFactoryProvider implements ItemFactoryProvider<Customer, CustomerFactory> {
     @Override
     public CustomerFactory createItemFactory() {
         return ServiceLocator.getComposer().getCustomerFactory();
     }
 
     @Override
-    public CustomerFactory createItemFactory(CustomerProperties item) {
+    public CustomerFactory createItemFactory(Customer item) {
         return ServiceLocator.getComposer().getCustomerFactory(item);
     }
 }

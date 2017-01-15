@@ -3,12 +3,12 @@ package app.cars.details;
 import app.common.details.EditorPanel;
 import app.common.validation.ValidationSummaryPanel;
 import app.objectComposition.ServiceLocator;
-import core.domain.car.CarProperties;
-import core.domain.car.UnableToUpdateCarException;
 import core.stock.CarFactory;
 import core.stock.CarStock;
+import core.stock.model.CarDetails;
+import core.stock.model.UnableToUpdateCarException;
 
-public final class CarEditorPanel extends EditorPanel<CarProperties, CarFactory> {
+public final class CarEditorPanel extends EditorPanel<CarDetails, CarFactory> {
     private final CarStock carStock;
 
     public CarEditorPanel() {
@@ -20,7 +20,7 @@ public final class CarEditorPanel extends EditorPanel<CarProperties, CarFactory>
     }
 
     @Override
-    protected CarProperties saveItem(CarProperties itemToSave) throws UnableToUpdateCarException {
+    protected CarDetails saveItem(CarDetails itemToSave) throws UnableToUpdateCarException {
         if (itemToSave.getId() == 0) {
             itemToSave = carStock.addCar(itemToSave);
         } else {
@@ -30,7 +30,7 @@ public final class CarEditorPanel extends EditorPanel<CarProperties, CarFactory>
     }
 
     @Override
-    protected CarProperties getItem(int id) {
+    protected CarDetails getItem(int id) {
         return this.carStock.getCarDetails(id);
     }
 }
