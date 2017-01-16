@@ -1,6 +1,12 @@
 package app.objectComposition;
 
 import core.ItemFactoryProvider;
+import core.authentication.PasswordBasedUserAuthenticator;
+import core.authentication.UserAuthenticator;
+import core.authentication.UserRepository;
+import core.authentication.model.AuthenticationContext;
+import core.authentication.model.SimpleAuthenticationContext;
+import core.authentication.model.UserIdentity;
 import core.customer.CustomerFactory;
 import core.customer.model.Customer;
 import core.customer.validation.InMemoryCustomerValidationRulesProvider;
@@ -25,14 +31,26 @@ import data.*;
 
 public final class ComponentsComposer {
 
+    private final UserRepository userRepository;
     private final CarRepository carRepository;
     private final CustomerRepository customerRepository;
     private final CarDealRepository carDealRepository;
+    private final AuthenticationContext authenticationContext;
 
     public ComponentsComposer() {
         carRepository = new InMemoryCarRepository();
         customerRepository = new InMemoryCustomerRepository();
         carDealRepository = new InMemoryCarDealRepository();
+        userRepository = new InMemoryUserRepository();
+        authenticationContext = new SimpleAuthenticationContext();
+    }
+
+    public UserIdentity getUserIdentity() {
+        return this.authenticationContext;
+    }
+
+    public UserAuthenticator getUserAuthenticator() {
+        return new PasswordBasedUserAuthenticator(this.userRepository, this.authenticationContext);
     }
 
     public CarStock getCarStockService() {

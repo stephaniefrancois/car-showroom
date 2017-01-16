@@ -6,27 +6,31 @@ import java.net.URL;
 public final class ResourceProvider {
 
     public static ImageIcon getCarIcon() {
-        return createIcon(getIconPath("IconCar.jpg"));
+        return createIcon(getIconPath("icons/IconCar.jpg"));
     }
 
     public static ImageIcon getSalesIcon() {
-        return createIcon(getIconPath("IconSales.jpg"));
+        return createIcon(getIconPath("icons/IconSales.jpg"));
     }
 
     public static ImageIcon getReportsIcon() {
-        return createIcon(getIconPath("IconReport.jpg"));
+        return createIcon(getIconPath("icons/IconReport.jpg"));
     }
 
     public static ImageIcon getSettingsIcon() {
-        return createIcon(getIconPath("IconDBSetting.jpg"));
+        return createIcon(getIconPath("icons/IconDBSetting.jpg"));
     }
 
     public static ImageIcon getCustomersIcon() {
-        return createIcon(getIconPath("customers.jpg"));
+        return createIcon(getIconPath("icons/customers.jpg"));
+    }
+
+    public static ImageIcon getLoginBackgroundIcon() {
+        return createIcon(getIconPath("images/LoginBackground.jpg"));
     }
 
     private static String getIconPath(String fileName) {
-        return String.format("/resources/icons/%s", fileName);
+        return String.format("/resources/%s", fileName);
     }
 
     private static ImageIcon createIcon(String path) {

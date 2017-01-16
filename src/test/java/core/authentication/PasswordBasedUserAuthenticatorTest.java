@@ -16,7 +16,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.*;
 
-public final class UserAuthenticatorTest {
+public final class PasswordBasedUserAuthenticatorTest {
 
     @Test
     public void GivenCorrectUserCredentialsShouldAuthenticateUser() {
@@ -29,7 +29,7 @@ public final class UserAuthenticatorTest {
 
         UserRepository userRepositoryMock = Mockito.mock(UserRepository.class);
         AuthenticationContext authenticationContextMock = Mockito.mock(AuthenticationContext.class);
-        UserAuthenticator sut = new UserAuthenticator(userRepositoryMock, authenticationContextMock);
+        PasswordBasedUserAuthenticator sut = new PasswordBasedUserAuthenticator(userRepositoryMock, authenticationContextMock);
 
         when(userRepositoryMock.findUsersByCredentials("user1", "secret")).thenReturn(users);
 
@@ -50,7 +50,7 @@ public final class UserAuthenticatorTest {
         UserRepository userRepositoryMock = Mockito.mock(UserRepository.class);
         AuthenticationContext authenticationContextMock = Mockito.mock(AuthenticationContext.class);
 
-        UserAuthenticator sut = new UserAuthenticator(userRepositoryMock, authenticationContextMock);
+        PasswordBasedUserAuthenticator sut = new PasswordBasedUserAuthenticator(userRepositoryMock, authenticationContextMock);
         // When
         AuthenticationResult result = sut.Authenticate(userName, password);
 
@@ -68,7 +68,7 @@ public final class UserAuthenticatorTest {
 
         UserRepository userRepositoryMock = Mockito.mock(UserRepository.class);
         AuthenticationContext authenticationContextMock = Mockito.mock(AuthenticationContext.class);
-        UserAuthenticator sut = new UserAuthenticator(userRepositoryMock, authenticationContextMock);
+        PasswordBasedUserAuthenticator sut = new PasswordBasedUserAuthenticator(userRepositoryMock, authenticationContextMock);
 
         when(userRepositoryMock.findUsersByCredentials("user1", "badSecret")).thenReturn(users);
 
@@ -91,7 +91,7 @@ public final class UserAuthenticatorTest {
 
         UserRepository userRepositoryMock = Mockito.mock(UserRepository.class);
         AuthenticationContext authenticationContextMock = Mockito.mock(AuthenticationContext.class);
-        UserAuthenticator sut = new UserAuthenticator(userRepositoryMock, authenticationContextMock);
+        PasswordBasedUserAuthenticator sut = new PasswordBasedUserAuthenticator(userRepositoryMock, authenticationContextMock);
 
         when(userRepositoryMock.findUsersByCredentials("user1", "badSecret")).thenReturn(users);
         sut.Authenticate("user1", "badSecret");
