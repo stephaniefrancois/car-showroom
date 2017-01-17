@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public final class CarDealFactory implements ItemFactory<CarDealDetails> {
+public class CarDealFactory implements ItemFactory<CarDealDetails> {
 
     private final PaymentScheduleCalculator paymentScheduleCalculator;
     private Validator<CarDealDetails> validator;

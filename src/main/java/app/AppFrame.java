@@ -89,8 +89,10 @@ public final class AppFrame extends JFrame {
                     frame.setVisible(false);
                     frame.dispose();
                     AppFrame.this.setVisible(true);
-                    AppFrame.this.setTitle(String.format("%s (Logged in as %s)",
-                            AppFrame.this.getTitle(), identity.getUserName()));
+                    AppFrame.this.setTitle(String.format("%s (Logged in as %s %s)",
+                            AppFrame.this.getTitle(),
+                            identity.getProfile().getFirstName(),
+                            identity.getProfile().getLastName()));
                     return;
                 } else {
                     logClosedBeforeLoggedIn();

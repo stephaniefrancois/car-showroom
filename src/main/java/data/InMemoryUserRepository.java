@@ -19,7 +19,10 @@ public final class InMemoryUserRepository implements UserRepository {
                                 new UserProfile("Stephanie", "Francois"))),
                 new UserWithPassword("secret2",
                         new User(1, "John",
-                                new UserProfile("John", "Brown")))
+                                new UserProfile("John", "Brown"))),
+                new UserWithPassword("1",
+                        new User(1, "1",
+                                new UserProfile("Demo User", "Brown")))
         );
     }
 
