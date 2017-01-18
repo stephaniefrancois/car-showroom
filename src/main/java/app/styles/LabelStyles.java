@@ -10,6 +10,12 @@ public class LabelStyles {
         return defaultFont.deriveFont(fontSize);
     }
 
+    public static Font getFontForHeaderLevelTwo() {
+        Font defaultFont = new JLabel().getFont();
+        float fontSize = defaultFont.getSize() * 1.4f;
+        return defaultFont.deriveFont(fontSize);
+    }
+
     public static Font getFontForFieldLabel() {
         Font defaultFont = new JLabel().getFont();
         float fontSize = defaultFont.getSize();

@@ -19,12 +19,12 @@ public abstract class DetailsPanel<TModel extends IHaveIdentifier,
         implements ListEventListener, ItemDetailsListener, IRaiseEvents<ItemDetailsListener> {
 
     private final CardLayout contentPresenter;
-    private final Pair<String, EditorPanel<TModel, TItemFactory>> editorView;
+    private final Pair<String, EditorPanel> editorView;
     private final Pair<String, NoItemSelectedPanel> notSelectedView;
     private final Pair<String, PreviewSelectedItemPanel<TModel>> previewSelectedItemView;
     private final EventProducersAggregate<ItemDetailsListener> eventProducers;
 
-    protected DetailsPanel(Pair<String, EditorPanel<TModel, TItemFactory>> editorView,
+    protected DetailsPanel(Pair<String, EditorPanel> editorView,
                            Pair<String, PreviewSelectedItemPanel<TModel>> previewSelectedItemView) {
         setMinimumSize(ComponentSizes.MINIMUM_DETAILS_PANEL_SIZE);
         setBorder(BorderStyles.getTitleBorder("Details:"));

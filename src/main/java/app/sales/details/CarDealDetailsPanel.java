@@ -8,7 +8,7 @@ import javafx.util.Pair;
 public final class CarDealDetailsPanel extends DetailsPanel<CarDealDetails, CarDealFactory> {
     public CarDealDetailsPanel() {
         super(
-                new Pair<>(CarDealEditorPanel.class.getName(), new CarDealEditorPanel()),
+                new Pair<>(CarDealWizardEditorPanel.class.getName(), new CarDealWizardEditorPanel()),
                 new Pair<>(PreviewSelectedCarDealPanel.class.getName(), new PreviewSelectedCarDealPanel())
         );
     }

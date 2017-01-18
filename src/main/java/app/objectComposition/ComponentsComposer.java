@@ -1,5 +1,7 @@
 package app.objectComposition;
 
+import app.sales.details.InMemoryFourStepsCarDealWizard;
+import app.sales.details.wizard.CarDealWizardStepsProvider;
 import core.ItemFactoryProvider;
 import core.authentication.PasswordBasedUserAuthenticator;
 import core.authentication.UserAuthenticator;
@@ -136,5 +138,9 @@ public final class ComponentsComposer {
 
     public ItemFactoryProvider<CarDealDetails, CarDealFactory> getCarDealFactoryProvider() {
         return new ObjectComposerBasedCarDealFactoryProvider();
+    }
+
+    public CarDealWizardStepsProvider getCarDealWizardStepsProvider() {
+        return new InMemoryFourStepsCarDealWizard();
     }
 }

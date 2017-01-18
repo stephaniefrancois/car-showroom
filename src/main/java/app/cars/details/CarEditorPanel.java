@@ -1,6 +1,6 @@
 package app.cars.details;
 
-import app.common.details.EditorPanel;
+import app.common.details.SimpleEditorPanel;
 import app.common.validation.ValidationSummaryPanel;
 import app.objectComposition.ServiceLocator;
 import core.stock.CarFactory;
@@ -8,7 +8,7 @@ import core.stock.CarStock;
 import core.stock.model.CarDetails;
 import core.stock.model.UnableToUpdateCarException;
 
-public final class CarEditorPanel extends EditorPanel<CarDetails, CarFactory> {
+public final class CarEditorPanel extends SimpleEditorPanel<CarDetails, CarFactory> {
     private final CarStock carStock;
 
     public CarEditorPanel() {

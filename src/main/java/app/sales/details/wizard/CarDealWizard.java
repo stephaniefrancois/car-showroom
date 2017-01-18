@@ -1,7 +1,7 @@
 package app.sales.details.wizard;
 
+import app.RootLogger;
 import app.common.validation.ValidationEventArgs;
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import common.IRaiseEvents;
 import common.ListenersManager;
 import core.deal.CarDealFactory;
@@ -10,25 +10,28 @@ import core.validation.model.ValidationSummary;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 public final class CarDealWizard implements IRaiseEvents<CarDealWizardEventListener> {
+    private final static Logger log = RootLogger.get();
     private final List<CarDealWizardStep> steps;
     private CarDealWizardStep activeStep;
     private ListenersManager<CarDealWizardEventListener> listenersManager;
 
-    public CarDealWizard(CarDealFactory carDealFactory, List<CarDealWizardStep> steps) throws InvalidArgumentException {
+    public CarDealWizard(CarDealFactory carDealFactory, CarDealWizardStepsProvider stepsProvider) {
         Objects.requireNonNull(carDealFactory);
-        Objects.requireNonNull(steps);
-        if (steps.isEmpty()) {
-            throw new InvalidArgumentException(new String[]{"'steps' must always contain at least 2 steps to be a valid wizard!"});
-        }
+        Objects.requireNonNull(stepsProvider);
+
         this.listenersManager = new ListenersManager<>();
-        this.steps = steps;
+        this.steps = stepsProvider.getSteps();
         this.activeStep = this.goToStart();
         this.activeStep.setCarDeal(carDealFactory);
     }
 
     private CarDealWizardStep goToStart() {
+        if (this.steps.isEmpty()) {
+            logNoWizardStepsFound();
+        }
         return this.steps.get(0);
     }
 
@@ -38,7 +41,10 @@ public final class CarDealWizard implements IRaiseEvents<CarDealWizardEventListe
         ValidationSummary validation = this.activeStep.validateStep();
 
         if (validation.getIsValid() == false) {
-            ValidationEventArgs args = new ValidationEventArgs(this.activeStep, validation);
+            ValidationEventArgs args = new ValidationEventArgs(this.activeStep,
+                    validation,
+                    this.activeStep.getFieldsMap());
+
             this.listenersManager.notifyListeners(l -> l.validationFailedOnNavigating(args));
             return;
         }
@@ -62,7 +68,12 @@ public final class CarDealWizard implements IRaiseEvents<CarDealWizardEventListe
     private void raiseStepChanged(CarDealWizardStep previousStep, CarDealWizardStep activeStep) {
         boolean canGoForward = !this.atLastStep();
         boolean canGoBack = !this.atFirstStep();
-        StepChangedEventArgs args = new StepChangedEventArgs(this, previousStep, activeStep, canGoBack,
+        int stepNumber = this.getCurrentStepIndex() + 1;
+
+        StepChangedEventArgs args = new StepChangedEventArgs(this, previousStep, activeStep,
+                this.steps.size(),
+                stepNumber,
+                canGoBack,
                 canGoForward);
 
         activeStep.setCarDeal(previousStep.getCarDeal());
@@ -107,5 +118,9 @@ public final class CarDealWizard implements IRaiseEvents<CarDealWizardEventListe
     public void cancel() {
         this.activeStep = this.goToStart();
         this.steps.forEach(CarDealWizardStep::clear);
+    }
+
+    private void logNoWizardStepsFound() {
+        log.severe(() -> "No wizard steps have been supplied! Please properly configure steps provider!");
     }
 }
