@@ -20,9 +20,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="hamcrest-all-1.3" level="project" />
-    <orderEntry type="library" name="mockito-core-1.10.19" level="project" />
-    <orderEntry type="library" name="objenesis-2.1" level="project" />
     <orderEntry type="library" name="lib" level="project" />
   </component>
 </module>
