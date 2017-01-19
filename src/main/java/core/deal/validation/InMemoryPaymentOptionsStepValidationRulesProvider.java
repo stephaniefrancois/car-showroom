@@ -17,7 +17,7 @@ public final class InMemoryPaymentOptionsStepValidationRulesProvider
         addRule(RuleFor.mandatory("First Payment", PaymentOptions::getFirstPaymentDay));
         addRule(RuleFor.mandatory("Duration In Months", PaymentOptions::getDurationInMonths));
         addRule(RuleFor.allowSetOfValues("Duration In Months",
-                Arrays.asList("12", "24", "36"),
+                Arrays.asList("12", "24"),
                 d -> String.valueOf(d.getDurationInMonths())));
     }
 }
