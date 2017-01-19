@@ -60,16 +60,15 @@ public final class ToolbarPanel extends JPanel
 
     private List<ToolbarItem> getToolbarItems() {
         return Arrays.asList(
-                createMenuItem("ViewCars", "View Cars", ResourceProvider.getCarIcon()),
-                createMenuItem("ViewCustomers", "View Customers", ResourceProvider.getCustomersIcon()),
-                createMenuItem("ViewSales", "View Sales", ResourceProvider.getSalesIcon()),
-                createMenuItem("ViewReports", "View Reports", ResourceProvider.getReportsIcon()),
-                createMenuItem("ViewSettings", "View Settings", ResourceProvider.getSettingsIcon())
+                createMenuItem("ViewCars", "View Cars", ResourceProvider.getCarIcon(), true),
+                createMenuItem("ViewCustomers", "View Customers", ResourceProvider.getCustomersIcon(), true),
+                createMenuItem("ViewSales", "View Sales", ResourceProvider.getSalesIcon(), true),
+                createMenuItem("ViewSettings", "View Settings", ResourceProvider.getSettingsIcon(), false)
         );
     }
 
-    private ToolbarItem createMenuItem(String key, String text, ImageIcon imageIcon) {
-        return new ToolbarItem(key, new JButton(text, imageIcon));
+    private ToolbarItem createMenuItem(String key, String text, ImageIcon imageIcon, boolean canBeActivated) {
+        return new ToolbarItem(key, new JButton(text, imageIcon), canBeActivated);
     }
 
     @Override
@@ -84,7 +83,12 @@ public final class ToolbarPanel extends JPanel
 
     private void selectToolBarItem(Object source, ToolbarItem selectedToolbarItem) {
         deselectCurrentlyActiveItem();
-        this.activeToolbarItem = selectCurrentToolbarItem(selectedToolbarItem);
+
+        if (selectedToolbarItem.canBeActivated()) {
+            selectedToolbarItem = selectCurrentToolbarItem(selectedToolbarItem);
+        }
+
+        this.activeToolbarItem = selectedToolbarItem;
 
         if (listeners.size() > 0) {
             ToolbarItemClickedEvent event = new ToolbarItemClickedEvent(source,
@@ -136,11 +140,13 @@ public final class ToolbarPanel extends JPanel
     private final class ToolbarItem {
         private final String key;
         private final JButton button;
+        private final boolean canBeActivated;
 
-        public ToolbarItem(String key, JButton button) {
+        public ToolbarItem(String key, JButton button, boolean canBeActivated) {
 
             this.key = key;
             this.button = button;
+            this.canBeActivated = canBeActivated;
         }
 
         public String getKey() {
@@ -149,6 +155,10 @@ public final class ToolbarPanel extends JPanel
 
         public JButton getButton() {
             return button;
+        }
+
+        public boolean canBeActivated() {
+            return canBeActivated;
         }
     }
 }

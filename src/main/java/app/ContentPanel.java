@@ -2,9 +2,7 @@ package app;
 
 import app.cars.CarsPanel;
 import app.customers.CustomersPanel;
-import app.reports.ReportsPanel;
 import app.sales.SalesPanel;
-import app.settings.SettingsPanel;
 import app.styles.ComponentSizes;
 
 import javax.swing.*;
@@ -33,9 +31,6 @@ public final class ContentPanel extends JPanel {
         cards.put(CarsPanel.class.getName(), new CarsPanel());
         cards.put(CustomersPanel.class.getName(), new CustomersPanel());
         cards.put(SalesPanel.class.getName(), new SalesPanel());
-        cards.put(ReportsPanel.class.getName(), new ReportsPanel());
-        cards.put(SettingsPanel.class.getName(), new SettingsPanel());
-
         return cards;
     }
 
@@ -49,14 +44,6 @@ public final class ContentPanel extends JPanel {
 
     public void navigateToSales() {
         navigateTo(SalesPanel.class.getName());
-    }
-
-    public void navigateToReports() {
-        navigateTo(ReportsPanel.class.getName());
-    }
-
-    public void navigateToSettings() {
-        navigateTo(SettingsPanel.class.getName());
     }
 
     private void navigateTo(String panelKey) {

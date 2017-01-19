@@ -1,8 +1,13 @@
 package app;
 
 import app.login.LoginPanel;
+import app.settings.SettingsDialog;
+import app.settings.SettingsEventListener;
+import app.settings.SettingsUpdatedEventArgs;
 import app.styles.ComponentSizes;
 import app.toolbar.ToolbarPanel;
+import common.ApplicationSettings;
+import common.SettingsStore;
 import composition.ServiceLocator;
 import core.authentication.model.UserIdentity;
 
@@ -19,6 +24,7 @@ public final class AppFrame extends JFrame {
     private final ContentPanel content;
     private final String toolbarItemToSelectKey = "ViewCars";
     private final UserIdentity identity;
+    private final SettingsStore settingsStore;
 
     public AppFrame() throws HeadlessException {
         super("Car Showroom");
@@ -26,10 +32,12 @@ public final class AppFrame extends JFrame {
         configureSelf();
         toolbar = new ToolbarPanel();
         content = new ContentPanel();
+        // TODO: use perhaps use IOC container ?
+        settingsStore = ServiceLocator.getComposer().getSettingsStore();
+        identity = ServiceLocator.getComposer().getUserIdentity();
+
         this.add(toolbar, BorderLayout.NORTH);
         this.add(content, BorderLayout.CENTER);
-
-        identity = ServiceLocator.getComposer().getUserIdentity();
 
         toolbar.addListener(e -> {
             switch (e.getMenuItemKey()) {
@@ -45,12 +53,8 @@ public final class AppFrame extends JFrame {
                     content.navigateToSales();
                     break;
                 }
-                case "ViewReports": {
-                    content.navigateToReports();
-                    break;
-                }
                 case "ViewSettings": {
-                    content.navigateToSettings();
+                    showSettings();
                     break;
                 }
                 default: {
@@ -63,6 +67,18 @@ public final class AppFrame extends JFrame {
         promptToLogin();
     }
 
+    private void showSettings() {
+        ApplicationSettings settings = this.settingsStore.getSettings();
+        SettingsDialog settingsDialog = new SettingsDialog(this, settings);
+        settingsDialog.addListener(new SettingsEventListener() {
+            @Override
+            public void settingsModified(SettingsUpdatedEventArgs args) {
+                logApplicationSettingsUpdated(args);
+                settingsStore.saveSettings(args.getSettings());
+            }
+        });
+        settingsDialog.setVisible(true);
+    }
     private void promptToLogin() {
         Dimension preferredSize = new Dimension(400, 250);
 
@@ -114,4 +130,9 @@ public final class AppFrame extends JFrame {
     private void logClosedBeforeLoggedIn() {
         log.warning(() -> "User has closed login screen before logged in! Terminating application ...");
     }
+
+    private void logApplicationSettingsUpdated(SettingsUpdatedEventArgs args) {
+        log.info(() -> String.format("Application settings set to: %s", args.getSettings()));
+    }
+
 }

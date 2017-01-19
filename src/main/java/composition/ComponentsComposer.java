@@ -2,6 +2,8 @@ package composition;
 
 import app.sales.details.carDealSteps.InMemoryFourStepsCarDealWizard;
 import app.sales.details.wizard.CarDealWizardStepsProvider;
+import common.PreferencesBasedStore;
+import common.SettingsStore;
 import core.ItemFactoryProvider;
 import core.authentication.AuthenticationContextBasedSalesRepresentativeProvider;
 import core.authentication.PasswordBasedUserAuthenticator;
@@ -34,6 +36,7 @@ import data.*;
 
 public final class ComponentsComposer {
 
+    private final SettingsStore settingsStore;
     private final UserRepository userRepository;
     private final CarRepository carRepository;
     private final CustomerRepository customerRepository;
@@ -41,6 +44,7 @@ public final class ComponentsComposer {
     private final AuthenticationContext authenticationContext;
 
     public ComponentsComposer() {
+        settingsStore = new PreferencesBasedStore();
         carRepository = new InMemoryCarRepository();
         customerRepository = new InMemoryCustomerRepository();
         carDealRepository = new InMemoryCarDealRepository();
@@ -161,5 +165,9 @@ public final class ComponentsComposer {
         return new AuthenticationContextBasedSalesRepresentativeProvider(
                 this.getUserIdentity()
         );
+    }
+
+    public SettingsStore getSettingsStore() {
+        return this.settingsStore;
     }
 }
