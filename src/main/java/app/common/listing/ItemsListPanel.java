@@ -15,6 +15,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 public abstract class ItemsListPanel<TModel extends IHaveIdentifier>
@@ -32,18 +33,19 @@ public abstract class ItemsListPanel<TModel extends IHaveIdentifier>
     private final JLabel noItemsFoundLabel;
     private final CardLayout contentPresenter;
     private final JButton addNewItemButton;
-    private final String noItemsAvailableMessage;
+    private final ListOptions options;
 
     public ItemsListPanel(TableModel<TModel> tableModel,
-                          String title,
-                          String noItemsAvailableMessage) {
+                          ListOptions options) {
+        Objects.requireNonNull(tableModel);
+        Objects.requireNonNull(options);
+        this.options = options;
         listeners = new ListenersManager<>();
-        this.noItemsAvailableMessage = noItemsAvailableMessage;
         setMinimumSize(ComponentSizes.MINIMUM_LIST_PANEL_SIZE);
         contentPresenter = new CardLayout();
         setLayout(contentPresenter);
 
-        setBorder(BorderStyles.getTitleBorder(title));
+        setBorder(BorderStyles.getTitleBorder(options.getTitle()));
         this.tableModel = tableModel;
         this.itemsTable = new JTable(tableModel);
         this.itemsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -55,9 +57,7 @@ public abstract class ItemsListPanel<TModel extends IHaveIdentifier>
         this.noItemsFoundLabel = new JLabel();
         this.noItemsFoundLabel.setFont(LabelStyles.getFontForHeaderLevelOne());
         this.addNewItemButton = new JButton("Add new ...");
-        this.addNewItemButton.addActionListener(e -> {
-            listeners.notifyListeners(ListEventListener::itemCreationRequested);
-        });
+        this.addNewItemButton.addActionListener(e -> listeners.notifyListeners(ListEventListener::itemCreationRequested));
 
         this.noItemsFoundPanel = new JPanel();
         this.noItemsFoundPanel.setLayout(new BorderLayout());
@@ -72,17 +72,39 @@ public abstract class ItemsListPanel<TModel extends IHaveIdentifier>
         this.configurePopupMenu();
     }
 
-    public final void refresh() {
+    public final void clearSelection() {
+        this.itemsTable.clearSelection();
+    }
+
+    protected final void refresh() {
         List<TModel> items = this.getAllItems();
         if (items.isEmpty()) {
             this.addNewItemButton.setVisible(true);
-            this.displayItemsNotFoundView(this.noItemsAvailableMessage);
+            this.displayItemsNotFoundView(this.options.getNoItemsAvailableMessage());
             return;
         }
 
         this.tableModel.setData(items);
         this.tableModel.fireTableDataChanged();
         this.displayItemsView();
+    }
+
+    public final void selectItemById(int identifier) {
+        List<ListItem<TModel>> items = this.tableModel.findById(identifier);
+        if (items.isEmpty()) {
+            this.clearSelection();
+            logNoItemsMatched(identifier);
+            return;
+        }
+
+        if (items.size() > 1) {
+            this.clearSelection();
+            logMultipleItemsMatched(identifier, items);
+        }
+
+        ListItem<TModel> itemToSelect = items.get(0);
+        this.itemsTable.setRowSelectionInterval(itemToSelect.getIndex(), itemToSelect.getIndex());
+        logItemSelected(itemToSelect);
     }
 
     protected abstract List<TModel> getAllItems();
@@ -98,17 +120,32 @@ public abstract class ItemsListPanel<TModel extends IHaveIdentifier>
 
     private void configurePopupMenu() {
         JPopupMenu menu = new JPopupMenu();
-        JMenuItem addItemMenu = new JMenuItem("Add new ...");
-        JMenuItem removeItemMenu = new JMenuItem("Delete selected ...");
-        menu.add(addItemMenu);
-        menu.add(removeItemMenu);
+
+        if (this.options.allowToAddItem()) {
+            JMenuItem addItemMenu = new JMenuItem("Add new ...");
+            addItemMenu.addActionListener(arg ->
+                    listeners.notifyListeners(ListEventListener::itemCreationRequested));
+            menu.add(addItemMenu);
+        }
+
+        if (this.options.allowToDeleteItem()) {
+            JMenuItem removeItemMenu = new JMenuItem("Delete selected ...");
+            removeItemMenu.addActionListener(arg -> {
+                int row = itemsTable.getSelectedRow();
+                if (row > -1) {
+                    TModel itemToDelete = tableModel.getValueAt(row);
+                    askUserToDeleteSelectedItem(arg, row, itemToDelete);
+                }
+            });
+            menu.add(removeItemMenu);
+        }
 
         itemsTable.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 int row = itemsTable.rowAtPoint(e.getPoint());
                 selectItemByRowIndex(e.getSource(), row);
 
-                if (e.getButton() == MouseEvent.BUTTON3) {
+                if (e.getButton() == MouseEvent.BUTTON3 && menu.getSubElements().length > 1) {
                     menu.show(itemsTable, e.getX(), e.getY());
                 }
             }
@@ -121,17 +158,6 @@ public abstract class ItemsListPanel<TModel extends IHaveIdentifier>
                     int row = itemsTable.getSelectedRow();
                     selectItemByRowIndex(e.getSource(), row);
                 }
-            }
-        });
-
-        addItemMenu.addActionListener(arg ->
-                listeners.notifyListeners(ListEventListener::itemCreationRequested));
-
-        removeItemMenu.addActionListener(arg -> {
-            int row = itemsTable.getSelectedRow();
-            if (row > -1) {
-                TModel itemToDelete = tableModel.getValueAt(row);
-                askUserToDeleteSelectedItem(arg, row, itemToDelete);
             }
         });
     }
@@ -224,5 +250,18 @@ public abstract class ItemsListPanel<TModel extends IHaveIdentifier>
 
     private void logResultsFound(SearchEventArgs e, List<TModel> items) {
         log.info(() -> String.format("'%d' results were found using '%s' search criteria.", items.size(), e.getSearchCriteria()));
+    }
+
+    private void logNoItemsMatched(int identifier) {
+        log.warning(() -> String.format("No items have been found in TABLE with id of '%d'!", identifier));
+    }
+
+    private void logMultipleItemsMatched(int identifier, List<ListItem<TModel>> items) {
+        log.warning(() -> String.format("'%d' items have been found in TABLE with id of '%d'. " +
+                "Item ID must be UNIQUE. No items selected!", items.size(), identifier));
+    }
+
+    private void logItemSelected(ListItem<TModel> itemToSelect) {
+        log.info(() -> String.format("Item at row '%d' has been selected.", itemToSelect.getIndex()));
     }
 }

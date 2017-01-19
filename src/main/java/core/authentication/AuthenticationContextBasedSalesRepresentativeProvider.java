@@ -1,7 +1,7 @@
 package core.authentication;
 
-import core.authentication.model.AuthenticationContext;
 import core.authentication.model.NotAuthenticatedException;
+import core.authentication.model.UserIdentity;
 import core.deal.SalesRepresentativeProvider;
 import core.deal.model.SalesRepresentative;
 
@@ -10,25 +10,25 @@ import java.util.Objects;
 public class AuthenticationContextBasedSalesRepresentativeProvider
         implements SalesRepresentativeProvider {
 
-    private final AuthenticationContext authenticationContext;
+    private final UserIdentity userIdentity;
 
     public AuthenticationContextBasedSalesRepresentativeProvider(
-            AuthenticationContext authenticationContext) {
-        Objects.requireNonNull(authenticationContext,
-                "'authenticationContext' must be supplied!");
+            UserIdentity userIdentity) {
+        Objects.requireNonNull(userIdentity,
+                "'userIdentity' must be supplied!");
 
-        this.authenticationContext = authenticationContext;
+        this.userIdentity = userIdentity;
     }
 
     @Override
     public SalesRepresentative getActiveSalesRepresentative() throws NotAuthenticatedException {
-        if (!authenticationContext.isAuthenticated()) {
+        if (!userIdentity.isAuthenticated()) {
             throw new NotAuthenticatedException();
         }
 
         return new SalesRepresentative(
-                authenticationContext.getUserId(),
-                authenticationContext.getProfile()
+                userIdentity.getUserId(),
+                userIdentity.getProfile()
         );
     }
 }

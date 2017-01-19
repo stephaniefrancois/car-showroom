@@ -1,5 +1,6 @@
 package app.sales;
 
+import app.common.listing.ListOptions;
 import app.common.listing.SearchableListPanel;
 import app.common.search.SearchPanel;
 import app.sales.details.CarDealDetailsPanel;
@@ -18,7 +19,8 @@ public final class SalesPanel extends JPanel {
 
         this.searchableCarDeals = new SearchableListPanel(
                 new SearchPanel(),
-                new CarDealsListPanel()
+                new CarDealsListPanel(ListOptions.AllowEditingItems("Our deals:",
+                        "We have no deals!!! Go get some customers :)"))
         );
         this.carDealDetails = new CarDealDetailsPanel();
         add(this.searchableCarDeals, BorderLayout.CENTER);
@@ -28,3 +30,6 @@ public final class SalesPanel extends JPanel {
         this.carDealDetails.addListener(this.searchableCarDeals);
     }
 }
+
+
+

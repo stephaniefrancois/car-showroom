@@ -23,5 +23,6 @@ public final class ScheduledPaymentsPanel extends JPanel {
 
     public void setScheduledPayments(PaymentSchedule paymentSchedule) {
         this.paymentsTableModel.setData(paymentSchedule.getScheduledPayments());
+        this.paymentsTableModel.fireTableDataChanged();
     }
 }

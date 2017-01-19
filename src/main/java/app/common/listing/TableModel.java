@@ -1,10 +1,13 @@
 package app.common.listing;
 
+import core.IHaveIdentifier;
+
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public abstract class TableModel<TModel> extends AbstractTableModel {
+public abstract class TableModel<TModel extends IHaveIdentifier> extends AbstractTableModel {
 
     private final String[] colNames;
     private List<TModel> data;
@@ -43,5 +46,15 @@ public abstract class TableModel<TModel> extends AbstractTableModel {
     public final void removeRow(int rowIndex) {
         data.remove(rowIndex);
         fireTableRowsDeleted(rowIndex, rowIndex);
+    }
+
+    public final List<ListItem<TModel>> findById(int identifier) {
+        return this.data.stream()
+                .filter(item -> item.getId() == identifier)
+                .map(item -> {
+                    int index = this.data.indexOf(item);
+                    return new ListItem<>(index, item);
+                })
+                .collect(Collectors.toList());
     }
 }

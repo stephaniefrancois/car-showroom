@@ -1,7 +1,8 @@
 package app.sales.listing;
 
 import app.common.listing.ItemsListPanel;
-import app.objectComposition.ServiceLocator;
+import app.common.listing.ListOptions;
+import composition.ServiceLocator;
 import core.deal.model.CarDeal;
 import data.CarDealRepository;
 
@@ -10,10 +11,9 @@ import java.util.List;
 public final class CarDealsListPanel extends ItemsListPanel<CarDeal> {
     private final CarDealRepository carDealRepository;
 
-    public CarDealsListPanel() {
+    public CarDealsListPanel(ListOptions options) {
         super(new CarDealTableModel(),
-                "Our deals:",
-                "We have no deals!!! Go get some customers :)");
+                options);
 
         // TODO: pass the data from the main controller or app bootstrapper service ???
         this.carDealRepository = ServiceLocator

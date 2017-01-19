@@ -1,11 +1,11 @@
 package app.login;
 
 import app.RootLogger;
-import app.objectComposition.ServiceLocator;
 import app.styles.BorderStyles;
 import app.styles.LabelStyles;
 import common.IRaiseEvents;
 import common.ListenersManager;
+import composition.ServiceLocator;
 import core.authentication.UserAuthenticator;
 import core.authentication.model.AuthenticationResult;
 import resources.ResourceProvider;

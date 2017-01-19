@@ -27,6 +27,10 @@ public final class SearchableListPanel<TModel extends IHaveIdentifier> extends J
         this.searchPanel.addListener(this.itemsList);
     }
 
+    public final void selectItemById(int identifier) {
+        this.itemsList.selectItemById(identifier);
+    }
+
     @Override
     public final void addListener(ListEventListener listenerToAdd) {
         itemsList.addListener(listenerToAdd);

@@ -25,6 +25,16 @@ public final class InMemoryCustomerRepository implements CustomerRepository {
                     "Jane",
                     "Dow",
                     "Chicago",
+                    LocalDate.of(2000, 1, 1)),
+            new Customer(5,
+                    "Joan",
+                    "Bow",
+                    "Delaware",
+                    LocalDate.of(2000, 1, 1)),
+            new Customer(4,
+                    "John",
+                    "Smith",
+                    "Trou aux biches",
                     LocalDate.of(2000, 1, 1))
     ));
 
@@ -106,7 +116,7 @@ public final class InMemoryCustomerRepository implements CustomerRepository {
         return this.customers.stream()
                 .filter(c -> c.getFirstName().toLowerCase().contains(searchCriteria.toLowerCase()) ||
                         c.getLastName().toLowerCase().contains(searchCriteria.toLowerCase())
-                || c.getCity().toLowerCase().contains(searchCriteria.toLowerCase()))
+                        || c.getCity().toLowerCase().contains(searchCriteria.toLowerCase()))
                 .collect(Collectors.toList());
     }
 }

@@ -1,4 +1,4 @@
-package app.sales.details;
+package app.sales.details.wizard;
 
 import app.styles.BorderStyles;
 import app.styles.LabelStyles;
@@ -17,12 +17,8 @@ public final class CarDealWizardHeaderPanel extends JPanel {
         add(titleLabel, BorderLayout.CENTER);
     }
 
-    public void setTitle(String title) {
-        this.titleLabel.setText(title);
-    }
-
     public void setTitle(String stepTitle, int currentStepNumber, int totalStepsCount) {
         String title = String.format("%s (%d out of %d total steps)", stepTitle, currentStepNumber, totalStepsCount);
-        this.setTitle(title);
+        this.titleLabel.setText(title);
     }
 }

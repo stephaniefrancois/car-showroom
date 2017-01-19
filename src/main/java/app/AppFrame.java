@@ -1,11 +1,9 @@
 package app;
 
-import app.login.AuthenticationEventArgs;
-import app.login.LoginListener;
 import app.login.LoginPanel;
-import app.objectComposition.ServiceLocator;
 import app.styles.ComponentSizes;
 import app.toolbar.ToolbarPanel;
+import composition.ServiceLocator;
 import core.authentication.model.UserIdentity;
 
 import javax.swing.*;
@@ -81,23 +79,19 @@ public final class AppFrame extends JFrame {
                 System.exit(0);
             }
         });
-        loginPanel.addListener(new LoginListener() {
-            @Override
-            public void loggedOn(AuthenticationEventArgs e) {
-                if (identity.isAuthenticated()) {
-                    logUserLoggedIn();
-                    frame.setVisible(false);
-                    frame.dispose();
-                    AppFrame.this.setVisible(true);
-                    AppFrame.this.setTitle(String.format("%s (Logged in as %s %s)",
-                            AppFrame.this.getTitle(),
-                            identity.getProfile().getFirstName(),
-                            identity.getProfile().getLastName()));
-                    return;
-                } else {
-                    logClosedBeforeLoggedIn();
-                    System.exit(0);
-                }
+        loginPanel.addListener(e -> {
+            if (identity.isAuthenticated()) {
+                logUserLoggedIn();
+                frame.setVisible(false);
+                frame.dispose();
+                AppFrame.this.setVisible(true);
+                AppFrame.this.setTitle(String.format("%s (Logged in as %s %s)",
+                        AppFrame.this.getTitle(),
+                        identity.getProfile().getFirstName(),
+                        identity.getProfile().getLastName()));
+            } else {
+                logClosedBeforeLoggedIn();
+                System.exit(0);
             }
         });
 

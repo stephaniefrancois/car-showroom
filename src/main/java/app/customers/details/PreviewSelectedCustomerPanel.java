@@ -2,7 +2,7 @@ package app.customers.details;
 
 import app.common.ControlsHelper;
 import app.common.details.PreviewSelectedItemPanel;
-import app.objectComposition.ServiceLocator;
+import composition.ServiceLocator;
 import core.customer.model.Customer;
 import data.CustomerRepository;
 
@@ -47,13 +47,11 @@ public class PreviewSelectedCustomerPanel extends PreviewSelectedItemPanel<Custo
         formGridConfig.weighty = 2.0;
 
         formGridConfig.gridx = 1;
-        formGridConfig.anchor = GridBagConstraints.FIRST_LINE_START;
+        formGridConfig.anchor = GridBagConstraints.LAST_LINE_END;
         formGridConfig.insets = new Insets(0, 0, 0, 0);
         add(editCustomerBtn, formGridConfig);
 
-        editCustomerBtn.addActionListener(e -> {
-            this.editItem(e.getSource());
-        });
+        editCustomerBtn.addActionListener(e -> this.editItem(e.getSource()));
     }
 
     @Override

@@ -3,6 +3,7 @@ package core.validation;
 import core.validation.rules.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.function.Function;
 
 public class RuleFor {
@@ -30,6 +31,12 @@ public class RuleFor {
     public static <M> NotEmptyRule<M> notEmpty(String fieldName,
                                                Function<M, String> valueSelector) {
         return new NotEmptyRule<>(fieldName, valueSelector);
+    }
+
+    public static <M> AllowSetOfValuesRule<M> allowSetOfValues(String fieldName,
+                                                               List<String> allowedValues,
+                                                               Function<M, String> valueSelector) {
+        return new AllowSetOfValuesRule<>(fieldName, allowedValues, valueSelector);
     }
 
     public static <M, V extends Number & Comparable<V>>

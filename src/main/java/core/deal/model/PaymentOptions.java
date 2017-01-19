@@ -3,11 +3,11 @@ package core.deal.model;
 import java.time.LocalDate;
 
 public final class PaymentOptions {
-    private final int durationInMonths;
+    private final Integer durationInMonths;
     private final LocalDate firstPaymentDay;
-    private final int deposit;
+    private final Integer deposit;
 
-    public PaymentOptions(int durationInMonths, LocalDate firstPaymentDay, int deposit) {
+    public PaymentOptions(Integer durationInMonths, LocalDate firstPaymentDay, Integer deposit) {
 
         this.durationInMonths = durationInMonths;
         this.firstPaymentDay = firstPaymentDay;
@@ -21,7 +21,7 @@ public final class PaymentOptions {
         this.deposit = 0;
     }
 
-    public int getDeposit() {
+    public Integer getDeposit() {
         return deposit;
     }
 
@@ -29,7 +29,7 @@ public final class PaymentOptions {
         return firstPaymentDay;
     }
 
-    public int getDurationInMonths() {
+    public Integer getDurationInMonths() {
         return durationInMonths;
     }
 }

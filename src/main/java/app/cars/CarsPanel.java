@@ -2,6 +2,7 @@ package app.cars;
 
 import app.cars.details.CarDetailsPanel;
 import app.cars.listing.CarsListPanel;
+import app.common.listing.ListOptions;
 import app.common.listing.SearchableListPanel;
 import app.common.search.SearchPanel;
 import core.stock.model.Car;
@@ -18,7 +19,9 @@ public final class CarsPanel extends JPanel {
 
         this.searchableCars = new SearchableListPanel(
                 new SearchPanel(),
-                new CarsListPanel()
+                new CarsListPanel(
+                        ListOptions.AllowEditingItems("Available cars:",
+                                "No cars available in the showroom!"))
         );
 
         this.carDetails = new CarDetailsPanel();

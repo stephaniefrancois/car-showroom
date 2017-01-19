@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 public final class NumberExtensions {
     private static final Logger log = RootLogger.get();
 
-    public final static int tryParseNumber(String text, int defaultValue) {
+    public static Integer tryParseNumber(String text, Integer defaultValue) {
         try {
             return Integer.valueOf(text);
         } catch (NumberFormatException ex) {
@@ -17,7 +17,7 @@ public final class NumberExtensions {
         }
     }
 
-    public final static BigDecimal tryParseNumber(String text, BigDecimal defaultValue) {
+    public static BigDecimal tryParseNumber(String text, BigDecimal defaultValue) {
         try {
             return new BigDecimal(text);
         } catch (NumberFormatException ex) {

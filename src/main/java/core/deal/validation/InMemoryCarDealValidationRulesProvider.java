@@ -16,8 +16,8 @@ public final class InMemoryCarDealValidationRulesProvider
         addRule(RuleFor.mandatory("Payment Options", CarDealDetails::getPaymentOptions));
         addRule(RuleFor.mandatory("Sales Representative", CarDealDetails::getSalesRepresentative));
         addRule(RuleFor.mandatory("Deal Date", CarDealDetails::getDealDate));
-        addRule(RuleFor.earliestAllowedDate(getToday(), "Deal Date", CarDealDetails::getDealDate));
-        addRule(RuleFor.latestAllowedDate(getOneMonthFromToday(), "Deal Date", CarDealDetails::getDealDate));
+        //addRule(RuleFor.earliestAllowedDate(getToday(), "Deal Date", CarDealDetails::getDealDate));
+        //addRule(RuleFor.latestAllowedDate(getOneMonthFromToday(), "Deal Date", CarDealDetails::getDealDate));
     }
 
     private static LocalDate getOneMonthFromToday() {

@@ -1,9 +1,9 @@
 package app.common.validation;
 
 import app.RootLogger;
-import app.objectComposition.ServiceLocator;
 import app.styles.BorderStyles;
 import app.styles.LabelStyles;
+import composition.ServiceLocator;
 import core.validation.ValidationErrorsFormatter;
 import core.validation.model.ValidationError;
 import core.validation.model.ValidationSummary;

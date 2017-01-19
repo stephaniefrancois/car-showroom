@@ -7,12 +7,15 @@ import core.deal.model.CarDealDetails;
 import core.validation.model.ValidationError;
 import core.validation.model.ValidationException;
 import core.validation.model.ValidationSummary;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+import testing.helpers.NullLogger;
 import testing.helpers.TestData;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -21,6 +24,10 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
 public final class CarDealWizardTest {
+    @BeforeAll
+    public static void onceExecutedBeforeAll() {
+        NullLogger.configure();
+    }
 
     @Test
     public final void GivenNewWizardThenActiveStepShouldBeStepOne() {
@@ -161,7 +168,7 @@ public final class CarDealWizardTest {
         CarDealWizard sut = new CarDealWizard(factory, stepsProvider);
 
         when(step1.validateStep()).thenReturn(new ValidationSummary());
-        when(step2.validateStep()).thenReturn(new ValidationSummary(Arrays.asList(new ValidationError("field", "error"))));
+        when(step2.validateStep()).thenReturn(new ValidationSummary(Collections.singletonList(new ValidationError("field", "error"))));
         // When
         sut.goForward();
         sut.goForward();
@@ -180,7 +187,7 @@ public final class CarDealWizardTest {
         CarDealWizardStep step3 = Mockito.mock(CarDealWizardStep.class);
         CarDealWizardEventListener eventListener = Mockito.mock(CarDealWizardEventListener.class);
         ValidationSummary failedValidationSummary =
-                new ValidationSummary(Arrays.asList(new ValidationError("field", "error")));
+                new ValidationSummary(Collections.singletonList(new ValidationError("field", "error")));
 
         when(stepsProvider.getSteps()).thenReturn(Arrays.asList(step1, step2, step3));
         CarDealWizard sut = new CarDealWizard(factory, stepsProvider);
@@ -211,7 +218,7 @@ public final class CarDealWizardTest {
         CarDealWizard sut = new CarDealWizard(factory, stepsProvider);
 
         when(step1.validateStep()).thenReturn(new ValidationSummary());
-        when(step2.validateStep()).thenReturn(new ValidationSummary(Arrays.asList(new ValidationError("field", "error"))));
+        when(step2.validateStep()).thenReturn(new ValidationSummary(Collections.singletonList(new ValidationError("field", "error"))));
 
         // When
         sut.goForward();
@@ -233,6 +240,7 @@ public final class CarDealWizardTest {
         CarDealWizard sut = new CarDealWizard(factory, stepsProvider);
 
         when(step1.validateStep()).thenReturn(new ValidationSummary());
+        when(step2.getCarDeal()).thenReturn(factory);
         sut.addListener(eventListener);
         sut.goForward();
 

@@ -34,13 +34,13 @@ public final class SimplePaymentScheduleCalculatorTest {
         ScheduledPayment secondPayment = schedule.getScheduledPayments().get(1);
         ScheduledPayment thirdPayment = schedule.getScheduledPayments().get(2);
 
-        assertThat(firstPayment.getAmount(), equalTo(new BigDecimal(1000)));
+        assertThat(firstPayment.getAmount(), equalTo(new BigDecimal("1000.00")));
         assertThat(firstPayment.getPaymentDate(), equalTo(LocalDate.of(2017, Month.JANUARY, 15)));
 
-        assertThat(secondPayment.getAmount(), equalTo(new BigDecimal(1000)));
+        assertThat(secondPayment.getAmount(), equalTo(new BigDecimal("1000.00")));
         assertThat(secondPayment.getPaymentDate(), equalTo(LocalDate.of(2017, Month.FEBRUARY, 15)));
 
-        assertThat(thirdPayment.getAmount(), equalTo(new BigDecimal(1000)));
+        assertThat(thirdPayment.getAmount(), equalTo(new BigDecimal("1000.00")));
         assertThat(thirdPayment.getPaymentDate(), equalTo(LocalDate.of(2017, Month.MARCH, 15)));
     }
 
@@ -62,10 +62,10 @@ public final class SimplePaymentScheduleCalculatorTest {
         ScheduledPayment firstPayment = schedule.getScheduledPayments().get(0);
         ScheduledPayment lastPayment = schedule.getScheduledPayments().get(5);
 
-        assertThat(firstPayment.getAmount(), equalTo(new BigDecimal(500)));
+        assertThat(firstPayment.getAmount(), equalTo(new BigDecimal("500.00")));
         assertThat(firstPayment.getPaymentDate(), equalTo(LocalDate.of(2017, Month.JANUARY, 15)));
 
-        assertThat(lastPayment.getAmount(), equalTo(new BigDecimal(500)));
+        assertThat(lastPayment.getAmount(), equalTo(new BigDecimal("500.00")));
         assertThat(lastPayment.getPaymentDate(), equalTo(LocalDate.of(2017, Month.JUNE, 15)));
     }
 
@@ -91,13 +91,13 @@ public final class SimplePaymentScheduleCalculatorTest {
         ScheduledPayment secondPayment = schedule.getScheduledPayments().get(1);
         ScheduledPayment thirdPayment = schedule.getScheduledPayments().get(2);
 
-        assertThat(firstPayment.getAmount(), equalTo(new BigDecimal(800)));
+        assertThat(firstPayment.getAmount(), equalTo(new BigDecimal("800.00")));
         assertThat(firstPayment.getPaymentDate(), equalTo(LocalDate.of(2017, Month.JANUARY, 15)));
 
-        assertThat(secondPayment.getAmount(), equalTo(new BigDecimal(800)));
+        assertThat(secondPayment.getAmount(), equalTo(new BigDecimal("800.00")));
         assertThat(secondPayment.getPaymentDate(), equalTo(LocalDate.of(2017, Month.FEBRUARY, 15)));
 
-        assertThat(thirdPayment.getAmount(), equalTo(new BigDecimal(800)));
+        assertThat(thirdPayment.getAmount(), equalTo(new BigDecimal("800.00")));
         assertThat(thirdPayment.getPaymentDate(), equalTo(LocalDate.of(2017, Month.MARCH, 15)));
     }
 }

@@ -5,6 +5,7 @@ import core.deal.model.PaymentSchedule;
 import core.deal.model.ScheduledPayment;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,8 @@ public final class SimplePaymentScheduleCalculator
         BigDecimal amountToPayAfterDeposit =
                 totalAmountToPay.subtract(new BigDecimal(paymentOptions.getDeposit()));
 
-        BigDecimal paymentAmount = amountToPayAfterDeposit.divide(new BigDecimal(paymentsCount));
+        BigDecimal paymentAmount = amountToPayAfterDeposit.divide(new BigDecimal(paymentsCount)
+                , 2, RoundingMode.HALF_UP);
 
         for (int paymentNumber = 0; paymentNumber < paymentsCount; paymentNumber++) {
             LocalDate currentPaymentDate = firstPaymentDate.plusMonths(paymentNumber);

@@ -2,6 +2,7 @@ package core.deal.model;
 
 import core.IHaveIdentifier;
 import core.customer.model.Customer;
+import core.deal.CarDealFactory;
 import core.stock.model.CarDetails;
 
 import java.time.LocalDate;
@@ -61,5 +62,15 @@ public final class CarDealDetails implements IHaveIdentifier {
 
     public CarDetails getCar() {
         return car;
+    }
+
+    public static CarDealDetails of(CarDealFactory factory) {
+        return new CarDealDetails(factory.getId(),
+                factory.getCar(),
+                factory.getCustomer(),
+                factory.getDealDate(),
+                factory.getSalesRepresentative(),
+                factory.getPaymentOptions(),
+                null);
     }
 }

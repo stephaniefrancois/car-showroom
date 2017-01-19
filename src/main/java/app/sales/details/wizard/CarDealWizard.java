@@ -1,6 +1,7 @@
 package app.sales.details.wizard;
 
 import app.RootLogger;
+import app.common.BasicEventArgs;
 import app.common.validation.ValidationEventArgs;
 import common.IRaiseEvents;
 import common.ListenersManager;
@@ -40,7 +41,7 @@ public final class CarDealWizard implements IRaiseEvents<CarDealWizardEventListe
 
         ValidationSummary validation = this.activeStep.validateStep();
 
-        if (validation.getIsValid() == false) {
+        if (!validation.getIsValid()) {
             ValidationEventArgs args = new ValidationEventArgs(this.activeStep,
                     validation,
                     this.activeStep.getFieldsMap());
@@ -116,8 +117,19 @@ public final class CarDealWizard implements IRaiseEvents<CarDealWizardEventListe
     }
 
     public void cancel() {
+        logCancellingDeal();
+        BasicEventArgs args = new BasicEventArgs(this, this.activeStep.getCarDeal().getId());
         this.activeStep = this.goToStart();
         this.steps.forEach(CarDealWizardStep::clear);
+        logDealCancelled(args.getId());
+    }
+
+    private void logCancellingDeal() {
+        log.info(() -> "Cancelling Car Deal ...");
+    }
+
+    private void logDealCancelled(int carDealId) {
+        log.info(() -> String.format("Car deal with id '%d' has been cancelled!", carDealId));
     }
 
     private void logNoWizardStepsFound() {

@@ -1,9 +1,5 @@
-package app.sales.details;
+package app.sales.details.carDealSteps;
 
-import app.sales.details.carDealSteps.CarPanel;
-import app.sales.details.carDealSteps.CustomerPanel;
-import app.sales.details.carDealSteps.DealReviewPanel;
-import app.sales.details.carDealSteps.PaymentDetailsPanel;
 import app.sales.details.wizard.CarDealWizardStep;
 import app.sales.details.wizard.CarDealWizardStepsProvider;
 

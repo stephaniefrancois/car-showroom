@@ -38,11 +38,12 @@ public final class InMemoryCarDealRepository implements CarDealRepository {
             Collections.singletonList(new CarFeature(14, "Luxury Seats"))
     );
 
-    private final Customer CUSTOMER_SMITH = new Customer("John", "Smith", "Trou aux biches");
+    private final Customer CUSTOMER_SMITH = new Customer(4, "John", "Smith", "Trou aux biches",
+            LocalDate.of(2000, 1, 1));
     private final SalesRepresentative SALES_JOE_BLACK = new SalesRepresentative(1,
             new UserProfile("Joe", "Black"));
 
-    private final PaymentOptions PAYMENT_24_MONTHS = new PaymentOptions(24, LocalDate.now());
+    private final PaymentOptions PAYMENT_24_MONTHS = new PaymentOptions(24, LocalDate.now().minusDays(2));
     private final PaymentSchedule SCHEDULE_12_PAYMENTS = new PaymentSchedule(new BigDecimal(12000), Arrays.asList(
             new ScheduledPayment(new BigDecimal(1000), LocalDate.now()),
             new ScheduledPayment(new BigDecimal(1000), LocalDate.now().plusMonths(1)),
@@ -61,7 +62,7 @@ public final class InMemoryCarDealRepository implements CarDealRepository {
 
     private ArrayList<CarDealDetails> deals = new ArrayList<>(Arrays.asList(
             new CarDealDetails(1, CAR_BENTLEY_GT, CUSTOMER_SMITH, LocalDate.now(), SALES_JOE_BLACK, PAYMENT_24_MONTHS, SCHEDULE_12_PAYMENTS),
-            new CarDealDetails(2, CAR_MB_S600, CUSTOMER_SMITH, LocalDate.now(), SALES_JOE_BLACK, PAYMENT_24_MONTHS, SCHEDULE_EMPTY)
+            new CarDealDetails(2, CAR_MB_S600, CUSTOMER_SMITH, LocalDate.ofYearDay(2017, 10), SALES_JOE_BLACK, PAYMENT_24_MONTHS, SCHEDULE_EMPTY)
     ));
 
     @Override

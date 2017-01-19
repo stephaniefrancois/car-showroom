@@ -1,12 +1,11 @@
-package app.sales.details;
+package app.sales.details.wizard;
 
 import app.RootLogger;
 import app.common.BasicEventArgs;
 import app.common.details.EditorPanel;
 import app.common.validation.ValidationEventArgs;
 import app.common.validation.ValidationSummaryPanel;
-import app.objectComposition.ServiceLocator;
-import app.sales.details.wizard.*;
+import composition.ServiceLocator;
 import core.ItemFactoryProvider;
 import core.deal.CarDealFactory;
 import core.deal.model.CarDealDetails;
@@ -15,6 +14,7 @@ import data.CarDealRepository;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -64,6 +64,7 @@ public final class CarDealWizardEditorPanel extends EditorPanel
     public void createItem() {
         log.info(() -> "Creating new CAR DEAL ...");
         CarDealFactory carDealFactory = this.carDealFactoryProvider.createItemFactory();
+        carDealFactory.setDealDate(LocalDate.now());
         wizard = new CarDealWizard(carDealFactory, this.wizardStepsProvider);
         wizard.addListener(this);
         this.initializeWizardStepsAndNavigateToFirstStep();
@@ -81,17 +82,17 @@ public final class CarDealWizardEditorPanel extends EditorPanel
 
     private void initializeWizardStepsAndNavigateToFirstStep() {
         List<CarDealWizardStep> steps = this.wizardStepsProvider.getSteps();
+        CarDealWizardStep firstStep = steps.get(0);
         this.contentPanel.removeAll();
-        steps.forEach(s -> {
-            this.contentPanel.add(s, s.getStepKey());
-        });
+        steps.forEach(s -> this.contentPanel.add(s, s.getStepKey()));
 
-        this.contentPresenter.show(this.contentPanel, steps.get(0).getStepKey());
+        this.contentPresenter.show(this.contentPanel, firstStep.getStepKey());
         boolean isLastStep = steps.size() == 1;
         boolean canGoForward = steps.size() > 1;
 
-        this.headerPanel.setTitle(steps.get(0).getTitle(), 1, steps.size());
+        this.headerPanel.setTitle(firstStep.getTitle(), 1, steps.size());
         this.navigationPanel.navigated(false, canGoForward, isLastStep);
+        this.validationMessagesPanel.clearValidationResults(firstStep.getFieldsMap());
     }
 
     @Override
@@ -143,7 +144,15 @@ public final class CarDealWizardEditorPanel extends EditorPanel
 
     @Override
     public void completeWizard() {
+        log.info(() -> "Sale COMPLETED!");
         tryNavigateForward();
+    }
+
+    @Override
+    public void cancelWizard() {
+        BasicEventArgs args = new BasicEventArgs(this, this.wizard.activeStep().getCarDeal().getId());
+        this.wizard.cancel();
+        this.listeners.notifyListeners(l -> l.itemEditCancelled(args));
     }
 
     private void tryNavigateForward() {

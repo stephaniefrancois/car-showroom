@@ -1,7 +1,8 @@
 package app.cars.listing;
 
 import app.common.listing.ItemsListPanel;
-import app.objectComposition.ServiceLocator;
+import app.common.listing.ListOptions;
+import composition.ServiceLocator;
 import core.stock.CarStock;
 import core.stock.model.Car;
 
@@ -10,11 +11,8 @@ import java.util.List;
 public final class CarsListPanel extends ItemsListPanel<Car> {
     private final CarStock carStock;
 
-    public CarsListPanel() {
-        super(new CarTableModel(),
-                "Available cars:",
-                "No cars available in the showroom!");
-
+    public CarsListPanel(ListOptions options) {
+        super(new CarTableModel(), options);
         // TODO: pass the data from the main controller or app bootstrapper service ???
         this.carStock = ServiceLocator
                 .getComposer()
@@ -23,22 +21,22 @@ public final class CarsListPanel extends ItemsListPanel<Car> {
     }
 
     @Override
-    protected List<Car> getAllItems() {
+    protected final List<Car> getAllItems() {
         return this.carStock.getAvailableCars();
     }
 
     @Override
-    protected String getMessageForItemDeleteDialog(Car item) {
+    protected final String getMessageForItemDeleteDialog(Car item) {
         return String.format("Do you really want to delete '%s %s' ?", item.getMake(), item.getModel());
     }
 
     @Override
-    protected void removeItem(Car itemToDelete) {
+    protected final void removeItem(Car itemToDelete) {
         this.carStock.removeCar(itemToDelete.getId());
     }
 
     @Override
-    protected List<Car> findItems(String searchCriteria) {
+    protected final List<Car> findItems(String searchCriteria) {
         return this.carStock.find(searchCriteria);
     }
 }

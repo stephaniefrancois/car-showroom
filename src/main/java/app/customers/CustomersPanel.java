@@ -1,5 +1,6 @@
 package app.customers;
 
+import app.common.listing.ListOptions;
 import app.common.listing.SearchableListPanel;
 import app.common.search.SearchPanel;
 import app.customers.details.CustomerDetailsPanel;
@@ -18,7 +19,9 @@ public final class CustomersPanel extends JPanel {
 
         this.searchableCustomers = new SearchableListPanel(
                 new SearchPanel(),
-                new CustomersListPanel()
+                new CustomersListPanel(
+                        ListOptions.AllowEditingItems("Our customers:",
+                                "We have no customers :("))
         );
         this.customerDetails = new CustomerDetailsPanel();
 

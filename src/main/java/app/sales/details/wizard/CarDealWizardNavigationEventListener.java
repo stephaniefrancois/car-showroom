@@ -1,4 +1,4 @@
-package app.sales.details;
+package app.sales.details.wizard;
 
 import java.util.EventListener;
 
@@ -8,4 +8,6 @@ public interface CarDealWizardNavigationEventListener extends EventListener {
     void navigateForward();
 
     void completeWizard();
+
+    void cancelWizard();
 }

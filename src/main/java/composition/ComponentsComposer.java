@@ -1,8 +1,9 @@
-package app.objectComposition;
+package composition;
 
-import app.sales.details.InMemoryFourStepsCarDealWizard;
+import app.sales.details.carDealSteps.InMemoryFourStepsCarDealWizard;
 import app.sales.details.wizard.CarDealWizardStepsProvider;
 import core.ItemFactoryProvider;
+import core.authentication.AuthenticationContextBasedSalesRepresentativeProvider;
 import core.authentication.PasswordBasedUserAuthenticator;
 import core.authentication.UserAuthenticator;
 import core.authentication.UserRepository;
@@ -15,10 +16,10 @@ import core.customer.validation.InMemoryCustomerValidationRulesProvider;
 import core.customer.validation.RuleBasedCustomerValidator;
 import core.deal.CarDealFactory;
 import core.deal.PaymentScheduleCalculator;
+import core.deal.SalesRepresentativeProvider;
 import core.deal.SimplePaymentScheduleCalculator;
 import core.deal.model.CarDealDetails;
-import core.deal.validation.InMemoryCarDealValidationRulesProvider;
-import core.deal.validation.RuleBasedCarDealValidator;
+import core.deal.validation.*;
 import core.stock.CarFactory;
 import core.stock.CarStock;
 import core.stock.Showroom;
@@ -142,5 +143,23 @@ public final class ComponentsComposer {
 
     public CarDealWizardStepsProvider getCarDealWizardStepsProvider() {
         return new InMemoryFourStepsCarDealWizard();
+    }
+
+    public RuleBasedCarDealValidator getCarStepValidator() {
+        return new RuleBasedCarDealValidator(new InMemoryCarStepValidationRulesProvider());
+    }
+
+    public RuleBasedCarDealValidator getCustomerStepValidator() {
+        return new RuleBasedCarDealValidator(new InMemoryCustomerStepValidationRulesProvider());
+    }
+
+    public RuleBasedPaymentOptionsValidator getPaymentOptionsStepValidator() {
+        return new RuleBasedPaymentOptionsValidator(new InMemoryPaymentOptionsStepValidationRulesProvider());
+    }
+
+    public SalesRepresentativeProvider getSalesRepresentativeProvider() {
+        return new AuthenticationContextBasedSalesRepresentativeProvider(
+                this.getUserIdentity()
+        );
     }
 }

@@ -1,4 +1,4 @@
-package app.objectComposition;
+package composition;
 
 import core.ItemFactoryProvider;
 import core.deal.CarDealFactory;

@@ -1,4 +1,4 @@
-package app.sales.details;
+package app.sales.details.wizard;
 
 import app.styles.BorderStyles;
 import common.IRaiseEvents;
@@ -10,6 +10,7 @@ import java.awt.*;
 public final class CarDealWizardNavigationPanel extends JPanel implements IRaiseEvents<CarDealWizardNavigationEventListener> {
     private final ListenersManager<CarDealWizardNavigationEventListener> listeners;
     private final JButton goBackButton;
+    private final JButton cancelButton;
     private final JButton goForwardButton;
     private final JButton finishButton;
 
@@ -20,11 +21,13 @@ public final class CarDealWizardNavigationPanel extends JPanel implements IRaise
         this.listeners = new ListenersManager<>();
 
         goBackButton = new JButton("< Previous");
+        cancelButton = new JButton("Cancel");
         goForwardButton = new JButton("Next >");
         finishButton = new JButton("Finish!");
 
         JPanel eastPanel = new JPanel();
         eastPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        eastPanel.add(cancelButton);
         eastPanel.add(goForwardButton);
         eastPanel.add(finishButton);
 
@@ -36,6 +39,7 @@ public final class CarDealWizardNavigationPanel extends JPanel implements IRaise
         add(eastPanel, BorderLayout.EAST);
 
         goBackButton.addActionListener(e -> listeners.notifyListeners(l -> l.navigateBack()));
+        cancelButton.addActionListener(e -> listeners.notifyListeners(l -> l.cancelWizard()));
         goForwardButton.addActionListener(e -> listeners.notifyListeners(l -> l.navigateForward()));
         finishButton.addActionListener(e -> listeners.notifyListeners(l -> l.completeWizard()));
     }

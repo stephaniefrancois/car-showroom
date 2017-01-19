@@ -2,7 +2,7 @@ package app.customers.details;
 
 import app.common.details.SimpleEditorPanel;
 import app.common.validation.ValidationSummaryPanel;
-import app.objectComposition.ServiceLocator;
+import composition.ServiceLocator;
 import core.customer.CustomerFactory;
 import core.customer.model.Customer;
 import core.stock.model.UnableToUpdateCarException;

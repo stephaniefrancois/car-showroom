@@ -2,8 +2,8 @@ package app.sales.details;
 
 import app.common.ControlsHelper;
 import app.common.details.PreviewSelectedItemPanel;
-import app.objectComposition.ServiceLocator;
 import app.styles.BorderStyles;
+import composition.ServiceLocator;
 import core.deal.model.CarDealDetails;
 import data.CarDealRepository;
 
@@ -79,7 +79,7 @@ public class PreviewSelectedCarDealPanel extends PreviewSelectedItemPanel<CarDea
         formGridConfig.weighty = 2.0;
 
         formGridConfig.gridx = 1;
-        formGridConfig.anchor = GridBagConstraints.FIRST_LINE_START;
+        formGridConfig.anchor = GridBagConstraints.LAST_LINE_END;
         formGridConfig.insets = new Insets(0, 0, 0, 0);
         add(editCarDealBtn, formGridConfig);
 
