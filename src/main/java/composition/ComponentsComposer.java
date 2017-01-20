@@ -36,8 +36,8 @@ import core.validation.ValidationRulesProvider;
 import data.*;
 import data.inMemory.InMemoryCarDealRepository;
 import data.inMemory.InMemoryCarMetadataRepository;
-import data.inMemory.InMemoryCarRepository;
 import data.inMemory.InMemoryUserRepository;
+import data.sql.MsSqlCarRepository;
 import data.sql.MsSqlCustomerRepository;
 
 public final class ComponentsComposer {
@@ -51,11 +51,10 @@ public final class ComponentsComposer {
 
     public ComponentsComposer() {
         settingsStore = new PreferencesBasedStore();
-
         ConnectionStringProvider connectionStringProvider =
                 new ApplicationSettingsBasedConnectionStringProvider(getSettingsStore());
-
-        carRepository = new InMemoryCarRepository();
+        //carRepository = new InMemoryCarRepository();
+        carRepository = new MsSqlCarRepository(connectionStringProvider, getSettingsStore(), getCarMetadataRepository());
         //customerRepository = new InMemoryCustomerRepository();
         customerRepository = new MsSqlCustomerRepository(connectionStringProvider, getSettingsStore());
         carDealRepository = new InMemoryCarDealRepository();

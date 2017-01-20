@@ -26,7 +26,7 @@ public final class InMemoryCarRepository implements CarRepository {
                             new CarFeature(16, "Champagne"),
                             new CarFeature(17, "W12 Bi-Turbo engine"))
             ),
-            new CarDetails(2, "Bentley", "Continetal GT",
+            new CarDetails(2, "Bentley", "Continental GT",
                     2017,
                     "Gray",
                     new CarMetadata(1, "Petrol"),

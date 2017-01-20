@@ -16,12 +16,12 @@ import java.util.logging.Logger;
 public final class MsSqlCustomerRepository extends MsSqlRepository implements CustomerRepository {
     private static final Logger log = RootLogger.get();
 
-    private final String GET_TOP_50_CUSTOMERS = "SELECT TOP 50 CustomerId ,FirstName ,LastName ,City ,CustomerSince FROM [dbo].[Customer] WHERE IsDeleted = 0";
-    private final String GET_CUSTOMER_BY_ID = "SELECT CustomerId ,FirstName ,LastName ,City ,CustomerSince FROM [dbo].[Customer] WHERE CustomerId = ?";
-    private final String SEARCH_FOR_CUSTOMER = "SELECT CustomerId ,FirstName ,LastName ,City ,CustomerSince FROM [dbo].[Customer] WHERE IsDeleted = 0 AND (FirstName LIKE '%' + ? + '%' OR LastName LIKE '%' + ? + '%' OR City LIKE '%' + ? + '%')";
-    private final String INSERT_CUSTOMER = "INSERT INTO dbo.Customer (FirstName ,LastName ,City ,CustomerSince) VALUES (?, ?, ?, ?)";
-    private final String UPDATE_CUSTOMER = "UPDATE c SET c.FirstName = ?, c.LastName = ?, c.City = ? FROM dbo.Customer c WHERE c.CustomerId = ?";
-    private final String DELETE_CUSTOMER = "UPDATE c SET c.IsDeleted = 1 FROM dbo.Customer c WHERE c.CustomerId = ?";
+    private final String GET_TOP_50_CUSTOMERS = "SELECT TOP 50 CustomerId ,FirstName ,LastName ,City ,CustomerSince FROM [dbo].[Customers] WHERE IsDeleted = 0";
+    private final String GET_CUSTOMER_BY_ID = "SELECT CustomerId ,FirstName ,LastName ,City ,CustomerSince FROM [dbo].[Customers] WHERE CustomerId = ?";
+    private final String SEARCH_FOR_CUSTOMER = "SELECT CustomerId ,FirstName ,LastName ,City ,CustomerSince FROM [dbo].[Customers] WHERE IsDeleted = 0 AND (FirstName LIKE '%' + ? + '%' OR LastName LIKE '%' + ? + '%' OR City LIKE '%' + ? + '%')";
+    private final String INSERT_CUSTOMER = "INSERT INTO dbo.Customers (FirstName ,LastName ,City ,CustomerSince) VALUES (?, ?, ?, ?)";
+    private final String UPDATE_CUSTOMER = "UPDATE c SET c.FirstName = ?, c.LastName = ?, c.City = ? FROM dbo.Customers c WHERE c.CustomerId = ?";
+    private final String DELETE_CUSTOMER = "UPDATE c SET c.IsDeleted = 1 FROM dbo.Customers c WHERE c.CustomerId = ?";
 
     public MsSqlCustomerRepository(ConnectionStringProvider connectionStringProvider, SettingsStore settings) {
         super(connectionStringProvider, settings);
