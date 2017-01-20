@@ -21,15 +21,31 @@ import java.util.stream.Collectors;
 public final class MsSqlCarRepository extends MsSqlRepository implements CarRepository {
     private static final Logger log = RootLogger.get();
 
-    private final String GET_TOP_50_CARS = "SELECT TOP 50 [CarId], [Make], [Model], [Year], [Price], [Mileage] FROM [dbo].[Cars] c WHERE c.[IsDeleted] = 0";
-    private final String GET_CAR_BY_ID = "SELECT [CarId] ,[Make] ,[Model] ,[Year] ,[Color] ,[FuelType] ,[BodyStyle] ,[Transmission] ,[NumberOfSeats] ,[Price] ,[Mileage] FROM [dbo].[Cars] WHERE [CarId] = ?";
-    private final String GET_CAR_FEATURES_BY_ID = "SELECT [CarFeatureId] FROM [dbo].[CarsFeaturesMap] WHERE CarId = ?";
-    private final String SEARCH_FOR_CAR = "SELECT [CarId], [Make], [Model], [Year], [Price], [Mileage] FROM [dbo].[Cars] WHERE IsDeleted = 0 AND (Model LIKE '%' + ? + '%' OR Make LIKE '%' + ? + '%' OR Year LIKE '%' + ? + '%')";
-    private final String INSERT_CAR = "INSERT INTO dbo.Cars (Make, Model,  Year,  Color,  FuelType,  BodyStyle,  Transmission,  NumberOfSeats,  Price,  Mileage) VALUES  (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    private final String INSERT_CAR_FEATURE = "INSERT INTO dbo.CarsFeaturesMap (CarId, CarFeatureId) VALUES  (?, ?)";
+    private final String GET_TOP_50_CARS = "SELECT TOP 50 [CarId], [Make], [Model], [Year], [Price], [Mileage] " +
+            "FROM [dbo].[Cars] c " +
+            "WHERE c.[IsDeleted] = 0";
+    private final String GET_CAR_BY_ID = "SELECT [CarId] ,[Make] ,[Model] ,[Year] ,[Color] ,[FuelType] ,[BodyStyle] ,[Transmission] ,[NumberOfSeats] ,[Price] ,[Mileage] " +
+            "FROM [dbo].[Cars] " +
+            "WHERE [CarId] = ?";
+    private final String GET_CAR_FEATURES_BY_ID = "SELECT [CarFeatureId] " +
+            "FROM [dbo].[CarsFeaturesMap] " +
+            "WHERE CarId = ?";
+    private final String SEARCH_FOR_CAR = "SELECT [CarId], [Make], [Model], [Year], [Price], [Mileage] FROM [dbo].[Cars] " +
+            "WHERE IsDeleted = 0 " +
+            "AND (Model LIKE '%' + ? + '%' " +
+            "OR Make LIKE '%' + ? + '%' " +
+            "OR Year LIKE '%' + ? + '%')";
+    private final String INSERT_CAR = "INSERT INTO dbo.Cars (Make, Model,  Year,  Color,  FuelType,  BodyStyle,  Transmission,  NumberOfSeats,  Price,  Mileage) " +
+            "VALUES  (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private final String INSERT_CAR_FEATURE = "INSERT INTO dbo.CarsFeaturesMap (CarId, CarFeatureId) " +
+            "VALUES  (?, ?)";
     private final String DELETE_CAR_FEATURES = "DELETE FROM dbo.CarsFeaturesMap WHERE CarId = ?";
-    private final String UPDATE_CAR = "UPDATE [dbo].[Cars] SET [Make] = ?, [Model] = ?, [Year] = ?, [Color] = ?, [FuelType] = ?, [BodyStyle] = ?, [Transmission] = ?, [NumberOfSeats] = ?, [Price] = ?, [Mileage] = ? WHERE CarId = ?";
-    private final String DELETE_CAR = "UPDATE c SET c.IsDeleted = 1 FROM dbo.Cars c WHERE c.CarId = ?";
+    private final String UPDATE_CAR = "UPDATE [dbo].[Cars] " +
+            "SET [Make] = ?, [Model] = ?, [Year] = ?, [Color] = ?, [FuelType] = ?, [BodyStyle] = ?, [Transmission] = ?, [NumberOfSeats] = ?, [Price] = ?, [Mileage] = ? " +
+            "WHERE CarId = ?";
+    private final String DELETE_CAR = "UPDATE c SET c.IsDeleted = 1 " +
+            "FROM dbo.Cars c " +
+            "WHERE c.CarId = ?";
 
     private final CarMetadataRepository carMetadataRepository;
 

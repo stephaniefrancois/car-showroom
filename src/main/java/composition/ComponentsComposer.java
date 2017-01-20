@@ -34,9 +34,9 @@ import core.validation.TreeLikeValidationErrorsFormatter;
 import core.validation.ValidationErrorsFormatter;
 import core.validation.ValidationRulesProvider;
 import data.*;
-import data.inMemory.InMemoryCarDealRepository;
 import data.inMemory.InMemoryCarMetadataRepository;
 import data.inMemory.InMemoryUserRepository;
+import data.sql.MsSqlCarDealRepository;
 import data.sql.MsSqlCarRepository;
 import data.sql.MsSqlCustomerRepository;
 
@@ -57,7 +57,8 @@ public final class ComponentsComposer {
         carRepository = new MsSqlCarRepository(connectionStringProvider, getSettingsStore(), getCarMetadataRepository());
         //customerRepository = new InMemoryCustomerRepository();
         customerRepository = new MsSqlCustomerRepository(connectionStringProvider, getSettingsStore());
-        carDealRepository = new InMemoryCarDealRepository();
+        //carDealRepository = new InMemoryCarDealRepository();
+        carDealRepository = new MsSqlCarDealRepository(connectionStringProvider, settingsStore, carRepository, customerRepository);
         userRepository = new InMemoryUserRepository();
         authenticationContext = new SimpleAuthenticationContext();
     }

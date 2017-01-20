@@ -7,9 +7,6 @@ import core.stock.model.CarDetails;
 
 import java.time.LocalDate;
 
-// TODO: add deal id and renamed this to car deal details
-// TODO: extract light weight car deal
-
 public final class CarDealDetails implements IHaveIdentifier {
     private final int carDealId;
     private final CarDetails car;
