@@ -52,7 +52,6 @@ public final class DealReviewPanel extends CarDealWizardStep {
     public DealReviewPanel() {
         setLayout(new GridBagLayout());
 
-
         this.salesRepresentativeProvider = ServiceLocator.getComposer().getSalesRepresentativeProvider();
         this.controlsPadding = new Insets(5, 0, 4, 5);
 
@@ -104,7 +103,7 @@ public final class DealReviewPanel extends CarDealWizardStep {
 
     private JPanel buildCustomerDataPanel() {
         JPanel panel = new JPanel();
-        panel.setBorder(BorderStyles.getTitleBorder("Customer:"));
+        panel.setBorder(BorderStyles.getTitleBorderNarrow("Customer:"));
         panel.setLayout(new GridBagLayout());
         GridBagConstraints gridConfig = new GridBagConstraints();
         gridConfig.fill = GridBagConstraints.NONE;
@@ -117,7 +116,7 @@ public final class DealReviewPanel extends CarDealWizardStep {
 
     private JPanel buildCarDataPanel() {
         JPanel panel = new JPanel();
-        panel.setBorder(BorderStyles.getTitleBorder("Car:"));
+        panel.setBorder(BorderStyles.getTitleBorderNarrow("Car:"));
         panel.setLayout(new GridBagLayout());
         GridBagConstraints gridConfig = new GridBagConstraints();
         gridConfig.fill = GridBagConstraints.NONE;
@@ -132,7 +131,7 @@ public final class DealReviewPanel extends CarDealWizardStep {
 
     private JPanel buildSalesDataPanel() {
         JPanel panel = new JPanel();
-        panel.setBorder(BorderStyles.getTitleBorder("Sales man:"));
+        panel.setBorder(BorderStyles.getTitleBorderNarrow("Sales man:"));
         panel.setLayout(new GridBagLayout());
         GridBagConstraints gridConfig = new GridBagConstraints();
         gridConfig.fill = GridBagConstraints.NONE;
@@ -143,7 +142,7 @@ public final class DealReviewPanel extends CarDealWizardStep {
 
     private JPanel buildPaymentDataPanel() {
         JPanel panel = new JPanel();
-        panel.setBorder(BorderStyles.getTitleBorder("Payment Options:"));
+        panel.setBorder(BorderStyles.getTitleBorderNarrow("Payment Options:"));
         panel.setLayout(new GridBagLayout());
         GridBagConstraints gridConfig = new GridBagConstraints();
         gridConfig.fill = GridBagConstraints.NONE;
