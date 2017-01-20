@@ -1,7 +1,8 @@
-package data;
+package data.inMemory;
 
 import core.stock.model.CarFeature;
 import core.stock.model.CarMetadata;
+import data.CarMetadataRepository;
 
 import java.util.Arrays;
 import java.util.List;

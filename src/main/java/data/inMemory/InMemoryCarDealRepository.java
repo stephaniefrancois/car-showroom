@@ -1,4 +1,4 @@
-package data;
+package data.inMemory;
 
 import core.authentication.model.UserProfile;
 import core.customer.model.Customer;
@@ -6,6 +6,7 @@ import core.deal.model.*;
 import core.stock.model.CarDetails;
 import core.stock.model.CarFeature;
 import core.stock.model.CarMetadata;
+import data.CarDealRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

@@ -2,6 +2,7 @@ package composition;
 
 import app.sales.details.carDealSteps.InMemoryFourStepsCarDealWizard;
 import app.sales.details.wizard.CarDealWizardStepsProvider;
+import common.ApplicationSettingsBasedConnectionStringProvider;
 import common.PreferencesBasedStore;
 import common.SettingsStore;
 import core.ItemFactoryProvider;
@@ -33,6 +34,11 @@ import core.validation.TreeLikeValidationErrorsFormatter;
 import core.validation.ValidationErrorsFormatter;
 import core.validation.ValidationRulesProvider;
 import data.*;
+import data.inMemory.InMemoryCarDealRepository;
+import data.inMemory.InMemoryCarMetadataRepository;
+import data.inMemory.InMemoryCarRepository;
+import data.inMemory.InMemoryUserRepository;
+import data.sql.MsSqlCustomerRepository;
 
 public final class ComponentsComposer {
 
@@ -45,8 +51,13 @@ public final class ComponentsComposer {
 
     public ComponentsComposer() {
         settingsStore = new PreferencesBasedStore();
+
+        ConnectionStringProvider connectionStringProvider =
+                new ApplicationSettingsBasedConnectionStringProvider(getSettingsStore());
+
         carRepository = new InMemoryCarRepository();
-        customerRepository = new InMemoryCustomerRepository();
+        //customerRepository = new InMemoryCustomerRepository();
+        customerRepository = new MsSqlCustomerRepository(connectionStringProvider, getSettingsStore());
         carDealRepository = new InMemoryCarDealRepository();
         userRepository = new InMemoryUserRepository();
         authenticationContext = new SimpleAuthenticationContext();

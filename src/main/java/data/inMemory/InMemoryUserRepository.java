@@ -1,4 +1,4 @@
-package data;
+package data.inMemory;
 
 import core.authentication.UserRepository;
 import core.authentication.model.User;

@@ -1,6 +1,7 @@
-package data;
+package data.inMemory;
 
 import core.customer.model.Customer;
+import data.CustomerRepository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

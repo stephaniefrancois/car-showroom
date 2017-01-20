@@ -1,9 +1,10 @@
-package data;
+package data.inMemory;
 
 import core.stock.model.Car;
 import core.stock.model.CarDetails;
 import core.stock.model.CarFeature;
 import core.stock.model.CarMetadata;
+import data.CarRepository;
 
 import java.math.BigDecimal;
 import java.util.*;
