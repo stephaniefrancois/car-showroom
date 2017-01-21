@@ -33,7 +33,8 @@ public final class PasswordBasedUserAuthenticatorTest {
         AuthenticationContext authenticationContextMock = Mockito.mock(AuthenticationContext.class);
         PasswordBasedUserAuthenticator sut = new PasswordBasedUserAuthenticator(userRepositoryMock, hasherMock, authenticationContextMock);
 
-        when(userRepositoryMock.findUsersByCredentials("user1", "secret")).thenReturn(users);
+        when(userRepositoryMock.findUsersByCredentials("user1", password)).thenReturn(users);
+        when(hasherMock.hashPassword(password)).thenReturn(password);
 
         // When
         AuthenticationResult result = sut.Authenticate(userName, password);
@@ -54,6 +55,7 @@ public final class PasswordBasedUserAuthenticatorTest {
         AuthenticationContext authenticationContextMock = Mockito.mock(AuthenticationContext.class);
 
         PasswordBasedUserAuthenticator sut = new PasswordBasedUserAuthenticator(userRepositoryMock, hasherMock, authenticationContextMock);
+
         // When
         AuthenticationResult result = sut.Authenticate(userName, password);
 
@@ -75,6 +77,7 @@ public final class PasswordBasedUserAuthenticatorTest {
         PasswordBasedUserAuthenticator sut = new PasswordBasedUserAuthenticator(userRepositoryMock, hasherMock, authenticationContextMock);
 
         when(userRepositoryMock.findUsersByCredentials("user1", "badSecret")).thenReturn(users);
+        when(hasherMock.hashPassword("badSecret")).thenReturn("badSecret");
 
         // When
         AuthenticationResult result = sut.Authenticate("user1", "badSecret");
@@ -99,6 +102,8 @@ public final class PasswordBasedUserAuthenticatorTest {
         PasswordBasedUserAuthenticator sut = new PasswordBasedUserAuthenticator(userRepositoryMock, hasherMock, authenticationContextMock);
 
         when(userRepositoryMock.findUsersByCredentials("user1", "badSecret")).thenReturn(users);
+        when(hasherMock.hashPassword("badSecret")).thenReturn("badSecret");
+
         sut.Authenticate("user1", "badSecret");
         // When
         AuthenticationResult result = sut.Authenticate("user1", "wrongPassword");
