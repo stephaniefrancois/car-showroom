@@ -27,6 +27,10 @@ public final class SearchableListPanel<TModel extends IHaveIdentifier> extends J
         this.searchPanel.addListener(this.itemsList);
     }
 
+    public final void refresh() {
+        this.itemsList.refresh();
+    }
+
     public final void selectItemById(int identifier) {
         this.itemsList.selectItemById(identifier);
     }

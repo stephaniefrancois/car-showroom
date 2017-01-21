@@ -55,6 +55,7 @@ public final class CustomerPanel extends CarDealWizardStep implements ListEventL
     @Override
     public void setCarDeal(CarDealFactory carDealFactory) {
         this.clear();
+        this.customersPanel.resetSearch();
         this.carDealFactory = carDealFactory;
         if (carDealFactory.getCustomer() != null) {
             this.searchableCustomers.selectItemById(carDealFactory.getCustomer().getId());

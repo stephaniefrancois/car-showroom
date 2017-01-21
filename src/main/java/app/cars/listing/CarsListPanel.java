@@ -17,7 +17,6 @@ public final class CarsListPanel extends ItemsListPanel<Car> {
         this.carStock = ServiceLocator
                 .getComposer()
                 .getCarStockService();
-        this.refresh();
     }
 
     @Override

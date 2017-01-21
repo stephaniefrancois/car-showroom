@@ -19,7 +19,6 @@ public final class CarDealsListPanel extends ItemsListPanel<CarDeal> {
         this.carDealRepository = ServiceLocator
                 .getComposer()
                 .getCarDealRepository();
-        this.refresh();
     }
 
     @Override

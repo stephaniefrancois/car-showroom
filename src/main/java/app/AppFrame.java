@@ -21,7 +21,7 @@ public final class AppFrame extends JFrame {
 
     private final static Logger log = RootLogger.get();
     private final ToolbarPanel toolbar;
-    private final ContentPanel content;
+    private final ContainerPanel content;
     private final String toolbarItemToSelectKey = "ViewCars";
     private final UserIdentity identity;
     private final SettingsStore settingsStore;
@@ -31,7 +31,7 @@ public final class AppFrame extends JFrame {
 
         configureSelf();
         toolbar = new ToolbarPanel();
-        content = new ContentPanel();
+        content = new ContainerPanel();
         // TODO: use perhaps use IOC container ?
         settingsStore = ServiceLocator.getComposer().getSettingsStore();
         identity = ServiceLocator.getComposer().getUserIdentity();
@@ -62,8 +62,6 @@ public final class AppFrame extends JFrame {
                 }
             }
         });
-
-        toolbar.setActiveToolbarItem(toolbarItemToSelectKey);
         promptToLogin();
     }
 
@@ -105,6 +103,7 @@ public final class AppFrame extends JFrame {
                         AppFrame.this.getTitle(),
                         identity.getProfile().getFirstName(),
                         identity.getProfile().getLastName()));
+                toolbar.setActiveToolbarItem(toolbarItemToSelectKey);
             } else {
                 logClosedBeforeLoggedIn();
                 System.exit(0);

@@ -19,7 +19,6 @@ public final class CustomersListPanel extends ItemsListPanel<Customer> {
         this.customerRepository = ServiceLocator
                 .getComposer()
                 .getCustomerRepository();
-        this.refresh();
     }
 
     @Override

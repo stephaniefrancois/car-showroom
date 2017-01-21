@@ -1,5 +1,6 @@
 package app.cars;
 
+import app.ContentPanel;
 import app.cars.details.CarDetailsPanel;
 import app.cars.listing.CarsListPanel;
 import app.common.listing.ListOptions;
@@ -7,10 +8,9 @@ import app.common.listing.SearchableListPanel;
 import app.common.search.SearchPanel;
 import core.stock.model.Car;
 
-import javax.swing.*;
 import java.awt.*;
 
-public final class CarsPanel extends JPanel {
+public final class CarsPanel extends ContentPanel {
     private final SearchableListPanel<Car> searchableCars;
     private final CarDetailsPanel carDetails;
 
@@ -31,5 +31,10 @@ public final class CarsPanel extends JPanel {
 
         this.searchableCars.addListener(this.carDetails);
         this.carDetails.addListener(this.searchableCars);
+    }
+
+    @Override
+    public void activated() {
+        this.searchableCars.refresh();
     }
 }
