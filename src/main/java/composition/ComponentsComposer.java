@@ -6,10 +6,7 @@ import common.ApplicationSettingsBasedConnectionStringProvider;
 import common.PreferencesBasedStore;
 import common.SettingsStore;
 import core.ItemFactoryProvider;
-import core.authentication.AuthenticationContextBasedSalesRepresentativeProvider;
-import core.authentication.PasswordBasedUserAuthenticator;
-import core.authentication.UserAuthenticator;
-import core.authentication.UserRepository;
+import core.authentication.*;
 import core.authentication.model.AuthenticationContext;
 import core.authentication.model.SimpleAuthenticationContext;
 import core.authentication.model.UserIdentity;
@@ -35,10 +32,10 @@ import core.validation.ValidationErrorsFormatter;
 import core.validation.ValidationRulesProvider;
 import data.*;
 import data.inMemory.InMemoryCarMetadataRepository;
-import data.inMemory.InMemoryUserRepository;
 import data.sql.MsSqlCarDealRepository;
 import data.sql.MsSqlCarRepository;
 import data.sql.MsSqlCustomerRepository;
+import data.sql.MsSqlUserRepository;
 
 public final class ComponentsComposer {
 
@@ -53,14 +50,22 @@ public final class ComponentsComposer {
         settingsStore = new PreferencesBasedStore();
         ConnectionStringProvider connectionStringProvider =
                 new ApplicationSettingsBasedConnectionStringProvider(getSettingsStore());
-        //carRepository = new InMemoryCarRepository();
+
+//        carRepository = new InMemoryCarRepository();
+//        customerRepository = new InMemoryCustomerRepository();
+//        carDealRepository = new InMemoryCarDealRepository();
+//        userRepository = new InMemoryUserRepository();
+
         carRepository = new MsSqlCarRepository(connectionStringProvider, getSettingsStore(), getCarMetadataRepository());
-        //customerRepository = new InMemoryCustomerRepository();
         customerRepository = new MsSqlCustomerRepository(connectionStringProvider, getSettingsStore());
-        //carDealRepository = new InMemoryCarDealRepository();
         carDealRepository = new MsSqlCarDealRepository(connectionStringProvider, settingsStore, carRepository, customerRepository);
-        userRepository = new InMemoryUserRepository();
+        userRepository = new MsSqlUserRepository(connectionStringProvider, getSettingsStore());
+
         authenticationContext = new SimpleAuthenticationContext();
+    }
+
+    public PasswordHasher getPasswordHasher() {
+        return new MD5PasswordHasher();
     }
 
     public UserIdentity getUserIdentity() {
@@ -68,7 +73,8 @@ public final class ComponentsComposer {
     }
 
     public UserAuthenticator getUserAuthenticator() {
-        return new PasswordBasedUserAuthenticator(this.userRepository, this.authenticationContext);
+        return new PasswordBasedUserAuthenticator(this.userRepository,
+                getPasswordHasher(), this.authenticationContext);
     }
 
     public CarStock getCarStockService() {

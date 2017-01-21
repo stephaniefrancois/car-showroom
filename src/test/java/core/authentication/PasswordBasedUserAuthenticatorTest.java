@@ -4,6 +4,7 @@ import core.authentication.model.AuthenticationContext;
 import core.authentication.model.AuthenticationResult;
 import core.authentication.model.User;
 import core.authentication.model.UserProfile;
+import data.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
@@ -28,8 +29,9 @@ public final class PasswordBasedUserAuthenticatorTest {
         users.add(new User(1, "user1", new UserProfile("Stephanie", "Francois")));
 
         UserRepository userRepositoryMock = Mockito.mock(UserRepository.class);
+        PasswordHasher hasherMock = Mockito.mock(PasswordHasher.class);
         AuthenticationContext authenticationContextMock = Mockito.mock(AuthenticationContext.class);
-        PasswordBasedUserAuthenticator sut = new PasswordBasedUserAuthenticator(userRepositoryMock, authenticationContextMock);
+        PasswordBasedUserAuthenticator sut = new PasswordBasedUserAuthenticator(userRepositoryMock, hasherMock, authenticationContextMock);
 
         when(userRepositoryMock.findUsersByCredentials("user1", "secret")).thenReturn(users);
 
@@ -48,9 +50,10 @@ public final class PasswordBasedUserAuthenticatorTest {
         String userName = "user1";
         String password = "badSecret";
         UserRepository userRepositoryMock = Mockito.mock(UserRepository.class);
+        PasswordHasher hasherMock = Mockito.mock(PasswordHasher.class);
         AuthenticationContext authenticationContextMock = Mockito.mock(AuthenticationContext.class);
 
-        PasswordBasedUserAuthenticator sut = new PasswordBasedUserAuthenticator(userRepositoryMock, authenticationContextMock);
+        PasswordBasedUserAuthenticator sut = new PasswordBasedUserAuthenticator(userRepositoryMock, hasherMock, authenticationContextMock);
         // When
         AuthenticationResult result = sut.Authenticate(userName, password);
 
@@ -68,7 +71,8 @@ public final class PasswordBasedUserAuthenticatorTest {
 
         UserRepository userRepositoryMock = Mockito.mock(UserRepository.class);
         AuthenticationContext authenticationContextMock = Mockito.mock(AuthenticationContext.class);
-        PasswordBasedUserAuthenticator sut = new PasswordBasedUserAuthenticator(userRepositoryMock, authenticationContextMock);
+        PasswordHasher hasherMock = Mockito.mock(PasswordHasher.class);
+        PasswordBasedUserAuthenticator sut = new PasswordBasedUserAuthenticator(userRepositoryMock, hasherMock, authenticationContextMock);
 
         when(userRepositoryMock.findUsersByCredentials("user1", "badSecret")).thenReturn(users);
 
@@ -91,7 +95,8 @@ public final class PasswordBasedUserAuthenticatorTest {
 
         UserRepository userRepositoryMock = Mockito.mock(UserRepository.class);
         AuthenticationContext authenticationContextMock = Mockito.mock(AuthenticationContext.class);
-        PasswordBasedUserAuthenticator sut = new PasswordBasedUserAuthenticator(userRepositoryMock, authenticationContextMock);
+        PasswordHasher hasherMock = Mockito.mock(PasswordHasher.class);
+        PasswordBasedUserAuthenticator sut = new PasswordBasedUserAuthenticator(userRepositoryMock, hasherMock, authenticationContextMock);
 
         when(userRepositoryMock.findUsersByCredentials("user1", "badSecret")).thenReturn(users);
         sut.Authenticate("user1", "badSecret");

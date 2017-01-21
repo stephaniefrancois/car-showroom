@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class ApplicationSettingsBasedConnectionStringProvider implements ConnectionStringProvider {
     private final SettingsStore settingsStore;
-    private final String DATABASE_NAME = "CarShowoom";
+    private final String DATABASE_NAME = "CarShowroom";
 
     public ApplicationSettingsBasedConnectionStringProvider(SettingsStore settingsStore) {
         Objects.requireNonNull(settingsStore);
