@@ -3,7 +3,7 @@ package app.customers.details;
 import app.common.details.EditorInputsPanel;
 import app.common.validation.ValidateAbleFieldDescriptor;
 import app.styles.LabelStyles;
-import core.customer.CustomerFactory;
+import core.customer.CustomerBuilder;
 import core.customer.model.Customer;
 
 import javax.swing.*;
@@ -11,7 +11,7 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class CustomerEditorInputsPanel extends EditorInputsPanel<Customer, CustomerFactory> {
+public final class CustomerEditorInputsPanel extends EditorInputsPanel<Customer, CustomerBuilder> {
 
     private final GridBagConstraints formGridConfig;
     private final JTextField firstNameField;
@@ -50,7 +50,7 @@ public final class CustomerEditorInputsPanel extends EditorInputsPanel<Customer,
     }
 
     @Override
-    public CustomerFactory mapFormValuesToItemFactory(CustomerFactory itemFactory) {
+    public CustomerBuilder mapFormValuesToItemFactory(CustomerBuilder itemFactory) {
         itemFactory.setFirstName(this.firstNameField.getText());
         itemFactory.setLastName(this.lastNameField.getText());
         itemFactory.setCity(this.cityField.getText());
@@ -58,12 +58,12 @@ public final class CustomerEditorInputsPanel extends EditorInputsPanel<Customer,
     }
 
     @Override
-    public CustomerFactory setDefaultValuesForNewItem(CustomerFactory itemFactory) {
+    public CustomerBuilder setDefaultValuesForNewItem(CustomerBuilder itemFactory) {
         return itemFactory;
     }
 
     @Override
-    public void mapItemValuesToForm(CustomerFactory item) {
+    public void mapItemValuesToForm(CustomerBuilder item) {
         this.firstNameField.setText(item.getFirstName());
         this.lastNameField.setText(item.getLastName());
         this.cityField.setText(item.getCity());

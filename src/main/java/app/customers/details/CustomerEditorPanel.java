@@ -3,12 +3,12 @@ package app.customers.details;
 import app.common.details.SimpleEditorPanel;
 import app.common.validation.ValidationSummaryPanel;
 import composition.ServiceLocator;
-import core.customer.CustomerFactory;
+import core.customer.CustomerBuilder;
 import core.customer.model.Customer;
 import core.stock.model.UnableToUpdateCarException;
 import data.CustomerRepository;
 
-public final class CustomerEditorPanel extends SimpleEditorPanel<Customer, CustomerFactory> {
+public final class CustomerEditorPanel extends SimpleEditorPanel<Customer, CustomerBuilder> {
     private final CustomerRepository customerRepository;
 
     public CustomerEditorPanel() {

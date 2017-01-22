@@ -1,7 +1,7 @@
 package app.sales.details.wizard;
 
 import app.common.validation.ValidateAbleFieldDescriptor;
-import core.deal.CarDealFactory;
+import core.deal.CarDealBuilder;
 import core.validation.model.ValidationSummary;
 
 import javax.swing.*;
@@ -16,9 +16,9 @@ public abstract class CarDealWizardStep extends JPanel {
 
     public abstract ValidationSummary validateStep();
 
-    public abstract void setCarDeal(CarDealFactory carDealFactory);
+    public abstract void setCarDeal(CarDealBuilder carDealBuilder);
 
-    public abstract CarDealFactory getCarDeal();
+    public abstract CarDealBuilder getCarDeal();
 
     public abstract void clear();
 

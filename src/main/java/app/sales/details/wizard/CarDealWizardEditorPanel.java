@@ -7,7 +7,7 @@ import app.common.validation.ValidationEventArgs;
 import app.common.validation.ValidationSummaryPanel;
 import composition.ServiceLocator;
 import core.ItemFactoryProvider;
-import core.deal.CarDealFactory;
+import core.deal.CarDealBuilder;
 import core.deal.model.CarDealDetails;
 import core.validation.model.ValidationException;
 import data.CarDealRepository;
@@ -25,7 +25,7 @@ public final class CarDealWizardEditorPanel extends EditorPanel
 
     private static final Logger log = RootLogger.get();
     private final CarDealRepository carDetailsRepository;
-    private final ItemFactoryProvider<CarDealDetails, CarDealFactory> carDealFactoryProvider;
+    private final ItemFactoryProvider<CarDealDetails, CarDealBuilder> carDealFactoryProvider;
     private final ValidationSummaryPanel validationMessagesPanel;
     private final CarDealWizardNavigationPanel navigationPanel;
     private final CarDealWizardHeaderPanel headerPanel;
@@ -63,9 +63,9 @@ public final class CarDealWizardEditorPanel extends EditorPanel
     @Override
     public void createItem() {
         log.info(() -> "Creating new CAR DEAL ...");
-        CarDealFactory carDealFactory = this.carDealFactoryProvider.createItemFactory();
-        carDealFactory.setDealDate(LocalDate.now());
-        wizard = new CarDealWizard(carDealFactory, this.wizardStepsProvider);
+        CarDealBuilder carDealBuilder = this.carDealFactoryProvider.createItemFactory();
+        carDealBuilder.setDealDate(LocalDate.now());
+        wizard = new CarDealWizard(carDealBuilder, this.wizardStepsProvider);
         wizard.addListener(this);
         this.initializeWizardStepsAndNavigateToFirstStep();
     }
@@ -74,8 +74,8 @@ public final class CarDealWizardEditorPanel extends EditorPanel
     public void editItem(int id) {
         log.info(() -> String.format("Editing CAR DEAL with id '%d' ...", id));
         CarDealDetails carDeal = this.carDetailsRepository.getDeal(id);
-        CarDealFactory carDealFactory = this.carDealFactoryProvider.createItemFactory(carDeal);
-        wizard = new CarDealWizard(carDealFactory, this.wizardStepsProvider);
+        CarDealBuilder carDealBuilder = this.carDealFactoryProvider.createItemFactory(carDeal);
+        wizard = new CarDealWizard(carDealBuilder, this.wizardStepsProvider);
         wizard.addListener(this);
         this.initializeWizardStepsAndNavigateToFirstStep();
     }

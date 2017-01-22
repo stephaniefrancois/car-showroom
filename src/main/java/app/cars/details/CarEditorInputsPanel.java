@@ -6,7 +6,7 @@ import app.common.validation.ValidateAbleFieldDescriptor;
 import app.styles.LabelStyles;
 import common.NumberExtensions;
 import composition.ServiceLocator;
-import core.stock.CarFactory;
+import core.stock.CarBuilder;
 import core.stock.model.CarDetails;
 import core.stock.model.CarFeature;
 import core.stock.model.CarMetadata;
@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public final class CarEditorInputsPanel extends EditorInputsPanel<CarDetails, CarFactory> {
+public final class CarEditorInputsPanel extends EditorInputsPanel<CarDetails, CarBuilder> {
 
     private final GridBagConstraints formGridConfig;
     private final JTextField makeField;
@@ -160,37 +160,37 @@ public final class CarEditorInputsPanel extends EditorInputsPanel<CarDetails, Ca
     }
 
     @Override
-    public CarFactory mapFormValuesToItemFactory(CarFactory carFactory) {
-        carFactory.setMake(this.makeField.getText());
-        carFactory.setModel(this.modelField.getText());
-        carFactory.setYear(NumberExtensions.tryParseNumber(this.yearField.getText(), 0));
-        carFactory.setColor(this.colorField.getText());
-        carFactory.setMake(this.makeField.getText());
-        carFactory.setFuelType((CarMetadata) this.fuelTypeCombo.getSelectedItem());
-        carFactory.setBodyStyle((CarMetadata) this.bodyStyleCombo.getSelectedItem());
-        carFactory.setTransmission((CarMetadata) this.transmissionCombo.getSelectedItem());
-        carFactory.setNumberOfSeats(NumberExtensions.tryParseNumber(this.numberOfSeatsField.getText(), 0));
-        carFactory.setMileage(NumberExtensions.tryParseNumber(this.mileageField.getText(), 0));
-        carFactory.setPrice(NumberExtensions.tryParseNumber(this.priceField.getText(), new BigDecimal(0)));
+    public CarBuilder mapFormValuesToItemFactory(CarBuilder carBuilder) {
+        carBuilder.setMake(this.makeField.getText());
+        carBuilder.setModel(this.modelField.getText());
+        carBuilder.setYear(NumberExtensions.tryParseNumber(this.yearField.getText(), 0));
+        carBuilder.setColor(this.colorField.getText());
+        carBuilder.setMake(this.makeField.getText());
+        carBuilder.setFuelType((CarMetadata) this.fuelTypeCombo.getSelectedItem());
+        carBuilder.setBodyStyle((CarMetadata) this.bodyStyleCombo.getSelectedItem());
+        carBuilder.setTransmission((CarMetadata) this.transmissionCombo.getSelectedItem());
+        carBuilder.setNumberOfSeats(NumberExtensions.tryParseNumber(this.numberOfSeatsField.getText(), 0));
+        carBuilder.setMileage(NumberExtensions.tryParseNumber(this.mileageField.getText(), 0));
+        carBuilder.setPrice(NumberExtensions.tryParseNumber(this.priceField.getText(), new BigDecimal(0)));
 
-        carFactory.removeAllFeatures();
+        carBuilder.removeAllFeatures();
         List<CarFeature> features = this.carFeaturesEditorPanel.getSelectedCarFeatures();
-        features.forEach(carFactory::addCarFeature);
+        features.forEach(carBuilder::addCarFeature);
 
-        return carFactory;
+        return carBuilder;
     }
 
     @Override
-    public CarFactory setDefaultValuesForNewItem(CarFactory carFactory) {
-        carFactory.setFuelType((CarMetadata) this.fuelTypeCombo.getItemAt(0));
-        carFactory.setBodyStyle((CarMetadata) this.bodyStyleCombo.getItemAt(0));
-        carFactory.setTransmission((CarMetadata) this.transmissionCombo.getItemAt(0));
+    public CarBuilder setDefaultValuesForNewItem(CarBuilder carBuilder) {
+        carBuilder.setFuelType((CarMetadata) this.fuelTypeCombo.getItemAt(0));
+        carBuilder.setBodyStyle((CarMetadata) this.bodyStyleCombo.getItemAt(0));
+        carBuilder.setTransmission((CarMetadata) this.transmissionCombo.getItemAt(0));
 
-        return carFactory;
+        return carBuilder;
     }
 
     @Override
-    public void mapItemValuesToForm(CarFactory item) {
+    public void mapItemValuesToForm(CarBuilder item) {
         this.makeField.setText(item.getMake());
         this.modelField.setText(item.getModel());
         this.yearField.setText(item.getYear().toString());

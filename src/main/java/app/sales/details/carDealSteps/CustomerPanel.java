@@ -10,7 +10,7 @@ import app.customers.listing.CustomersListPanel;
 import app.sales.details.wizard.CarDealWizardStep;
 import composition.ServiceLocator;
 import core.customer.model.Customer;
-import core.deal.CarDealFactory;
+import core.deal.CarDealBuilder;
 import core.deal.model.CarDealDetails;
 import core.deal.validation.RuleBasedCarDealValidator;
 import core.validation.model.ValidationSummary;
@@ -25,7 +25,7 @@ public final class CustomerPanel extends CarDealWizardStep implements ListEventL
     private final RuleBasedCarDealValidator validator;
     private final CustomerRepository customerRepository;
     private final CustomersListPanel customersPanel;
-    private CarDealFactory carDealFactory;
+    private CarDealBuilder carDealBuilder;
 
     public CustomerPanel() {
         setLayout(new BorderLayout());
@@ -49,22 +49,22 @@ public final class CustomerPanel extends CarDealWizardStep implements ListEventL
 
     @Override
     public ValidationSummary validateStep() {
-        return this.validator.validate(CarDealDetails.of(this.carDealFactory));
+        return this.validator.validate(CarDealDetails.of(this.carDealBuilder));
     }
 
     @Override
-    public void setCarDeal(CarDealFactory carDealFactory) {
+    public void setCarDeal(CarDealBuilder carDealBuilder) {
         this.clear();
         this.customersPanel.resetSearch();
-        this.carDealFactory = carDealFactory;
-        if (carDealFactory.getCustomer() != null) {
-            this.searchableCustomers.selectItemById(carDealFactory.getCustomer().getId());
+        this.carDealBuilder = carDealBuilder;
+        if (carDealBuilder.getCustomer() != null) {
+            this.searchableCustomers.selectItemById(carDealBuilder.getCustomer().getId());
         }
     }
 
     @Override
-    public CarDealFactory getCarDeal() {
-        return this.carDealFactory;
+    public CarDealBuilder getCarDeal() {
+        return this.carDealBuilder;
     }
 
     @Override
@@ -85,7 +85,7 @@ public final class CustomerPanel extends CarDealWizardStep implements ListEventL
     @Override
     public void itemSelected(BasicEventArgs e) {
         Customer customer = this.customerRepository.getCustomer(e.getId());
-        this.carDealFactory.setCustomer(customer);
+        this.carDealBuilder.setCustomer(customer);
     }
 
     @Override

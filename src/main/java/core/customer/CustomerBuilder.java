@@ -1,6 +1,6 @@
 package core.customer;
 
-import core.ItemFactory;
+import core.ItemBuilder;
 import core.customer.model.Customer;
 import core.validation.Validator;
 import core.validation.model.ValidationException;
@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public final class CustomerFactory implements ItemFactory<Customer> {
+public final class CustomerBuilder implements ItemBuilder<Customer> {
     private final Validator<Customer> validator;
     private int customerId;
     private String firstName;
@@ -18,7 +18,7 @@ public final class CustomerFactory implements ItemFactory<Customer> {
     private String city;
     private LocalDate customerSince;
 
-    public CustomerFactory(Validator<Customer> validator) {
+    public CustomerBuilder(Validator<Customer> validator) {
 
         Objects.requireNonNull(validator,
                 "'validator' must be supplied!");
@@ -31,7 +31,7 @@ public final class CustomerFactory implements ItemFactory<Customer> {
         customerSince = LocalDate.from(LocalDateTime.now());
     }
 
-    public CustomerFactory(Customer customer, Validator<Customer> validator) {
+    public CustomerBuilder(Customer customer, Validator<Customer> validator) {
         this(validator);
 
         Objects.requireNonNull(customer,

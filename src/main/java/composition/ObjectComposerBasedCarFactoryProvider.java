@@ -1,18 +1,18 @@
 package composition;
 
 import core.ItemFactoryProvider;
-import core.stock.CarFactory;
+import core.stock.CarBuilder;
 import core.stock.model.CarDetails;
 
-public class ObjectComposerBasedCarFactoryProvider implements ItemFactoryProvider<CarDetails, CarFactory> {
+public class ObjectComposerBasedCarFactoryProvider implements ItemFactoryProvider<CarDetails, CarBuilder> {
 
     @Override
-    public CarFactory createItemFactory() {
+    public CarBuilder createItemFactory() {
         return ServiceLocator.getComposer().getCarFactory();
     }
 
     @Override
-    public CarFactory createItemFactory(CarDetails item) {
+    public CarBuilder createItemFactory(CarDetails item) {
         return ServiceLocator.getComposer().getCarFactory(item);
     }
 }

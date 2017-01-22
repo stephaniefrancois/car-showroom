@@ -4,7 +4,7 @@ import app.RootLogger;
 import app.common.BasicEventArgs;
 import app.common.validation.ValidationSummaryPanel;
 import core.IHaveIdentifier;
-import core.ItemFactory;
+import core.ItemBuilder;
 import core.ItemFactoryProvider;
 import core.stock.model.UnableToUpdateCarException;
 import core.validation.model.ValidationSummary;
@@ -16,7 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public abstract class SimpleEditorPanel<TModel extends IHaveIdentifier,
-        TItemFactory extends ItemFactory<TModel>> extends EditorPanel {
+        TItemFactory extends ItemBuilder<TModel>> extends EditorPanel {
 
     private static final Logger log = RootLogger.get();
     private final JButton saveButton;

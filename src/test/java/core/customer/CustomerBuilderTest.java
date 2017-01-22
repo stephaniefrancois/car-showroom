@@ -21,7 +21,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 import static testing.helpers.TestData.Customers;
 
-public final class CustomerFactoryTest {
+public final class CustomerBuilderTest {
 
     @Test
     public void GivenCustomerFactoryWhenUpdatingExistingCustomerThenAllCustomerFactoryPropertiesShouldBeSetCorrectly() {
@@ -31,7 +31,7 @@ public final class CustomerFactoryTest {
         Validator<Customer> validatorMock = Mockito.mock(Validator.class);
 
         // When
-        CustomerFactory sut = new CustomerFactory(customer, validatorMock);
+        CustomerBuilder sut = new CustomerBuilder(customer, validatorMock);
 
         // Then
         assertThat(sut.getId(), equalTo(customer.getId()));
@@ -45,7 +45,7 @@ public final class CustomerFactoryTest {
     public void GivenCorrectlySetPropertiesWhenWeBuildCustomerWeShouldHaveCustomerPropertiesSet() throws ValidationException, InvalidArgumentException {
         // Given
         Validator<Customer> validatorMock = Mockito.mock(Validator.class);
-        CustomerFactory sut = new CustomerFactory(validatorMock);
+        CustomerBuilder sut = new CustomerBuilder(validatorMock);
         when(validatorMock.validate(any())).thenReturn(new ValidationSummary());
 
         // When
@@ -66,7 +66,7 @@ public final class CustomerFactoryTest {
     public void GivenWeHaveMissingDataWhenBuildingCustomerThenValidationErrorsShouldBeReturned() {
         // Given
         Validator<Customer> validatorMock = Mockito.mock(Validator.class);
-        CustomerFactory sut = new CustomerFactory(validatorMock);
+        CustomerBuilder sut = new CustomerBuilder(validatorMock);
 
         List<ValidationError> errors = new ArrayList<>();
         errors.add(new ValidationError("firstName", "Customer FIRSTNAME must be supplied!"));
@@ -87,7 +87,7 @@ public final class CustomerFactoryTest {
     public void GivenInvalidCustomerSetupWhenWeBuildCustomerThenExceptionShouldBeThrown() {
         // Given
         Validator<Customer> validatorMock = Mockito.mock(Validator.class);
-        CustomerFactory sut = new CustomerFactory(validatorMock);
+        CustomerBuilder sut = new CustomerBuilder(validatorMock);
 
         List<ValidationError> errors = new ArrayList<>();
         errors.add(new ValidationError("firstName", "Customer FIRSTNAME must be supplied!"));

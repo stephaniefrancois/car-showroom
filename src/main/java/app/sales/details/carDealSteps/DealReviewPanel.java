@@ -8,7 +8,7 @@ import app.sales.details.wizard.CarDealWizardStep;
 import app.styles.BorderStyles;
 import composition.ServiceLocator;
 import core.authentication.model.NotAuthenticatedException;
-import core.deal.CarDealFactory;
+import core.deal.CarDealBuilder;
 import core.deal.SalesRepresentativeProvider;
 import core.deal.model.CarDealDetails;
 import core.deal.model.SalesRepresentative;
@@ -47,7 +47,7 @@ public final class DealReviewPanel extends CarDealWizardStep {
     private final Insets controlsPadding;
     private final SalesRepresentativeProvider salesRepresentativeProvider;
 
-    private CarDealFactory carDealFactory;
+    private CarDealBuilder carDealBuilder;
 
     public DealReviewPanel() {
         setLayout(new GridBagLayout());
@@ -98,7 +98,7 @@ public final class DealReviewPanel extends CarDealWizardStep {
 
     @Override
     public ValidationSummary validateStep() {
-        return this.carDealFactory.validate();
+        return this.carDealBuilder.validate();
     }
 
     private JPanel buildCustomerDataPanel() {
@@ -168,26 +168,26 @@ public final class DealReviewPanel extends CarDealWizardStep {
     }
 
     @Override
-    public CarDealFactory getCarDeal() {
-        return this.carDealFactory;
+    public CarDealBuilder getCarDeal() {
+        return this.carDealBuilder;
     }
 
     @Override
-    public void setCarDeal(CarDealFactory carDealFactory) {
-        this.carDealFactory = carDealFactory;
+    public void setCarDeal(CarDealBuilder carDealBuilder) {
+        this.carDealBuilder = carDealBuilder;
 
-        if (this.carDealFactory.getSalesRepresentative() == null) {
+        if (this.carDealBuilder.getSalesRepresentative() == null) {
             try {
                 SalesRepresentative salesRepresentative =
                         this.salesRepresentativeProvider.getActiveSalesRepresentative();
-                this.carDealFactory.setSalesRepresentative(salesRepresentative);
+                this.carDealBuilder.setSalesRepresentative(salesRepresentative);
             } catch (NotAuthenticatedException e) {
                 logFailedToRetrieveSalesRepresentative(e);
             }
         }
 
         try {
-            this.populateItemInformation(this.carDealFactory.build());
+            this.populateItemInformation(this.carDealBuilder.build());
         } catch (ValidationException e) {
             logFailedToPopulateFormWithCarDeal(e);
         }

@@ -10,17 +10,17 @@ import core.authentication.*;
 import core.authentication.model.AuthenticationContext;
 import core.authentication.model.SimpleAuthenticationContext;
 import core.authentication.model.UserIdentity;
-import core.customer.CustomerFactory;
+import core.customer.CustomerBuilder;
 import core.customer.model.Customer;
 import core.customer.validation.InMemoryCustomerValidationRulesProvider;
 import core.customer.validation.RuleBasedCustomerValidator;
-import core.deal.CarDealFactory;
+import core.deal.CarDealBuilder;
 import core.deal.PaymentScheduleCalculator;
 import core.deal.SalesRepresentativeProvider;
 import core.deal.SimplePaymentScheduleCalculator;
 import core.deal.model.CarDealDetails;
 import core.deal.validation.*;
-import core.stock.CarFactory;
+import core.stock.CarBuilder;
 import core.stock.CarStock;
 import core.stock.Showroom;
 import core.stock.model.CarDetails;
@@ -81,25 +81,25 @@ public final class ComponentsComposer {
         return new Showroom(carRepository);
     }
 
-    public ItemFactoryProvider<CarDetails, CarFactory> getCarFactoryProvider() {
+    public ItemFactoryProvider<CarDetails, CarBuilder> getCarFactoryProvider() {
         return new ObjectComposerBasedCarFactoryProvider();
     }
 
-    public CarFactory getCarFactory() {
+    public CarBuilder getCarFactory() {
         return createCarFactory(null);
     }
 
-    public CarFactory getCarFactory(CarDetails car) {
+    public CarBuilder getCarFactory(CarDetails car) {
         return createCarFactory(car);
     }
 
-    private CarFactory createCarFactory(CarDetails car) {
+    private CarBuilder createCarFactory(CarDetails car) {
         ValidationRulesProvider<CarDetails> rulesProvider = new InMemoryCarValidationRulesProvider();
         RuleBasedValidator<CarDetails> validator = new RuleBasedCarValidator(rulesProvider);
         if (car == null) {
-            return new CarFactory(validator);
+            return new CarBuilder(validator);
         }
-        return new CarFactory(car, validator);
+        return new CarBuilder(car, validator);
     }
 
     public CarMetadataRepository getCarMetadataRepository() {
@@ -114,24 +114,24 @@ public final class ComponentsComposer {
         return this.customerRepository;
     }
 
-    public CustomerFactory getCustomerFactory() {
+    public CustomerBuilder getCustomerFactory() {
         return createCustomerFactory(null);
     }
 
-    public CustomerFactory getCustomerFactory(Customer customer) {
+    public CustomerBuilder getCustomerFactory(Customer customer) {
         return createCustomerFactory(customer);
     }
 
-    private CustomerFactory createCustomerFactory(Customer customer) {
+    private CustomerBuilder createCustomerFactory(Customer customer) {
         ValidationRulesProvider<Customer> rulesProvider = new InMemoryCustomerValidationRulesProvider();
         RuleBasedValidator<Customer> validator = new RuleBasedCustomerValidator(rulesProvider);
         if (customer == null) {
-            return new CustomerFactory(validator);
+            return new CustomerBuilder(validator);
         }
-        return new CustomerFactory(customer, validator);
+        return new CustomerBuilder(customer, validator);
     }
 
-    public ItemFactoryProvider<Customer, CustomerFactory> getCustomerFactoryProvider() {
+    public ItemFactoryProvider<Customer, CustomerBuilder> getCustomerFactoryProvider() {
         return new ObjectComposerBasedCustomerFactoryProvider();
     }
 
@@ -139,26 +139,26 @@ public final class ComponentsComposer {
         return carDealRepository;
     }
 
-    public CarDealFactory getCarDealFactory(CarDealDetails carDeal) {
+    public CarDealBuilder getCarDealFactory(CarDealDetails carDeal) {
         return createCarDealFactory(carDeal);
     }
 
-    public CarDealFactory getCarDealFactory() {
+    public CarDealBuilder getCarDealFactory() {
         return createCarDealFactory(null);
     }
 
-    private CarDealFactory createCarDealFactory(CarDealDetails carDeal) {
+    private CarDealBuilder createCarDealFactory(CarDealDetails carDeal) {
         ValidationRulesProvider<CarDealDetails> rulesProvider = new InMemoryCarDealValidationRulesProvider();
         RuleBasedValidator<CarDealDetails> validator = new RuleBasedCarDealValidator(rulesProvider);
         PaymentScheduleCalculator scheduleCalculator = new SimplePaymentScheduleCalculator();
 
         if (carDeal == null) {
-            return new CarDealFactory(validator, scheduleCalculator);
+            return new CarDealBuilder(validator, scheduleCalculator);
         }
-        return new CarDealFactory(carDeal, validator, scheduleCalculator);
+        return new CarDealBuilder(carDeal, validator, scheduleCalculator);
     }
 
-    public ItemFactoryProvider<CarDealDetails, CarDealFactory> getCarDealFactoryProvider() {
+    public ItemFactoryProvider<CarDealDetails, CarDealBuilder> getCarDealFactoryProvider() {
         return new ObjectComposerBasedCarDealFactoryProvider();
     }
 

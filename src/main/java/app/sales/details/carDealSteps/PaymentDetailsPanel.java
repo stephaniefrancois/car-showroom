@@ -5,7 +5,7 @@ import app.sales.details.wizard.CarDealWizardStep;
 import app.styles.LabelStyles;
 import common.NumberExtensions;
 import composition.ServiceLocator;
-import core.deal.CarDealFactory;
+import core.deal.CarDealBuilder;
 import core.deal.model.PaymentOptions;
 import core.deal.validation.RuleBasedPaymentOptionsValidator;
 import core.validation.model.ValidationSummary;
@@ -34,7 +34,7 @@ public final class PaymentDetailsPanel extends CarDealWizardStep {
     private final JDatePickerImpl firstPaymentDatePicker;
     private final JTextField durationInMonthsField;
     private final Insets controlsPadding;
-    private CarDealFactory carDealFactory;
+    private CarDealBuilder carDealBuilder;
     private Map<String, ValidateAbleFieldDescriptor> fieldsMap;
 
     public PaymentDetailsPanel() {
@@ -71,23 +71,23 @@ public final class PaymentDetailsPanel extends CarDealWizardStep {
 
     @Override
     public ValidationSummary validateStep() {
-        this.carDealFactory.setPaymentOptions(this.getPaymentOptionsFromForm());
+        this.carDealBuilder.setPaymentOptions(this.getPaymentOptionsFromForm());
 
-        return this.validator.validate(this.carDealFactory.getPaymentOptions());
+        return this.validator.validate(this.carDealBuilder.getPaymentOptions());
     }
 
     @Override
-    public CarDealFactory getCarDeal() {
-        this.carDealFactory.setPaymentOptions(this.getPaymentOptionsFromForm());
-        return this.carDealFactory;
+    public CarDealBuilder getCarDeal() {
+        this.carDealBuilder.setPaymentOptions(this.getPaymentOptionsFromForm());
+        return this.carDealBuilder;
     }
 
     @Override
-    public void setCarDeal(CarDealFactory carDealFactory) {
-        this.carDealFactory = carDealFactory;
+    public void setCarDeal(CarDealBuilder carDealBuilder) {
+        this.carDealBuilder = carDealBuilder;
         this.clear();
-        if (carDealFactory.getPaymentOptions() != null) {
-            PaymentOptions payment = carDealFactory.getPaymentOptions();
+        if (carDealBuilder.getPaymentOptions() != null) {
+            PaymentOptions payment = carDealBuilder.getPaymentOptions();
             LocalDate paymentDate = payment.getFirstPaymentDay();
             this.dateModel.setDate(paymentDate.getYear(), paymentDate.getMonthValue(), paymentDate.getDayOfMonth());
             this.dateModel.setSelected(true);

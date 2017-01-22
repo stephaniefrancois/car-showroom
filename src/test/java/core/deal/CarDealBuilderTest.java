@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
-public final class CarDealFactoryTest {
+public final class CarDealBuilderTest {
 
     @Test
     public void GivenDealFactoryWhenUpdatingExistingDealThenAllDealFactoryPropertiesShouldBeSetCorrectly() {
@@ -38,7 +38,7 @@ public final class CarDealFactoryTest {
         PaymentScheduleCalculator calculatorMock = Mockito.mock(PaymentScheduleCalculator.class);
 
         // When
-        CarDealFactory sut = new CarDealFactory(deal, validatorMock, calculatorMock);
+        CarDealBuilder sut = new CarDealBuilder(deal, validatorMock, calculatorMock);
 
         // Then
         assertThat(sut.getCar(), equalTo(deal.getCar()));
@@ -59,7 +59,7 @@ public final class CarDealFactoryTest {
 
         Validator<CarDealDetails> validatorMock = Mockito.mock(Validator.class);
         PaymentScheduleCalculator calculatorMock = Mockito.mock(PaymentScheduleCalculator.class);
-        CarDealFactory sut = new CarDealFactory(validatorMock, calculatorMock);
+        CarDealBuilder sut = new CarDealBuilder(validatorMock, calculatorMock);
         when(validatorMock.validate(any())).thenReturn(new ValidationSummary());
 
         // When
@@ -84,7 +84,7 @@ public final class CarDealFactoryTest {
         // Given
         Validator<CarDealDetails> validatorMock = Mockito.mock(Validator.class);
         PaymentScheduleCalculator calculatorMock = Mockito.mock(PaymentScheduleCalculator.class);
-        CarDealFactory sut = new CarDealFactory(validatorMock, calculatorMock);
+        CarDealBuilder sut = new CarDealBuilder(validatorMock, calculatorMock);
 
         List<ValidationError> errors = new ArrayList<>();
         errors.add(new ValidationError("salesman", "Sales Representative must be supplied!"));
@@ -106,7 +106,7 @@ public final class CarDealFactoryTest {
         // Given
         Validator<CarDealDetails> validatorMock = Mockito.mock(Validator.class);
         PaymentScheduleCalculator calculatorMock = Mockito.mock(PaymentScheduleCalculator.class);
-        CarDealFactory sut = new CarDealFactory(validatorMock, calculatorMock);
+        CarDealBuilder sut = new CarDealBuilder(validatorMock, calculatorMock);
 
         List<ValidationError> errors = new ArrayList<>();
         errors.add(new ValidationError("salesman", "Sales Representative must be supplied!"));
@@ -133,7 +133,7 @@ public final class CarDealFactoryTest {
         CarDetails car = Cars.getCar();
         BigDecimal totalAmountToPay = car.getPrice();
 
-        CarDealFactory sut = new CarDealFactory(validatorMock, calculatorMock);
+        CarDealBuilder sut = new CarDealBuilder(validatorMock, calculatorMock);
 
         sut.setPaymentOptions(paymentOptions);
         sut.setCar(car);

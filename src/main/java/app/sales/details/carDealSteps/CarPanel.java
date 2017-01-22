@@ -9,7 +9,7 @@ import app.common.search.SearchPanel;
 import app.common.validation.ValidateAbleFieldDescriptor;
 import app.sales.details.wizard.CarDealWizardStep;
 import composition.ServiceLocator;
-import core.deal.CarDealFactory;
+import core.deal.CarDealBuilder;
 import core.deal.model.CarDealDetails;
 import core.deal.validation.RuleBasedCarDealValidator;
 import core.stock.CarStock;
@@ -26,7 +26,7 @@ public final class CarPanel extends CarDealWizardStep implements ListEventListen
     private final RuleBasedCarDealValidator validator;
     private final CarStock carStock;
     private final CarsListPanel carsPanel;
-    private CarDealFactory carDealFactory;
+    private CarDealBuilder carDealBuilder;
 
     public CarPanel() {
         setLayout(new BorderLayout());
@@ -50,22 +50,22 @@ public final class CarPanel extends CarDealWizardStep implements ListEventListen
 
     @Override
     public ValidationSummary validateStep() {
-        return this.validator.validate(CarDealDetails.of(this.carDealFactory));
+        return this.validator.validate(CarDealDetails.of(this.carDealBuilder));
     }
 
     @Override
-    public void setCarDeal(CarDealFactory carDealFactory) {
+    public void setCarDeal(CarDealBuilder carDealBuilder) {
         this.clear();
         this.carsPanel.resetSearch();
-        this.carDealFactory = carDealFactory;
-        if (carDealFactory.getCar() != null) {
-            this.searchableCars.selectItemById(carDealFactory.getCar().getId());
+        this.carDealBuilder = carDealBuilder;
+        if (carDealBuilder.getCar() != null) {
+            this.searchableCars.selectItemById(carDealBuilder.getCar().getId());
         }
     }
 
     @Override
-    public CarDealFactory getCarDeal() {
-        return this.carDealFactory;
+    public CarDealBuilder getCarDeal() {
+        return this.carDealBuilder;
     }
 
     @Override
@@ -86,7 +86,7 @@ public final class CarPanel extends CarDealWizardStep implements ListEventListen
     @Override
     public void itemSelected(BasicEventArgs e) {
         CarDetails car = this.carStock.getCarDetails(e.getId());
-        this.carDealFactory.setCar(car);
+        this.carDealBuilder.setCar(car);
     }
 
     @Override

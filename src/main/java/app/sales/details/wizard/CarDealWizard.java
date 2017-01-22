@@ -5,7 +5,7 @@ import app.common.BasicEventArgs;
 import app.common.validation.ValidationEventArgs;
 import common.IRaiseEvents;
 import common.ListenersManager;
-import core.deal.CarDealFactory;
+import core.deal.CarDealBuilder;
 import core.validation.model.ValidationException;
 import core.validation.model.ValidationSummary;
 
@@ -19,14 +19,14 @@ public final class CarDealWizard implements IRaiseEvents<CarDealWizardEventListe
     private CarDealWizardStep activeStep;
     private ListenersManager<CarDealWizardEventListener> listenersManager;
 
-    public CarDealWizard(CarDealFactory carDealFactory, CarDealWizardStepsProvider stepsProvider) {
-        Objects.requireNonNull(carDealFactory);
+    public CarDealWizard(CarDealBuilder carDealBuilder, CarDealWizardStepsProvider stepsProvider) {
+        Objects.requireNonNull(carDealBuilder);
         Objects.requireNonNull(stepsProvider);
 
         this.listenersManager = new ListenersManager<>();
         this.steps = stepsProvider.getSteps();
         this.activeStep = this.goToStart();
-        this.activeStep.setCarDeal(carDealFactory);
+        this.activeStep.setCarDeal(carDealBuilder);
     }
 
     private CarDealWizardStep goToStart() {

@@ -7,7 +7,7 @@ import app.styles.ComponentSizes;
 import common.EventProducersAggregate;
 import common.IRaiseEvents;
 import core.IHaveIdentifier;
-import core.ItemFactory;
+import core.ItemBuilder;
 import javafx.util.Pair;
 
 import javax.swing.*;
@@ -15,7 +15,7 @@ import java.awt.*;
 import java.util.Arrays;
 
 public abstract class DetailsPanel<TModel extends IHaveIdentifier,
-        TItemFactory extends ItemFactory<TModel>> extends JPanel
+        TItemFactory extends ItemBuilder<TModel>> extends JPanel
         implements ListEventListener, ItemDetailsListener, IRaiseEvents<ItemDetailsListener> {
 
     private final CardLayout contentPresenter;

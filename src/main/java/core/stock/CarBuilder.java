@@ -1,7 +1,7 @@
 package core.stock;
 
 import core.IHaveIdentifier;
-import core.ItemFactory;
+import core.ItemBuilder;
 import core.stock.model.CarDetails;
 import core.stock.model.CarFeature;
 import core.stock.model.CarMetadata;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 // TODO: allows to add/remove car pictures
 
-public final class CarFactory implements IHaveIdentifier, ItemFactory<CarDetails> {
+public final class CarBuilder implements IHaveIdentifier, ItemBuilder<CarDetails> {
     private final Validator<CarDetails> validator;
     private int carId;
     private String make;
@@ -36,7 +36,7 @@ public final class CarFactory implements IHaveIdentifier, ItemFactory<CarDetails
     private Integer numberOfSeats;
     private BigDecimal price;
 
-    public CarFactory(Validator<CarDetails> validator) {
+    public CarBuilder(Validator<CarDetails> validator) {
 
         Objects.requireNonNull(validator,
                 "'validator' must be supplied!");
@@ -57,7 +57,7 @@ public final class CarFactory implements IHaveIdentifier, ItemFactory<CarDetails
         price = new BigDecimal(0);
     }
 
-    public CarFactory(CarDetails car, Validator<CarDetails> validator) {
+    public CarBuilder(CarDetails car, Validator<CarDetails> validator) {
         this(validator);
 
         Objects.requireNonNull(car,

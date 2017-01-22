@@ -26,7 +26,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 import static testing.helpers.TestData.Cars;
 
-public final class CarFactoryTest {
+public final class CarBuilderTest {
 
     @Test
     public void GivenCarFactoryWhenUpdatingExistingCarThenAllCarFactoryPropertiesShouldBeSetCorrectly() {
@@ -39,7 +39,7 @@ public final class CarFactoryTest {
         Validator<CarDetails> validatorMock = Mockito.mock(Validator.class);
 
         // When
-        CarFactory sut = new CarFactory(car, validatorMock);
+        CarBuilder sut = new CarBuilder(car, validatorMock);
 
         // Then
         assertThat(sut.getId(), equalTo(car.getId()));
@@ -68,7 +68,7 @@ public final class CarFactoryTest {
         CarMetadata transmission = new CarMetadata(1, "Automatic");
 
         Validator<CarDetails> validatorMock = Mockito.mock(Validator.class);
-        CarFactory sut = new CarFactory(validatorMock);
+        CarBuilder sut = new CarBuilder(validatorMock);
         when(validatorMock.validate(any())).thenReturn(new ValidationSummary());
 
         // When
@@ -107,7 +107,7 @@ public final class CarFactoryTest {
     public void GivenWeHaveMissingDataWhenBuildingCarThenValidationErrorsShouldBeReturned() {
         // Given
         Validator<CarDetails> validatorMock = Mockito.mock(Validator.class);
-        CarFactory sut = new CarFactory(validatorMock);
+        CarBuilder sut = new CarBuilder(validatorMock);
 
         List<ValidationError> errors = new ArrayList<>();
         errors.add(new ValidationError("make", "Car MAKE must be supplied!"));
@@ -128,7 +128,7 @@ public final class CarFactoryTest {
     public void GivenInvalidCarSetupWhenWeBuildCarThenExceptionShouldBeThrown() {
         // Given
         Validator<CarDetails> validatorMock = Mockito.mock(Validator.class);
-        CarFactory sut = new CarFactory(validatorMock);
+        CarBuilder sut = new CarBuilder(validatorMock);
 
         List<ValidationError> errors = new ArrayList<>();
         errors.add(new ValidationError("make", "Car MAKE must be supplied!"));
@@ -149,7 +149,7 @@ public final class CarFactoryTest {
     public void GivenAnyCarWhenAddingFeatureThenWeShouldBeAbleToRetrieveFeature() {
         // Given
         Validator<CarDetails> validatorMock = Mockito.mock(Validator.class);
-        CarFactory sut = new CarFactory(validatorMock);
+        CarBuilder sut = new CarBuilder(validatorMock);
         when(validatorMock.validate(any())).thenReturn(new ValidationSummary());
 
         CarFeature featureToAdd = new CarFeature(1, "Feature 1");
@@ -165,7 +165,7 @@ public final class CarFactoryTest {
     public void GivenAnyCarWhenAddingFeatureButPassingNullThenNoFeatureWillBeAdded() {
         // Given
         Validator<CarDetails> validatorMock = Mockito.mock(Validator.class);
-        CarFactory sut = new CarFactory(validatorMock);
+        CarBuilder sut = new CarBuilder(validatorMock);
         when(validatorMock.validate(any())).thenReturn(new ValidationSummary());
 
         // When
@@ -177,7 +177,7 @@ public final class CarFactoryTest {
     public void GivenAnyCarWhenAddingDuplicateFeatureThenOnlySingleInstanceOfFeatureShouldExist() {
         // Given
         Validator<CarDetails> validatorMock = Mockito.mock(Validator.class);
-        CarFactory sut = new CarFactory(validatorMock);
+        CarBuilder sut = new CarBuilder(validatorMock);
         when(validatorMock.validate(any())).thenReturn(new ValidationSummary());
 
         CarFeature featureToAdd = new CarFeature(1, "Feature 1");
@@ -203,7 +203,7 @@ public final class CarFactoryTest {
         CarDetails car = Cars.getCar(features);
 
         Validator<CarDetails> validatorMock = Mockito.mock(Validator.class);
-        CarFactory sut = new CarFactory(car, validatorMock);
+        CarBuilder sut = new CarBuilder(car, validatorMock);
         when(validatorMock.validate(any())).thenReturn(new ValidationSummary());
 
         // When
@@ -226,7 +226,7 @@ public final class CarFactoryTest {
         CarDetails car = Cars.getCar(features);
 
         Validator<CarDetails> validatorMock = Mockito.mock(Validator.class);
-        CarFactory sut = new CarFactory(car, validatorMock);
+        CarBuilder sut = new CarBuilder(car, validatorMock);
         when(validatorMock.validate(any())).thenReturn(new ValidationSummary());
 
         // When
@@ -247,7 +247,7 @@ public final class CarFactoryTest {
         CarDetails car = Cars.getCar(features);
 
         Validator<CarDetails> validatorMock = Mockito.mock(Validator.class);
-        CarFactory sut = new CarFactory(car, validatorMock);
+        CarBuilder sut = new CarBuilder(car, validatorMock);
         when(validatorMock.validate(any())).thenReturn(new ValidationSummary());
 
         // When
@@ -269,7 +269,7 @@ public final class CarFactoryTest {
         CarDetails car = Cars.getCar(features);
 
         Validator<CarDetails> validatorMock = Mockito.mock(Validator.class);
-        CarFactory sut = new CarFactory(car, validatorMock);
+        CarBuilder sut = new CarBuilder(car, validatorMock);
         when(validatorMock.validate(any())).thenReturn(new ValidationSummary());
 
         // When

@@ -1,6 +1,6 @@
 package core.deal;
 
-import core.ItemFactory;
+import core.ItemBuilder;
 import core.customer.model.Customer;
 import core.deal.model.CarDealDetails;
 import core.deal.model.PaymentOptions;
@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class CarDealFactory implements ItemFactory<CarDealDetails> {
+public class CarDealBuilder implements ItemBuilder<CarDealDetails> {
 
     private final PaymentScheduleCalculator paymentScheduleCalculator;
     private Validator<CarDealDetails> validator;
@@ -26,7 +26,7 @@ public class CarDealFactory implements ItemFactory<CarDealDetails> {
     private Customer customer;
     private CarDetails car;
 
-    public CarDealFactory(CarDealDetails deal,
+    public CarDealBuilder(CarDealDetails deal,
                           Validator<CarDealDetails> validator,
                           PaymentScheduleCalculator paymentScheduleCalculator) {
         this(validator, paymentScheduleCalculator);
@@ -42,7 +42,7 @@ public class CarDealFactory implements ItemFactory<CarDealDetails> {
         car = deal.getCar();
     }
 
-    public CarDealFactory(Validator<CarDealDetails> validator,
+    public CarDealBuilder(Validator<CarDealDetails> validator,
                           PaymentScheduleCalculator paymentScheduleCalculator) {
 
         Objects.requireNonNull(validator,

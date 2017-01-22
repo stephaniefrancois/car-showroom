@@ -2,7 +2,7 @@ package app.sales.details.wizard;
 
 import app.common.validation.ValidationEventArgs;
 import com.sun.javaws.exceptions.InvalidArgumentException;
-import core.deal.CarDealFactory;
+import core.deal.CarDealBuilder;
 import core.deal.model.CarDealDetails;
 import core.validation.model.ValidationError;
 import core.validation.model.ValidationException;
@@ -32,7 +32,7 @@ public final class CarDealWizardTest {
     @Test
     public final void GivenNewWizardThenActiveStepShouldBeStepOne() {
         // Given
-        CarDealFactory factory = Mockito.mock(CarDealFactory.class);
+        CarDealBuilder factory = Mockito.mock(CarDealBuilder.class);
         CarDealWizardStepsProvider stepsProvider = Mockito.mock(CarDealWizardStepsProvider.class);
         CarDealWizardStep step1 = Mockito.mock(CarDealWizardStep.class);
         CarDealWizardStep step2 = Mockito.mock(CarDealWizardStep.class);
@@ -46,7 +46,7 @@ public final class CarDealWizardTest {
     @Test
     public final void GivenWizardAtTheFirstStepWhenStepIsValidAndWeGoForwardThenStepTwoShouldBeDisplayed() throws ValidationException {
         // Given
-        CarDealFactory factory = Mockito.mock(CarDealFactory.class);
+        CarDealBuilder factory = Mockito.mock(CarDealBuilder.class);
         CarDealWizardStepsProvider stepsProvider = Mockito.mock(CarDealWizardStepsProvider.class);
         CarDealWizardStep step1 = Mockito.mock(CarDealWizardStep.class);
         CarDealWizardStep step2 = Mockito.mock(CarDealWizardStep.class);
@@ -65,7 +65,7 @@ public final class CarDealWizardTest {
     @Test
     public final void GivenWizardWithTwoStepsWhenNavigatingForwardThenShouldRaiseFinishedEvent() throws ValidationException {
         // Given
-        CarDealFactory factory = Mockito.mock(CarDealFactory.class);
+        CarDealBuilder factory = Mockito.mock(CarDealBuilder.class);
         CarDealWizardStepsProvider stepsProvider = Mockito.mock(CarDealWizardStepsProvider.class);
         CarDealWizardStep step1 = Mockito.mock(CarDealWizardStep.class);
         CarDealWizardStep step2 = Mockito.mock(CarDealWizardStep.class);
@@ -91,7 +91,7 @@ public final class CarDealWizardTest {
             throws InvalidArgumentException, ValidationException {
 
         // Given
-        CarDealFactory factory = Mockito.mock(CarDealFactory.class);
+        CarDealBuilder factory = Mockito.mock(CarDealBuilder.class);
         CarDealWizardStepsProvider stepsProvider = Mockito.mock(CarDealWizardStepsProvider.class);
         CarDealDetails carDeal = TestData.Deals.getDeal();
         CarDealWizardStep step1 = Mockito.mock(CarDealWizardStep.class);
@@ -119,7 +119,7 @@ public final class CarDealWizardTest {
     @Test
     public final void GivenWizardNotAtTheFirstStepWhenMovingBackThenShouldGetToPreviousStep() throws ValidationException {
         // Given
-        CarDealFactory factory = Mockito.mock(CarDealFactory.class);
+        CarDealBuilder factory = Mockito.mock(CarDealBuilder.class);
         CarDealWizardStepsProvider stepsProvider = Mockito.mock(CarDealWizardStepsProvider.class);
         CarDealWizardStep step1 = Mockito.mock(CarDealWizardStep.class);
         CarDealWizardStep step2 = Mockito.mock(CarDealWizardStep.class);
@@ -138,7 +138,7 @@ public final class CarDealWizardTest {
     @Test
     public final void GivenWizardNotAtTheFirstStepWhenMovingBackThenShouldNotPassPastFirstStep() throws ValidationException {
         // Given
-        CarDealFactory factory = Mockito.mock(CarDealFactory.class);
+        CarDealBuilder factory = Mockito.mock(CarDealBuilder.class);
         CarDealWizardStepsProvider stepsProvider = Mockito.mock(CarDealWizardStepsProvider.class);
         CarDealWizardStep step1 = Mockito.mock(CarDealWizardStep.class);
         CarDealWizardStep step2 = Mockito.mock(CarDealWizardStep.class);
@@ -159,7 +159,7 @@ public final class CarDealWizardTest {
     @Test
     public final void GivenWizardWhenMovingForwardAndCurrentStepIsNotValidThenStayAtCurrentStep() throws ValidationException {
         // Given
-        CarDealFactory factory = Mockito.mock(CarDealFactory.class);
+        CarDealBuilder factory = Mockito.mock(CarDealBuilder.class);
         CarDealWizardStepsProvider stepsProvider = Mockito.mock(CarDealWizardStepsProvider.class);
         CarDealWizardStep step1 = Mockito.mock(CarDealWizardStep.class);
         CarDealWizardStep step2 = Mockito.mock(CarDealWizardStep.class);
@@ -180,7 +180,7 @@ public final class CarDealWizardTest {
     @Test
     public final void GivenWizardWhenMovingForwardAndCurrentStepIsNotValidThenRaiseValidationFailedEvent() throws ValidationException {
         // Given
-        CarDealFactory factory = Mockito.mock(CarDealFactory.class);
+        CarDealBuilder factory = Mockito.mock(CarDealBuilder.class);
         CarDealWizardStepsProvider stepsProvider = Mockito.mock(CarDealWizardStepsProvider.class);
         CarDealWizardStep step1 = Mockito.mock(CarDealWizardStep.class);
         CarDealWizardStep step2 = Mockito.mock(CarDealWizardStep.class);
@@ -209,7 +209,7 @@ public final class CarDealWizardTest {
     @Test
     public final void GivenWizardWhenMovingBackAndCurrentStepIsNotValidThenShouldStillMoveBack() throws ValidationException {
         // Given
-        CarDealFactory factory = Mockito.mock(CarDealFactory.class);
+        CarDealBuilder factory = Mockito.mock(CarDealBuilder.class);
         CarDealWizardStepsProvider stepsProvider = Mockito.mock(CarDealWizardStepsProvider.class);
         CarDealWizardStep step1 = Mockito.mock(CarDealWizardStep.class);
         CarDealWizardStep step2 = Mockito.mock(CarDealWizardStep.class);
@@ -231,7 +231,7 @@ public final class CarDealWizardTest {
     @Test
     public final void GivenWizardWhenCancelledThenGoToFirstStepAndClearAllSteps() throws ValidationException {
         // Given
-        CarDealFactory factory = Mockito.mock(CarDealFactory.class);
+        CarDealBuilder factory = Mockito.mock(CarDealBuilder.class);
         CarDealWizardStepsProvider stepsProvider = Mockito.mock(CarDealWizardStepsProvider.class);
         CarDealWizardStep step1 = Mockito.mock(CarDealWizardStep.class);
         CarDealWizardStep step2 = Mockito.mock(CarDealWizardStep.class);
@@ -256,7 +256,7 @@ public final class CarDealWizardTest {
     @Test
     public final void GivenWizardAtTheFirstStepWhenWeGoForwardThenStepChangedEventShouldBeRaised() throws ValidationException {
         // Given
-        CarDealFactory factory = Mockito.mock(CarDealFactory.class);
+        CarDealBuilder factory = Mockito.mock(CarDealBuilder.class);
         CarDealWizardStepsProvider stepsProvider = Mockito.mock(CarDealWizardStepsProvider.class);
         CarDealWizardStep step1 = Mockito.mock(CarDealWizardStep.class);
         CarDealWizardStep step2 = Mockito.mock(CarDealWizardStep.class);
@@ -285,7 +285,7 @@ public final class CarDealWizardTest {
     @Test
     public final void GivenWizardWhenAtLastStepThenShouldNotBeAbleToNavigateForward() throws ValidationException {
         // Given
-        CarDealFactory factory = Mockito.mock(CarDealFactory.class);
+        CarDealBuilder factory = Mockito.mock(CarDealBuilder.class);
         CarDealWizardStepsProvider stepsProvider = Mockito.mock(CarDealWizardStepsProvider.class);
         CarDealWizardStep step1 = Mockito.mock(CarDealWizardStep.class);
         CarDealWizardStep step2 = Mockito.mock(CarDealWizardStep.class);
@@ -315,7 +315,7 @@ public final class CarDealWizardTest {
     @Test
     public final void GivenWizardWhenAtFirstStepThenShouldNotBeAbleToNavigateBack() throws ValidationException {
         // Given
-        CarDealFactory factory = Mockito.mock(CarDealFactory.class);
+        CarDealBuilder factory = Mockito.mock(CarDealBuilder.class);
         CarDealWizardStepsProvider stepsProvider = Mockito.mock(CarDealWizardStepsProvider.class);
         CarDealWizardStep step1 = Mockito.mock(CarDealWizardStep.class);
         CarDealWizardStep step2 = Mockito.mock(CarDealWizardStep.class);
@@ -345,7 +345,7 @@ public final class CarDealWizardTest {
     @Test
     public final void GivenWizardWhenAtFirstStepThenFirstStepShouldReceiveDataContext() {
         // Given
-        CarDealFactory factory = Mockito.mock(CarDealFactory.class);
+        CarDealBuilder factory = Mockito.mock(CarDealBuilder.class);
         CarDealWizardStepsProvider stepsProvider = Mockito.mock(CarDealWizardStepsProvider.class);
         CarDealWizardStep step1 = Mockito.mock(CarDealWizardStep.class);
         CarDealWizardStep step2 = Mockito.mock(CarDealWizardStep.class);
@@ -363,9 +363,9 @@ public final class CarDealWizardTest {
     @Test
     public final void GivenWizardWhenMovingToNextStepThenDataContextShouldBePassedToThatStep() throws ValidationException {
         // Given
-        CarDealFactory factory = Mockito.mock(CarDealFactory.class);
+        CarDealBuilder factory = Mockito.mock(CarDealBuilder.class);
         CarDealWizardStepsProvider stepsProvider = Mockito.mock(CarDealWizardStepsProvider.class);
-        CarDealFactory factoryAfterStep1 = Mockito.mock(CarDealFactory.class);
+        CarDealBuilder factoryAfterStep1 = Mockito.mock(CarDealBuilder.class);
         CarDealWizardStep step1 = Mockito.mock(CarDealWizardStep.class);
         CarDealWizardStep step2 = Mockito.mock(CarDealWizardStep.class);
         when(stepsProvider.getSteps()).thenReturn(Arrays.asList(step1, step2));
@@ -386,9 +386,9 @@ public final class CarDealWizardTest {
     @Test
     public final void GivenWizardWhenMovingToPreviousStepThenDataContextShouldBePassedToThatStep() throws ValidationException {
         // Given
-        CarDealFactory factory = Mockito.mock(CarDealFactory.class);
+        CarDealBuilder factory = Mockito.mock(CarDealBuilder.class);
         CarDealWizardStepsProvider stepsProvider = Mockito.mock(CarDealWizardStepsProvider.class);
-        CarDealFactory factoryAfterStep2 = Mockito.mock(CarDealFactory.class);
+        CarDealBuilder factoryAfterStep2 = Mockito.mock(CarDealBuilder.class);
         CarDealWizardStep step1 = Mockito.mock(CarDealWizardStep.class);
         CarDealWizardStep step2 = Mockito.mock(CarDealWizardStep.class);
 
